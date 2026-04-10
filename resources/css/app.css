@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* --- CONFIGURATION GLOBALE DES POLICES --- */
+@layer base {
+    body {
+        /* Applique Poppins par défaut à tout le site */
+        font-family: 'Poppins', 'Montserrat', sans-serif;
+        @apply antialiased text-slate-900;
+    }
+
+    /* Style par défaut pour tous les titres pour ressembler à ton image */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Poppins', 'Montserrat', sans-serif;
+        @apply font-black tracking-tight; 
+    }
+}
+
+/* Ton code existant */
+[x-cloak] { display: none !important; }
