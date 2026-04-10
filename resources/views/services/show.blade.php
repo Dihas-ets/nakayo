@@ -79,25 +79,17 @@
             <div class="bg-gray-50 p-8 rounded-sm shadow-sm">
                 <h3 class="text-2xl font-bold text-blue-900 mb-6 border-b pb-4">Nos Services</h3>
                 <ul class="space-y-3">
-                    @php
-                        $links = [
-                            'Construction Piscine' => 'construction-piscine',
-                            'NAKAYO Immobilier' => 'immobilier',
-                            'Papeterie' => 'papeterie',
-                            'Savonnerie' => 'savonnerie',
-                            'Agro industrie' => 'agro-industrie'
-                        ];
-                    @endphp
-                    @foreach($links as $name => $s)
-                    <li>
-                        <a href="{{ route('services.show', $s) }}" 
-                           class="flex justify-between items-center px-6 py-4 font-bold transition-all {{ $slug == $s ? 'bg-blue-900 text-white shadow-lg' : 'bg-white text-blue-900 hover:bg-blue-50' }}">
-                            {{ $name }}
-                            <span>↗</span>
-                        </a>
-                    </li>
-                    @endforeach
-                </ul>
+            @foreach(\App\Models\Service::select('id_service', 'titre')->get() as $srv)
+            <li>
+                <a href="{{ route('services.show', $srv->id_service) }}"
+                   class="flex justify-between items-center px-6 py-4 font-bold transition-all
+                          {{ $service->id_service == $srv->id_service ? 'bg-blue-900 text-white shadow-lg' : 'bg-white text-blue-900 hover:bg-blue-50' }}">
+                    {{ $srv->titre }}
+                    <span>↗</span>
+                </a>
+            </li>
+            @endforeach
+        </ul>
             </div>
 
            <!-- BOITE ORANGE CONTACT DYNAMIQUE -->
@@ -175,7 +167,7 @@
                     Produits <span class="text-blue-900">Phares</span>
                 </h3>
                 {{-- Ce lien mène vers la page catalogue qui affiche TOUT --}}
-                <a href="{{ route('services.products', $slug) }}" class="text-xs font-black text-blue-900 uppercase border-b-2 border-[#FF9F29] pb-1 hover:text-[#FF9F29] transition">
+                <a href="{{ route('services.products', $service->id_service) }}" ...>
                     Voir tous les produits ({{ $service->produits->count() }})
                 </a>
             </div>
@@ -235,7 +227,7 @@
             {{-- Petit bouton "Charger plus" en bas si vous avez plus de 4 produits --}}
             @if($service->produits->count() > 4)
                 <div class="mt-12 text-center">
-                    <a href="{{ route('services.products', $slug) }}" class="inline-block px-10 py-4 bg-[#1B2E58] text-white font-black text-xs uppercase tracking-[0.2em] rounded-sm hover:bg-[#FF9F29] transition-all shadow-lg">
+                    <a href="{{ route('services.products', $service->id_service) }}" ...>
                         Afficher les {{ $service->produits->count() - 4 }} autres produits
                     </a>
                 </div>

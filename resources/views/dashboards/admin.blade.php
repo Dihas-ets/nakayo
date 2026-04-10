@@ -9,7 +9,7 @@
     <div class="relative overflow-hidden bg-[#1B2E58] rounded-[2.5rem] p-8 md:p-12 text-white shadow-xl">
         <div class="relative z-10">
             <h1 class="text-3xl md:text-5xl font-black tracking-tight">
-                Bonjour, <span class="text-[#FF9F29]">{{ Auth::user()->nom_complet }}</span> 👋
+                Bonjour, <span class="text-white">{{ Auth::user()->nom_complet }}</span> 👋
             </h1>
             <p class="text-blue-100/70 mt-3 font-medium max-w-xl text-lg">
                 Ravi de vous revoir. Voici l'état actuel de <span class="font-bold text-white">NAKAYO CORPORATION</span> en temps réel.
@@ -39,7 +39,7 @@
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <x-stat-card title="Articles" value="{{ $stats['articles'] }}" icon="fa-solid fa-newspaper" color="blue" />
-            <x-stat-card title="Produits" value="{{ $stats['produits'] }}" icon="fa-solid fa-box-open" color="orange" />
+            <x-stat-card title="Produits" value="{{ $stats['produits'] }}" icon="fa-solid fa-box-open" color="blue" />
             <x-stat-card title="Clients" value="{{ $stats['clients'] }}" icon="fa-solid fa-users" color="green" />
             <x-stat-card title="Services" value="{{ $stats['services'] }}" icon="fa-solid fa-briefcase" color="blue" />
         </div>

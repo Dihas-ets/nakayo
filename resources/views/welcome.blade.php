@@ -19,6 +19,7 @@
     activeSlide: 1, 
     slides: {{ $services->map(function($s) {
         return [
+            'id_service' => $s->id_service,
             'title' => $s->titre,
             'subtitle' => $s->courte_description,
             'img' => $s->media ? asset('storage/' . $s->media) : asset('images/default-hero.jpg')
@@ -60,11 +61,12 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
                     </div>
                     
                     <div>
-                        <a href="{{ route('contact') }}" 
-                           class="inline-flex items-center gap-4 bg-[#FF9F29] text-[#1B2E58] px-8 py-4 rounded-2xl font-black uppercase text-sm sm:text-base hover:bg-white hover:text-[#FF9F29] transition-none group shadow-2xl">
-                            Découvrir nos solutions
+                        <a :href="'{{ url('/services') }}/' + slide.id_service"
+                        class="inline-flex items-center gap-4 bg-[#FF9F29] text-[#1B2E58] px-8 py-4 rounded-2xl font-black uppercase text-sm sm:text-base hover:bg-white hover:text-[#FF9F29] transition-none group shadow-2xl">
+                            voir plus
                             <i class="fas fa-arrow-right"></i>
                         </a>
+                        
                     </div>
                 </div>
             </div>
@@ -148,13 +150,13 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
                             </h3>
                             
                             {{-- On utilise le titre pour matcher ton mapping dans les routes si tu n'as pas de colonne slug --}}
-                            <a href="{{ route('services.show', Str::slug($service->titre)) }}" 
-                               class="inline-flex items-center gap-2 bg-[#FF9F29] backdrop-blur-md border border-white/30 px-4 py-2 rounded-full font-bold uppercase text-[9px] tracking-widest transition-all hover:bg-white"
-                               style="color: white; --hover-color: {{ $color['from'] }};"
-                               onmouseover="this.style.color='{{ $color['from'] }}'"
-                               onmouseout="this.style.color='white'">
-                                En savoir plus
-                            </a>
+                            <a href="{{ route('services.show', $service->id_service) }}" 
+                        class="inline-flex items-center gap-2 bg-[#FF9F29] backdrop-blur-md border border-white/30 px-4 py-2 rounded-full font-bold uppercase text-[9px] tracking-widest transition-all hover:bg-white"
+                        style="color: white; --hover-color: {{ $color['from'] }};"
+                        onmouseover="this.style.color='{{ $color['from'] }}'"
+                        onmouseout="this.style.color='white'">
+                            En savoir plus
+                        </a>
                         </div>
                     </div>
                 </div>
@@ -184,21 +186,26 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
                          class="rounded-sm shadow-sm w-full object-cover h-[400px]">
                 </div>
 
-                <div class="absolute -bottom-8 -left-4 lg:-left-8 bg-[#1B2E58] p-8 lg:p-10 shadow-2xl z-20 max-w-[300px]">
-                    <p class="text-white text-base lg:text-lg font-medium leading-tight">
-                        Des services conçus avec des experts pour vous offrir fiabilité, transparence et performance.
+                <div class="absolute -bottom-8 -left-4 lg:-left-8 bg-[#1B2E58] p-4 lg:p-5 shadow-2xl z-20 max-w-[300px]">
+                    <p class="text-white text-base lg:text-sm font-medium leading-tight">
+                       Devenir un leader panafricain de l'investissement et des services, catalysant le développement économique du Bénin et de l'Afrique.
                     </p>
                 </div>
             </div>
 
             <div class="lg:pl-5 space-y-4">
                 <h2 class="text-[#1B2E58] text-lg font-bold leading-snug">
-                    NAKAYO COORPORATION Sarl est une entreprise privée diversifiée, née de la vision de fédérer des secteurs clés du développement.
+                    NAKAYO CORPORATION Sarl est dirigée par Monsieur FOUSSENI Ahmed Faras, jeune entrepreneur Visionaire qui possède une dizaine d’année d’expériences dans le domaine de l’entrepreuneuriat.
                 </h2>
+
+                <p class="text-gray-500 text-base leading-relaxed">
+                    Offrir une gamme diversifiée et innovante de services de qualité dans des secteurs clés du développement, en mettant l'accent sur la technologie, la satisfaction client et l'impact social positif
+                </p>
 
                 <p class="text-gray-500 text-base leading-relaxed">
                     Nous opérons dans la construction de piscines, l’immobilier, la papeterie, la savonnerie et l’agro-industrie. Notre objectif est d’offrir des services fiables et de qualité.
                 </p>
+
 
                 <div class="pt-2">
                     <a href="{{ route('about') }}" class="inline-flex items-center gap-3 bg-[#1B2E58] text-white px-6 py-3 rounded-lg font-bold text-sm hover:bg-[#FF9F29] transition-all duration-300 shadow-lg">
@@ -247,6 +254,7 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
 </script>
 
 
+
 <section class="py-0  font-sans overflow-hidden">
     <div class="max-w-7xl mx-auto px-2 lg:px-12">
         
@@ -269,7 +277,7 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
                     </div>
                     <h3 class="relative z-10 text-2xl font-black text-[#1B2E58] mb-8 transition-colors duration-500 group-hover:text-white uppercase italic">Particulier</h3>
                     <div class="relative z-10 mt-auto w-full">
-                        <a href="https://wa.me/2290166556161" target="_blank" class="inline-block w-full text-center bg-[#FF9F29] text-white px-6 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-[#1B2E58] shadow-lg">En savoir plus</a>
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp) }}" target="_blank" class="inline-block w-full text-center bg-[#FF9F29] text-white px-6 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-[#1B2E58] shadow-lg">En savoir plus</a>
                     </div>
                 </div>
             </div>
@@ -283,7 +291,7 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
                     </div>
                     <h3 class="relative z-10 text-2xl font-black text-[#1B2E58] mb-8 transition-colors duration-500 group-hover:text-white uppercase italic">TPE / PME</h3>
                     <div class="relative z-10 mt-auto w-full">
-                        <a href="https://wa.me/2290166556161" target="_blank" class="inline-block w-full text-center bg-[#FF9F29] text-white px-6 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-[#1B2E58] shadow-lg">En savoir plus</a>
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp) }}" target="_blank" class="inline-block w-full text-center bg-[#FF9F29] text-white px-6 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-[#1B2E58] shadow-lg">En savoir plus</a>
                     </div>
                 </div>
             </div>
@@ -297,7 +305,7 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
                     </div>
                     <h3 class="relative z-10 text-2xl font-black text-[#1B2E58] mb-8 transition-colors duration-500 group-hover:text-white uppercase italic">Institution</h3>
                     <div class="relative z-10 mt-auto w-full">
-                        <a href="https://wa.me/2290166556161" target="_blank" class="inline-block w-full text-center bg-[#FF9F29] text-white px-6 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-[#1B2E58] shadow-lg">En savoir plus</a>
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp) }}" target="_blank" class="inline-block w-full text-center bg-[#FF9F29] text-white px-6 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-[#1B2E58] shadow-lg">En savoir plus</a>
                     </div>
                 </div>
             </div>
@@ -342,8 +350,8 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
 <!-- 1. Section avec un padding plus confortable (py-10) -->
 <section class="py-10 bg-white font-sans overflow-hidden">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-        
-        <!-- EN-TÊTE : Titre au CENTRE et Lien à DROITE -->
+
+        <!-- EN-TÊTE -->
         <div class="relative flex items-center justify-center mb-10 reveal-on-scroll">
             <div class="text-center">
                 <h2 class="text-2xl lg:text-3xl font-black text-[#1B2E58] uppercase tracking-tighter">
@@ -352,7 +360,6 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
                 <div class="h-1.5 w-20 bg-[#FF9F29] mx-auto mt-2 rounded-full shadow-sm"></div>
             </div>
 
-            <!-- Bouton à droite -->
             <div class="absolute right-0 top-1/2 -translate-y-1/2 hidden md:block">
                 <a href="{{ route('blog.index') }}" class="inline-flex items-center gap-2 text-[#FF9F29] font-black uppercase text-[11px] tracking-[0.2em] group">
                     Voir tout le blog
@@ -361,90 +368,86 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
             </div>
         </div>
 
-        <!-- 2. Grille avec un espacement équilibré (gap-8) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-            
-            <!-- BLOC GAUCHE (Article à la une) -->
+
+            <!-- BLOC GAUCHE : l'article mis en avant -->
             <div class="lg:col-span-7">
-                <div class="relative group cursor-pointer h-full flex flex-col">
-                    <!-- Image agrandie (380px) -->
-                    <div class="h-[380px] overflow-hidden rounded-[2rem] shadow-lg flex-shrink-0">
-                        <img src="{{ asset('images/3.jpg') }}" 
-                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 bg-gray-100"
-                             alt="Expertise">
-                    </div>
-                    
-                    <!-- Carte Texte avec plus de padding -->
-                    <div class="relative -mt-28 mx-4 lg:mx-8 bg-white rounded-3xl shadow-xl p-6 lg:p-8 border border-gray-50 z-10 transition-transform duration-300 group-hover:-translate-y-2 flex-grow">
-                        <div class="absolute -top-3 left-6 bg-[#FF9F29] text-[#1B2E58] px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-md">
-                            Piscines & Loisirs
+                @if($featuredArticle)
+                    <a href="{{ route('blog.show', $featuredArticle->slug) }}" class="relative group cursor-pointer h-full flex flex-col">
+
+                        <div class="h-[380px] overflow-hidden rounded-[2rem] shadow-lg flex-shrink-0">
+                            <img src="{{ asset('storage/' . $featuredArticle->media) }}"
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 bg-gray-100"
+                                 alt="{{ $featuredArticle->titre }}">
                         </div>
 
-                        <h3 class="text-[#1B2E58] text-xl lg:text-2xl font-black leading-tight mb-4 mt-2 group-hover:text-[#FF9F29] transition-colors">
-                            Expertise Piscine : Sécuriser et entretenir votre bassin
-                        </h3>
-                        
-                        <p class="text-gray-500 text-sm leading-relaxed mb-6 opacity-90 line-clamp-3">
-                            La construction d'une piscine est un investissement majeur. Découvrez nos conseils d'experts pour maintenir une eau cristalline tout au long de l'année.
-                        </p>
+                        <div class="relative -mt-28 mx-4 lg:mx-8 bg-white rounded-3xl shadow-xl p-6 lg:p-8 border border-gray-50 z-10 transition-transform duration-300 group-hover:-translate-y-2 flex-grow">
+                            <div class="absolute -top-3 left-6 bg-[#FF9F29] text-[#1B2E58] px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-md">
+                                {{ $featuredArticle->category_name ?? 'Catégorie' }}
+                            </div>
 
-                        <div class="flex items-center justify-between text-gray-400 text-[10px] font-bold uppercase tracking-widest border-t border-gray-50 pt-4">
-                            <span class="flex items-center gap-2">
-                                <i class="far fa-calendar-alt text-[#FF9F29]"></i> 28 Mars, 2026
-                            </span>
-                            <span class="text-[#1B2E58]/40 italic">Nakayo Group</span>
+                            <h3 class="text-[#1B2E58] text-xl lg:text-2xl font-black leading-tight mb-4 mt-2 group-hover:text-[#FF9F29] transition-colors">
+                                {{ $featuredArticle->titre }}
+                            </h3>
+
+                            <p class="text-gray-500 text-sm leading-relaxed mb-6 opacity-90 line-clamp-3">
+                                {{ Str::limit(strip_tags($featuredArticle->description), 180) }}
+                            </p>
+
+                            <div class="flex items-center justify-between text-gray-400 text-[10px] font-bold uppercase tracking-widest border-t border-gray-50 pt-4">
+                                <span class="flex items-center gap-2">
+                                    <i class="far fa-calendar-alt text-[#FF9F29]"></i>
+                                    {{ \Carbon\Carbon::parse($featuredArticle->created_at)->translatedFormat('d F, Y') }}
+                                </span>
+                                <span class="text-[#1B2E58]/40 italic">Nakayo Group</span>
+                            </div>
                         </div>
+                    </a>
+                @else
+                    <div class="h-full flex items-center justify-center border-2 border-dashed border-gray-200 rounded-[2rem] text-gray-400">
+                        Aucun article mis en avant
                     </div>
-                </div>
+                @endif
             </div>
 
-            <!-- BLOC DROITE (Liste d'articles) -->
+            <!-- BLOC DROITE : autres articles récents -->
             <div class="lg:col-span-5 flex flex-col">
-                <!-- 3. Espacement vertical plus large (space-y-6) -->
                 <div class="space-y-6 h-full flex flex-col justify-between">
-                    
-                    <!-- Item 1 (Miniature w-28 h-24) -->
-                    <div class="flex gap-5 group cursor-pointer items-center p-3 rounded-2xl hover:bg-gray-50 transition-all">
-                        <div class="w-28 h-24 flex-shrink-0 overflow-hidden rounded-xl shadow-sm">
-                            <img src="{{ asset('images/6.webp') }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        </div>
-                        <div class="flex-1">
-                            <span class="text-[#FF9F29] text-[9px] font-black uppercase tracking-widest mb-1 inline-block">Immobilier</span>
-                            <h4 class="text-[#1B2E58] text-base font-bold mb-1 leading-snug group-hover:text-[#FF9F29] transition-colors line-clamp-2">Les 5 zones à fort potentiel pour investir à Cotonou</h4>
-                            <div class="text-gray-400 text-[9px] font-bold uppercase italic">24 Mars, 2026</div>
-                        </div>
-                    </div>
 
-                    <div class="h-px bg-gray-100 mx-3"></div>
+                    @forelse($recentArticles as $article)
+                        <a href="{{ route('blog.show', $article->slug) }}" class="flex gap-5 group cursor-pointer items-center p-3 rounded-2xl hover:bg-gray-50 transition-all">
 
-                    <!-- Item 2 -->
-                    <div class="flex gap-5 group cursor-pointer items-center p-3 rounded-2xl hover:bg-gray-50 transition-all">
-                        <div class="w-28 h-24 flex-shrink-0 overflow-hidden rounded-xl shadow-sm">
-                            <img src="{{ asset('images/1.jpg') }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        </div>
-                        <div class="flex-1">
-                            <span class="text-[#FF9F29] text-[9px] font-black uppercase tracking-widest mb-1 inline-block">Hygiène</span>
-                            <h4 class="text-[#1B2E58] text-base font-bold mb-1 leading-snug group-hover:text-[#FF9F29] transition-colors line-clamp-2">Pourquoi privilégier nos savons artisanaux NAKAYO ?</h4>
-                            <div class="text-gray-400 text-[9px] font-bold uppercase italic">20 Mars, 2026</div>
-                        </div>
-                    </div>
+                            <div class="w-28 h-24 flex-shrink-0 overflow-hidden rounded-xl shadow-sm">
+                                <img src="{{ asset('storage/' . $article->media) }}"
+                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                     alt="{{ $article->titre }}">
+                            </div>
 
-                    <div class="h-px bg-gray-100 mx-3"></div>
+                            <div class="flex-1">
+                                <span class="text-[#FF9F29] text-[9px] font-black uppercase tracking-widest mb-1 inline-block">
+                                    {{ $article->category_name ?? 'Catégorie' }}
+                                </span>
 
-                    <!-- Item 3 -->
-                    <div class="flex gap-5 group cursor-pointer items-center p-3 rounded-2xl hover:bg-gray-50 transition-all">
-                        <div class="w-28 h-24 flex-shrink-0 overflow-hidden rounded-xl shadow-sm">
-                            <img src="{{ asset('images/9.jpg') }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        </div>
-                        <div class="flex-1">
-                            <span class="text-[#FF9F29] text-[9px] font-black uppercase tracking-widest mb-1 inline-block">Agro-industrie</span>
-                            <h4 class="text-[#1B2E58] text-base font-bold mb-1 leading-snug group-hover:text-[#FF9F29] transition-colors line-clamp-2">Moderniser l'élevage pour une autonomie alimentaire</h4>
-                            <div class="text-gray-400 text-[9px] font-bold uppercase italic">15 Mars, 2026</div>
-                        </div>
-                    </div>
+                                <h4 class="text-[#1B2E58] text-base font-bold mb-1 leading-snug group-hover:text-[#FF9F29] transition-colors line-clamp-2">
+                                    {{ $article->titre }}
+                                </h4>
+
+                                <div class="text-gray-400 text-[9px] font-bold uppercase italic">
+                                    {{ \Carbon\Carbon::parse($article->created_at)->translatedFormat('d F, Y') }}
+                                </div>
+                            </div>
+                        </a>
+
+                        @if(!$loop->last)
+                            <div class="h-px bg-gray-100 mx-3"></div>
+                        @endif
+                    @empty
+                        <p class="text-gray-400 text-center py-10">Pas d'autres articles récents.</p>
+                    @endforelse
 
                 </div>
             </div>
+
         </div>
     </div>
 </section>
@@ -453,9 +456,9 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
 <section class="py-10 bg-white font-sans overflow-hidden">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
         
-        <div class="text-center max-w-3xl mx-auto mb-10 reveal-on-scroll opacity-0 transform -translate-y-10 transition-all duration-1000">
+        <div class="text-center max-w-3xl mx-auto mb-10 reveal-on-scroll">
             <div class="text-center mb-4">
-                <h2 class="text-2xl lg:text-3xl font-extrabold text-[#1B2E58] uppercase tracking-tighter ">
+                <h2 class="text-2xl lg:text-3xl font-extrabold text-[#1B2E58] uppercase tracking-tighter">
                     Nos Réalisations
                 </h2>
                 <div class="h-1 w-16 bg-[#FF9F29] mx-auto mt-2 rounded-full"></div>
@@ -467,39 +470,49 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
 
         <div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-3 h-auto md:h-[450px]">
             
-            <div class="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-2xl shadow-md reveal-on-scroll opacity-0 transform -translate-x-10 transition-all duration-1000 delay-200 h-[300px] md:h-full">
-                <img src="{{ asset('images/3.jpg') }}" alt="Piscine Olympique" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-                
-                <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58] via-[#1B2E58]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
-                    <span class="text-[#FF9F29] font-black uppercase text-[10px] tracking-widest mb-1">Construction Piscine</span>
-                    <h3 class="text-white text-xl font-bold italic">Résidence Azur - Cotonou</h3>
-                    <a href="#" class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#1B2E58] mt-3 hover:bg-[#FF9F29] hover:text-white transition-all transform hover:rotate-90">
-                        <i class="fas fa-plus text-xs"></i>
-                    </a>
-                </div>
-            </div>
+            @foreach($projets as $index => $projet)
+                @php
+                    // On définit les classes de grille selon la position de l'image
+                    $gridClasses = '';
+                    $delay = ($index + 1) * 200;
+                    
+                    if ($index == 0) {
+                        // Le premier (Grand rectangle à gauche)
+                        $gridClasses = 'md:col-span-2 md:row-span-2 transform -translate-x-10';
+                    } elseif ($index == 1) {
+                        // Le deuxième (Rectangle large en haut à droite)
+                        $gridClasses = 'md:col-span-2 md:row-span-1 transform translate-x-10';
+                    } else {
+                        // Les suivants (Petits carrés en bas à droite)
+                        $gridClasses = 'md:col-span-1 md:row-span-1 transform translate-y-10';
+                    }
+                @endphp
 
-            <div class="md:col-span-2 md:row-span-1 relative group overflow-hidden rounded-2xl shadow-md reveal-on-scroll opacity-0 transform translate-x-10 transition-all duration-1000 delay-400 h-[200px] md:h-full">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200" alt="Villa Moderne" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58]/90 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-5">
-                    <span class="text-[#FF9F29] font-black uppercase text-[9px] tracking-widest">Immobilier</span>
-                    <h4 class="text-white text-lg font-bold italic">Complexe Nakayo</h4>
-                </div>
-            </div>
+                <div class="{{ $gridClasses }} relative group overflow-hidden rounded-2xl shadow-md reveal-on-scroll opacity-0 transition-all duration-1000 h-[250px] md:h-full" style="transition-delay: {{ $delay }}ms">
+                    
+                    {{-- Image du projet --}}
+                    <img src="{{ asset('storage/' . $projet->image) }}" 
+                         alt="{{ $projet->nom }}" 
+                         class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                    
+                    {{-- Overlay au survol --}}
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58] via-[#1B2E58]/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
+                        <span class="text-[#FF9F29] font-black uppercase text-[10px] tracking-widest mb-1">
+                            {{ $projet->service_nom }}
+                        </span>
+                        
+                        <h3 class="text-white {{ $index == 0 ? 'text-xl' : 'text-lg' }} font-bold italic">
+                            {{ $projet->nom }} - {{ $projet->lieu }}
+                        </h3>
 
-            <div class="md:col-span-1 md:row-span-1 relative group overflow-hidden rounded-2xl shadow-md reveal-on-scroll opacity-0 transform translate-y-10 transition-all duration-1000 delay-600 h-[200px] md:h-full">
-                <img src="https://images.unsplash.com/photo-1516253593875-bd7ba052fbc5?q=80&w=800" alt="Ferme Agro" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-                <div class="absolute inset-0 bg-[#1B2E58]/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center items-center text-center p-4">
-                    <h4 class="text-white font-bold italic uppercase text-[10px]">Ferme Pilote Ouidah</h4>
+                        {{-- Bouton Plus (uniquement sur le grand projet ou tous selon ton choix) --}}
+                        <a href="{{ route('realisations.projets', $projet->id_projet) }}" 
+                           class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-[#1B2E58] mt-3 hover:bg-[#FF9F29] hover:text-white transition-all transform hover:rotate-90">
+                            <i class="fas fa-plus text-[10px]"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
-
-            <div class="md:col-span-1 md:row-span-1 relative group overflow-hidden rounded-2xl shadow-md reveal-on-scroll opacity-0 transform translate-y-10 transition-all duration-1000 delay-800 h-[200px] md:h-full">
-                <img src="https://images.unsplash.com/photo-1605264964528-06403738d6dc?q=80&w=800" alt="Unité Savon" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-                <div class="absolute inset-0 bg-[#1B2E58]/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center items-center text-center p-4">
-                    <h4 class="text-white font-bold italic uppercase text-[10px]">Production Hygiène</h4>
-                </div>
-            </div>
+            @endforeach
 
         </div>
     </div>
@@ -701,7 +714,10 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
 </section>
 
 
-
+@php 
+                    // Nettoyage du numéro pour le lien WhatsApp (enlever les espaces et parenthèses)
+                    $whatsappClean = preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp); 
+                @endphp
 
 <section class="py-10 bg-gray-50 font-sans overflow-hidden">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
@@ -727,11 +743,11 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
                     </div>
                     
                     <h3 class="text-[#1B2E58] text-xl font-black mb-2 ">Adresse Mail</h3>
-                    <a href="mailto:nakayocorporation@gmail.com" class="text-gray-500 text-sm font-bold hover:underline mb-4 block break-all">nakayocorporation@gmail.com</a>
+                    <a href="mailto:{{ $settings->email }}" class="text-gray-500 text-sm font-bold hover:underline mb-4 block break-all">nakayocorporation@gmail.com</a>
                     
                     <div class="text-gray-400 text-[11px] mt-auto">
                         <p class="font-bold text-gray-500 uppercase tracking-widest mb-1">Disponibilité</p>
-                        <p>Lun - Ven : 07h30 à 18h</p>
+                        <p>{{ $settings->horaires_ouverture ?? 'Non définis' }}</p>
                     </div>
                 </div>
             </div>
@@ -744,11 +760,11 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
                     
                     <h3 class="text-white text-xl font-black mb-2 ">Téléphone</h3>
                     <div class="space-y-1 mb-6">
-                        <p class="text-[#FF9F29] text-lg font-bold">(+229) 01 66 55 61 61</p>
-                        <p class="text-[#FF9F29] text-lg font-bold">(+229) 01 94 86 61 61</p>
+                        <p class="text-[#FF9F29] text-lg font-bold">{{ $settings->telephone_whatsapp ?? 'Non défini' }}</p>
+                        <p class="text-[#FF9F29] text-lg font-bold">{{ $settings->telephone_appel ?? '(+229) 00 00 00 00' }}</p>
                     </div>
 
-                    <a href="https://wa.me/2290166556161" target="_blank" class="mt-auto bg-[#FF9F29] text-[#1B2E58] px-6 py-2.5 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white transition-colors">
+                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp) }}" target="_blank" class="mt-auto bg-[#FF9F29] text-[#1B2E58] px-6 py-2.5 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white transition-colors">
                         WhatsApp
                     </a>
                 </div>
@@ -762,8 +778,7 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
                     
                     <h3 class="text-[#1B2E58] text-xl  mb-2 ">Siège Social</h3>
                     <p class="text-gray-500 text-sm font-medium mb-4 leading-relaxed">
-                        Hedomey C/SB IMMEUBLE AISSOUN<br>
-                        Cotonou, Bénin
+                       {{ $settings->localisation ?? 'Adresse non définie' }}
                     </p>
                     
                     <a href="#" class="mt-auto text-[#1B2E58] font-black uppercase text-[9px] tracking-widest flex items-center gap-2 hover:text-[#FF9F29] transition-colors">

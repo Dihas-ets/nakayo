@@ -54,12 +54,12 @@ class ServiceController extends Controller
 {
     // 1. Validation complète (J'ai ajouté 'description')
     $request->validate([
-        'titre' => 'required|max:255',
+        'titre' => 'required',
         'courte_description' => 'required',
         'description' => 'required', // Obligatoire pour la fiche
-        'media' => 'nullable|image|max:5120',
+        'media' => 'nullable|image',
         'gallery_images' => 'nullable|array',
-        'gallery_images.*' => 'image|mimes:jpeg,png,jpg,webp|max:5120',
+        'gallery_images.*' => 'image|mimes:jpeg,png,jpg,webp',
         'gallery_videos' => 'nullable|array',
          'status' => 'required|in:publié,brouillon',
     ]);
@@ -117,8 +117,8 @@ class ServiceController extends Controller
         $service = Service::findOrFail($id);
 
         $request->validate([
-            'titre' => 'required|max:255',
-            'id_produit' => 'required',
+            'titre' => 'required',
+            'id_produit' => '',
             'courte_description' => 'required',
             'status' => 'required|in:publié,brouillon',
         ]);

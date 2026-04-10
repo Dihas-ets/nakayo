@@ -17,9 +17,7 @@
                 <img src="{{ asset('storage/' . $article->media) }}" class="w-full h-[400px] object-cover" onerror="this.src='https://placehold.co/800x400'">
                 <div class="p-12">
                     <h1 class="text-5xl font-black text-[#1B2E58] mb-8 leading-tight">{{ $article->titre }}</h1>
-                    <div class="prose prose-lg max-w-none text-gray-600 font-medium leading-relaxed">
-                        {!! nl2br(e($article->description)) !!}
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -79,16 +77,7 @@
                         <i class="fa-solid fa-chart-line text-[#FF9F29]"></i>
                         <h3 class="text-xs font-black uppercase tracking-widest">Performances</h3>
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-white/10 p-6 rounded-3xl text-center backdrop-blur-sm border border-white/5">
-                            <p class="text-2xl font-black">{{ $article->vue }}</p>
-                            <p class="text-[9px] font-bold uppercase opacity-60">Vues</p>
-                        </div>
-                        <div class="bg-white/10 p-6 rounded-3xl text-center backdrop-blur-sm border border-white/5">
-                            <p class="text-2xl font-black text-[#FF9F29]">{{ $article->commentaires_count }}</p>
-                            <p class="text-[9px] font-bold uppercase opacity-60">Commentaires</p>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-[#FF9F29] opacity-10 rounded-full blur-2xl"></div>
             </div>

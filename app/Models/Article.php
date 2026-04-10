@@ -19,4 +19,6 @@ class Article extends Model {
 {
     return $this->hasMany(Commentaire::class, 'id_article', 'id_article');
 }
+
+
 }

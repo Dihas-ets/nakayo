@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+
 class BlogController extends Controller
 {
     /*
@@ -19,6 +20,9 @@ class BlogController extends Controller
     | GESTION DES ARTICLES
     |--------------------------------------------------------------------------
     */
+
+
+
 
     public function articles() 
     {
@@ -53,6 +57,10 @@ class BlogController extends Controller
     $data['slug'] = $slugBase . '-' . time(); // Ajoute le timestamp actuel (ex: agro-industrie-17124823)
 
     $data['commentaire'] = $request->commentaire;
+    $data['featured'] = $request->has('featured') ? 1 : 0;
+    
+    // Idem pour le status si tu veux gérer 'brouillon'
+    $data['status'] = $request->has('status') ? 'publié' : 'brouillon';
 
     // 3. Gestion du média
     if ($request->hasFile('media')) { 
@@ -78,7 +86,7 @@ class BlogController extends Controller
         $article = Article::findOrFail($id);
 
         $request->validate([
-            'titre' => 'required|max:255',
+            'titre' => 'required',
             'id_categorie' => 'required',
             'description' => 'required',
             'media' => 'nullable|image'

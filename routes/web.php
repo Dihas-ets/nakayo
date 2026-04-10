@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\ProjetController;
 use App\Models\Service; // Ajoutez cette ligne
 use App\Models\CompanySetting;
+use App\Models\Article;
 
 
 
@@ -39,6 +40,9 @@ Route::get('/', function () {
         ->select('articles.*', 'categories.nom as category_name')
         ->where('featured', 0)->orderBy('articles.created_at', 'desc')->limit(3)->get();
     return view('welcome', compact('categories', 'featuredArticle', 'recentArticles'));
+
+
+    
 })->name('home');
 
 Route::get('/a-propos', function () { return view('pages.about'); })->name('about');
@@ -59,13 +63,13 @@ Route::get('/recrutement', function () { return view('pages.recrutement'); })->n
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
-    // A. On récupère les services pour le slider (indispensable pour welcome.blade.php)
+    // A. On récupère les services pour le slider
     $services = Service::where('status', 'publié')->get();
 
-    // B. On récupère les infos de l'entreprise pour la navbar
+    // B. On récupère les infos de l'entreprise
     $settings = CompanySetting::first();
 
-    // C. Vos logiques de blog existantes
+    // C. Logiques de blog existantes
     $categories = DB::table('categories')->where('status', 1)->get();
     
     $featuredArticle = DB::table('articles')
@@ -80,8 +84,24 @@ Route::get('/', function () {
         ->orderBy('articles.created_at', 'desc')
         ->limit(3)->get();
 
-    // On passe TOUTES les variables, surtout 'services'
-    return view('welcome', compact('services', 'categories', 'featuredArticle', 'recentArticles', 'settings'));
+    // D. AJOUT : Logique pour les réalisations (Projets)
+    $projets = DB::table('projets')
+        ->join('services', 'projets.id_service', '=', 'services.id_service')
+        ->select('projets.*', 'services.titre as service_nom')
+        ->where('projets.status', 'publié')
+        ->orderBy('projets.date_realisation', 'desc')
+        ->limit(4)
+        ->get();
+
+    // On passe TOUTES les variables à la vue
+    return view('welcome', compact(
+        'services', 
+        'categories', 
+        'featuredArticle', 
+        'recentArticles', 
+        'settings', 
+        'projets'
+    ));
 })->name('home');
 
 
@@ -92,18 +112,8 @@ Route::get('/', function () {
 */
 
 // Détail du service (4 produits + Galerie + Settings)
-Route::get('/services/{slug}', function ($slug) {
-    $mapping = [
-        'construction-piscine' => 'Construction Piscine',
-        'immobilier'           => 'NAKAYO Immobilier',
-        'papeterie'            => 'Papeterie',
-        'savonnerie'           => 'Savonnerie',
-        'agro-industrie'       => 'Agro industrie et élevage' 
-    ];
-
-    if (!isset($mapping[$slug])) abort(404);
-
-    $service = Service::where('titre', 'like', '%' . $mapping[$slug] . '%')
+Route::get('/services/{id_service}', function ($id) {
+    $service = Service::where('id_service', $id)
                       ->with([
                           'produits' => function($q) {
                               $q->where('statut', 'disponible')->limit(4);
@@ -115,11 +125,19 @@ Route::get('/services/{slug}', function ($slug) {
     $settings = CompanySetting::first();
 
     return view('services.show', [
-        'service' => $service,
-        'slug'    => $slug,
-        'settings' => $settings 
+        'service'  => $service,
+        'settings' => $settings,
     ]);
 })->name('services.show');
+
+// Route catalogue complet
+Route::get('/services/{id}/produits', function ($id) {
+    $service = Service::where('id', $id)
+        ->with(['produits' => fn($q) => $q->where('statut', 'disponible')])
+        ->firstOrFail();
+
+    return view('services.products', compact('service'));
+})->name('services.products');
 
 // Catalogue complet (Tous les produits + Settings)
 Route::get('/services/{slug}/catalogue', function ($slug) {
@@ -151,8 +169,19 @@ Route::get('/services/{slug}/catalogue', function ($slug) {
 
 
 
-Route::get('/blog', function () { return view('blog.index'); })->name('blog.index');
-Route::get('/blog/detail', function () { return view('blog.show'); })->name('blog.show');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', function ($slug) {
+
+    $article = Article::where('slug', $slug)->firstOrFail();
+
+    $recentArticles = Article::where('id_article', '!=', $article->id_article)
+        ->latest()
+        ->take(5)
+        ->get();
+
+    return view('blog.show', compact('article', 'recentArticles'));
+
+})->name('blog.show');
 Route::get('/realisations/projets', function () { return view('realisations.projets'); })->name('realisations.projets');
 Route::get('/realisations/galerie', function () { return view('realisations.galerie'); })->name('realisations.galerie');
 
@@ -267,8 +296,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::resource('projets', ProjetController::class);
 
         // Infos Entreprise
-        Route::get('/infos-entreprise', [CompanySettingController::class, 'index'])->name('settings.index');
-        Route::put('/infos-entreprise', [CompanySettingController::class, 'update'])->name('settings.update');
+        Route::get('/settings', [CompanySettingController::class, 'index'])->name('settings.index');
+    Route::put('/settings', [CompanySettingController::class, 'update'])->name('settings.update');
     });
 });
 

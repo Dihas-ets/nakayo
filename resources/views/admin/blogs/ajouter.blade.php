@@ -33,8 +33,8 @@
                     <input type="hidden" name="slug" :value="slug">
 
                     <!-- L'Éditeur CKEditor -->
-                    <div class="prose max-w-none ck-custom-editor">
-                        <textarea name="description" id="editor">{{ $article->description ?? '' }}</textarea>
+                    <div class="ck-custom-editor">
+                        <textarea name="description" id="editor">{!! old('description', $article->description ?? '') !!}</textarea>
                     </div>
                     
                     <!-- Champ Commentaire -->
@@ -46,41 +46,63 @@
             </div>
 
             <!-- DROITE : SIDEBAR -->
-            <div class="space-y-6">
-                <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100">
-                    <h3 class="text-[11px] font-black uppercase text-[#1B2E58] tracking-widest mb-6 border-b border-gray-50 pb-4">Image de couverture</h3>
-                    <div class="relative group border-2 border-dashed border-gray-100 rounded-[2rem] p-10 text-center hover:border-[#FF9F29] transition-all">
-                        <input type="file" name="media" class="absolute inset-0 opacity-0 cursor-pointer">
-                        @if(isset($article) && $article->media)
-                            <img src="{{ asset('storage/'.$article->media) }}" class="rounded-xl h-32 w-full object-cover">
-                        @else
-                            <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-100 group-hover:text-[#FF9F29] mb-4 transition-colors"></i>
-                            <p class="text-[10px] font-bold text-gray-300 uppercase">Cliquer pour uploader</p>
-                        @endif
-                    </div>
-                </div>
+            <!-- DROITE : SIDEBAR -->
+<div class="space-y-6">
+    <!-- Bloc Image -->
+    <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100">
+        <h3 class="text-[11px] font-black uppercase text-[#1B2E58] tracking-widest mb-6 border-b border-gray-50 pb-4">Image de couverture</h3>
+        <div class="relative group border-2 border-dashed border-gray-100 rounded-[2rem] p-10 text-center hover:border-[#FF9F29] transition-all">
+            <input type="file" name="media" class="absolute inset-0 opacity-0 cursor-pointer">
+            @if(isset($article) && $article->media)
+                <img src="{{ asset('storage/'.$article->media) }}" class="rounded-xl h-32 w-full object-cover">
+            @else
+                <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-100 group-hover:text-[#FF9F29] mb-4 transition-colors"></i>
+                <p class="text-[10px] font-bold text-gray-300 uppercase">Cliquer pour uploader</p>
+            @endif
+        </div>
+    </div>
 
-                <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100 space-y-8">
-                    <div>
-                        <label class="block text-[10px] font-black text-gray-300 uppercase mb-3">Catégorie</label>
-                        <select name="id_categorie" class="w-full bg-gray-50 border-none rounded-xl px-4 py-3 font-bold text-[#1B2E58] focus:ring-2 focus:ring-[#FF9F29]">
-                            @foreach($categories as $cat)
-                                <option value="{{ $cat->id_categorie }}" {{ (isset($article) && $article->id_categorie == $cat->id_categorie) ? 'selected' : '' }}>{{ $cat->nom }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-black text-gray-300 uppercase mb-3">Statut</label>
-                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
-                            <span class="font-black text-[#1B2E58] text-sm">Publié</span>
-                            <div class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" name="status" value="publié" class="sr-only peer" checked>
-                                <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-[#1B2E58] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Bloc Paramètres -->
+    <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100 space-y-8">
+        <!-- Catégorie -->
+        <div>
+            <label class="block text-[10px] font-black text-gray-300 uppercase mb-3">Catégorie</label>
+            <select name="id_categorie" class="w-full bg-gray-50 border-none rounded-xl px-4 py-3 font-bold text-[#1B2E58] focus:ring-2 focus:ring-[#FF9F29]">
+                @foreach($categories as $cat)
+                    <option value="{{ $cat->id_categorie }}" {{ (isset($article) && $article->id_categorie == $cat->id_categorie) ? 'selected' : '' }}>{{ $cat->nom }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <!-- Mise en avant (featured) -->
+        <div>
+            <label class="block text-[10px] font-black text-gray-300 uppercase mb-3">Visibilité Accueil</label>
+            <div class="flex items-center justify-between p-4 bg-orange-50/50 rounded-2xl border border-orange-100">
+                <div class="flex flex-col">
+                    <span class="font-black text-[#1B2E58] text-sm">Mise à la une</span>
+                    <span class="text-[9px] text-gray-400 font-bold uppercase italic">Article principal</span>
+                </div>
+                <div class="relative inline-flex items-center cursor-pointer">
+                    <!-- On envoie 1 si coché, sinon 0 via le contrôleur -->
+                    <input type="checkbox" name="featured" value="1" class="sr-only peer" {{ (isset($article) && $article->featured) ? 'checked' : '' }}>
+                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-[#FF9F29] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
                 </div>
             </div>
+        </div>
+
+        <!-- Statut de publication -->
+        <div>
+            <label class="block text-[10px] font-black text-gray-300 uppercase mb-3">Statut de publication</label>
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
+                <span class="font-black text-[#1B2E58] text-sm">Publié</span>
+                <div class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="status" value="publié" class="sr-only peer" {{ (!isset($article) || $article->status == 'publié') ? 'checked' : '' }}>
+                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-[#1B2E58] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         </div>
     </form>
 </div>

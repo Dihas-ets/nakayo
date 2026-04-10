@@ -29,8 +29,8 @@
                 
                 <div class="p-12">
                     <h1 class="text-5xl font-black text-[#1B2E58] mb-8 leading-tight">{{ $article->titre }}</h1>
-                    <div class="prose prose-lg max-w-none text-gray-600 font-medium leading-relaxed">
-                        {!! nl2br(e($article->description)) !!}
+                    <div class="rich-text-content">
+                        {!! clean($article->description) !!}
                     </div>
                 </div>
             </div>

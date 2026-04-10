@@ -91,7 +91,7 @@
             <!-- DROITE : SIDEBAR -->
             <div class="space-y-6">
                 {{-- LIAISON PRODUIT --}}
-                <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100">
+                <!-- <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100">
                     <h3 class="text-xs font-black uppercase text-[#1B2E58] mb-4">Produit lié</h3>
                     <select name="id_produit" class="w-full bg-gray-50 border-none rounded-xl px-4 py-3 font-bold text-[#1B2E58]" required>
                         @foreach($produits as $p)
@@ -100,7 +100,7 @@
                             </option>
                         @endforeach
                     </select>
-                </div>
+                </div> -->
 
                 {{-- IMAGE PRINCIPALE --}}
                 <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100 text-center">

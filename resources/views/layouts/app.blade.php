@@ -6,6 +6,7 @@
     <title>{{ config('app.name', 'Access Finance Benin') }}</title>
     
    @vite(['resources/css/app.css', 'resources/js/app.js'])
+   
 
 
 <!-- Google Fonts : Poppins et Montserrat -->
@@ -25,8 +26,21 @@
 </style>
 
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 </head>
 <body class="min-h-screen flex flex-col">
+
+
+<!-- Loader -->
+<div id="preloader" class="fixed inset-0 z-[9999] flex items-center justify-center bg-[#1B2E58]">
+    <div class="relative flex flex-col items-center">
+        <!-- Le cercle qui tourne -->
+        <div class="w-16 h-16 border-4 border-white/20 border-t-[#FF9F29] rounded-full animate-spin"></div>
+        <!-- Ton Logo ou un texte (optionnel) -->
+         <h3 class="h-12 mt-4 animate-pulse text-white">chargement...</h3>
+        
+    </div>
+</div>
    
 <main class=" pt-[0px] lg:pt-[0px]">
     @yield('content')
@@ -37,5 +51,18 @@
     @include('components.footer')
 @endif
 
+
+
+<script>
+    window.addEventListener('load', function() {
+        const loader = document.getElementById('preloader');
+        // On ajoute une transition de sortie
+        loader.style.transition = 'opacity 0.5s ease';
+        loader.style.opacity = '0';
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 500);
+    });
+</script>
 </body>
 </html>
