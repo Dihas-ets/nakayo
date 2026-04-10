@@ -343,7 +343,7 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
 <section class="py-10 bg-white font-sans overflow-hidden">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
         
-        <!-- EN-TÊTE -->
+        <!-- EN-TÊTE : Titre au CENTRE et Lien à DROITE -->
         <div class="relative flex items-center justify-center mb-10 reveal-on-scroll">
             <div class="text-center">
                 <h2 class="text-2xl lg:text-3xl font-black text-[#1B2E58] uppercase tracking-tighter">
@@ -352,6 +352,7 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
                 <div class="h-1.5 w-20 bg-[#FF9F29] mx-auto mt-2 rounded-full shadow-sm"></div>
             </div>
 
+            <!-- Bouton à droite -->
             <div class="absolute right-0 top-1/2 -translate-y-1/2 hidden md:block">
                 <a href="{{ route('blog.index') }}" class="inline-flex items-center gap-2 text-[#FF9F29] font-black uppercase text-[11px] tracking-[0.2em] group">
                     Voir tout le blog
@@ -360,108 +361,90 @@ class="relative w-full h-[500px] overflow-hidden bg-black ">
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <!-- 2. Grille avec un espacement équilibré (gap-8) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
-            <!-- BLOC GAUCHE : Slider des articles Featured -->
-            <div class="lg:col-span-7" 
-                 x-data="{ 
-                    active: 0, 
-                    total: {{ $featuredArticles->count() }},
-                    init() {
-                        if(this.total > 1) {
-                            setInterval(() => {
-                                this.active = (this.active + 1) % this.total;
-                            }, 5000); // Défilement toutes les 5 secondes
-                        }
-                    }
-                 }">
-                
-                <div class="relative h-full min-h-[500px]">
-                    @foreach($featuredArticles as $index => $article)
-                    <div x-show="active === {{ $index }}" 
-                         x-transition:enter="transition ease-out duration-700"
-                         x-transition:enter-start="opacity-0 translate-x-12"
-                         x-transition:enter-end="opacity-100 translate-x-0"
-                         x-transition:leave="transition ease-in duration-300 absolute inset-0"
-                         x-transition:leave-start="opacity-100"
-                         x-transition:leave-end="opacity-0 -translate-x-12"
-                         class="group cursor-pointer h-full flex flex-col">
-                        
-                        <!-- Image -->
-                        <div class="h-[380px] overflow-hidden rounded-[2rem] shadow-lg flex-shrink-0">
-                            <img src="{{ asset('storage/' . $article->media) }}" 
-                                 class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 bg-gray-100"
-                                 alt="{{ $article->titre }}">
+            <!-- BLOC GAUCHE (Article à la une) -->
+            <div class="lg:col-span-7">
+                <div class="relative group cursor-pointer h-full flex flex-col">
+                    <!-- Image agrandie (380px) -->
+                    <div class="h-[380px] overflow-hidden rounded-[2rem] shadow-lg flex-shrink-0">
+                        <img src="{{ asset('images/3.jpg') }}" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 bg-gray-100"
+                             alt="Expertise">
+                    </div>
+                    
+                    <!-- Carte Texte avec plus de padding -->
+                    <div class="relative -mt-28 mx-4 lg:mx-8 bg-white rounded-3xl shadow-xl p-6 lg:p-8 border border-gray-50 z-10 transition-transform duration-300 group-hover:-translate-y-2 flex-grow">
+                        <div class="absolute -top-3 left-6 bg-[#FF9F29] text-[#1B2E58] px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-md">
+                            Piscines & Loisirs
                         </div>
+
+                        <h3 class="text-[#1B2E58] text-xl lg:text-2xl font-black leading-tight mb-4 mt-2 group-hover:text-[#FF9F29] transition-colors">
+                            Expertise Piscine : Sécuriser et entretenir votre bassin
+                        </h3>
                         
-                        <!-- Carte Texte -->
-                        <div class="relative -mt-28 mx-4 lg:mx-8 bg-white rounded-3xl shadow-xl p-6 lg:p-8 border border-gray-50 z-10 transition-transform duration-300 group-hover:-translate-y-2 flex-grow">
-                            <div class="absolute -top-3 left-6 bg-[#FF9F29] text-[#1B2E58] px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-md shadow-md">
-                                {{ $article->category_name }}
-                            </div>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6 opacity-90 line-clamp-3">
+                            La construction d'une piscine est un investissement majeur. Découvrez nos conseils d'experts pour maintenir une eau cristalline tout au long de l'année.
+                        </p>
 
-                            <h3 class="text-[#1B2E58] text-xl lg:text-2xl font-black leading-tight mb-4 mt-2 group-hover:text-[#FF9F29] transition-colors italic">
-                                {{ $article->titre }}
-                            </h3>
-                            
-                            <p class="text-gray-500 text-sm leading-relaxed mb-6 opacity-90 line-clamp-3">
-                                {{ Str::limit(strip_tags($article->description), 160) }}
-                            </p>
-
-                            <div class="flex items-center justify-between text-gray-400 text-[10px] font-bold uppercase tracking-widest border-t border-gray-50 pt-4">
-                                <span class="flex items-center gap-2">
-                                    <i class="far fa-calendar-alt text-[#FF9F29]"></i> 
-                                    {{ \Carbon\Carbon::parse($article->created_at)->translatedFormat('d M, Y') }}
-                                </span>
-                                <span class="text-[#1B2E58]/40 italic">Nakayo Group</span>
-                            </div>
+                        <div class="flex items-center justify-between text-gray-400 text-[10px] font-bold uppercase tracking-widest border-t border-gray-50 pt-4">
+                            <span class="flex items-center gap-2">
+                                <i class="far fa-calendar-alt text-[#FF9F29]"></i> 28 Mars, 2026
+                            </span>
+                            <span class="text-[#1B2E58]/40 italic">Nakayo Group</span>
                         </div>
                     </div>
-                    @endforeach
-
-                    <!-- Indicateurs (Dots) -->
-                    @if($featuredArticles->count() > 1)
-                    <div class="absolute top-4 right-8 z-30 flex gap-2">
-                        @foreach($featuredArticles as $index => $dot)
-                        <button @click="active = {{ $index }}" 
-                                :class="active === {{ $index }} ? 'bg-[#FF9F29] w-6' : 'bg-white/50 w-2'"
-                                class="h-2 rounded-full transition-all duration-300 shadow-sm"></button>
-                        @endforeach
-                    </div>
-                    @endif
                 </div>
             </div>
 
-            <!-- BLOC DROITE : Liste d'articles récents -->
-            <div class="lg:col-span-5 flex flex-col space-y-4">
-                @foreach($recentArticles as $article)
-                <div class="flex gap-5 group cursor-pointer items-center p-3 rounded-2xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100">
-                    <div class="w-28 h-24 flex-shrink-0 overflow-hidden rounded-xl shadow-sm">
-                        <img src="{{ asset('storage/' . $article->media) }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    </div>
-                    <div class="flex-1">
-                        <span class="text-[#FF9F29] text-[9px] font-black uppercase tracking-widest mb-1 inline-block">
-                            {{ $article->category_name }}
-                        </span>
-                        <h4 class="text-[#1B2E58] text-base font-bold mb-1 leading-snug group-hover:text-[#FF9F29] transition-colors line-clamp-2">
-                            {{ $article->titre }}
-                        </h4>
-                        <div class="text-gray-400 text-[9px] font-bold uppercase italic">
-                            {{ \Carbon\Carbon::parse($article->created_at)->translatedFormat('d M, Y') }}
+            <!-- BLOC DROITE (Liste d'articles) -->
+            <div class="lg:col-span-5 flex flex-col">
+                <!-- 3. Espacement vertical plus large (space-y-6) -->
+                <div class="space-y-6 h-full flex flex-col justify-between">
+                    
+                    <!-- Item 1 (Miniature w-28 h-24) -->
+                    <div class="flex gap-5 group cursor-pointer items-center p-3 rounded-2xl hover:bg-gray-50 transition-all">
+                        <div class="w-28 h-24 flex-shrink-0 overflow-hidden rounded-xl shadow-sm">
+                            <img src="{{ asset('images/6.webp') }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="flex-1">
+                            <span class="text-[#FF9F29] text-[9px] font-black uppercase tracking-widest mb-1 inline-block">Immobilier</span>
+                            <h4 class="text-[#1B2E58] text-base font-bold mb-1 leading-snug group-hover:text-[#FF9F29] transition-colors line-clamp-2">Les 5 zones à fort potentiel pour investir à Cotonou</h4>
+                            <div class="text-gray-400 text-[9px] font-bold uppercase italic">24 Mars, 2026</div>
                         </div>
                     </div>
-                </div>
-                @if(!$loop->last)
-                    <div class="h-px bg-gray-100 mx-6"></div>
-                @endif
-                @endforeach
 
-                <!-- Bouton mobile (visible si besoin d'équilibrer la hauteur) -->
-                <div class="mt-auto pt-6 lg:hidden">
-                    <a href="{{ route('blog.index') }}" class="block w-full text-center bg-[#1B2E58] text-white py-4 rounded-xl font-bold uppercase text-xs">Voir tout le blog</a>
+                    <div class="h-px bg-gray-100 mx-3"></div>
+
+                    <!-- Item 2 -->
+                    <div class="flex gap-5 group cursor-pointer items-center p-3 rounded-2xl hover:bg-gray-50 transition-all">
+                        <div class="w-28 h-24 flex-shrink-0 overflow-hidden rounded-xl shadow-sm">
+                            <img src="{{ asset('images/1.jpg') }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="flex-1">
+                            <span class="text-[#FF9F29] text-[9px] font-black uppercase tracking-widest mb-1 inline-block">Hygiène</span>
+                            <h4 class="text-[#1B2E58] text-base font-bold mb-1 leading-snug group-hover:text-[#FF9F29] transition-colors line-clamp-2">Pourquoi privilégier nos savons artisanaux NAKAYO ?</h4>
+                            <div class="text-gray-400 text-[9px] font-bold uppercase italic">20 Mars, 2026</div>
+                        </div>
+                    </div>
+
+                    <div class="h-px bg-gray-100 mx-3"></div>
+
+                    <!-- Item 3 -->
+                    <div class="flex gap-5 group cursor-pointer items-center p-3 rounded-2xl hover:bg-gray-50 transition-all">
+                        <div class="w-28 h-24 flex-shrink-0 overflow-hidden rounded-xl shadow-sm">
+                            <img src="{{ asset('images/9.jpg') }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="flex-1">
+                            <span class="text-[#FF9F29] text-[9px] font-black uppercase tracking-widest mb-1 inline-block">Agro-industrie</span>
+                            <h4 class="text-[#1B2E58] text-base font-bold mb-1 leading-snug group-hover:text-[#FF9F29] transition-colors line-clamp-2">Moderniser l'élevage pour une autonomie alimentaire</h4>
+                            <div class="text-gray-400 text-[9px] font-bold uppercase italic">15 Mars, 2026</div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-
         </div>
     </div>
 </section>
