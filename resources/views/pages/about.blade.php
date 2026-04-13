@@ -37,7 +37,7 @@
 
         <!-- Description -->
         <p class="text-white/90 text-sm md:text-lg lg:text-xl max-w-4xl mx-auto leading-relaxed mb-10 font-medium">
-            Découvrez l'histoire, la mission et les valeurs qui font d'Access Finance Bénin un leader dans les services financiers
+            Découvrez l'histoire, la mission et les valeurs qui font de NAKAYO un leader dans les services 
         </p>
 
         <!-- Bouton CTA -->
@@ -227,112 +227,84 @@
 </script><br><br>
 
 
+<!-- les membres -->
 
+<style>
+    /* Animation de défilement infini ultra-fluide */
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
 
-<section class="py-24 bg-white font-sans overflow-hidden" x-data="{ open: false }">
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-        
-        <!-- En-tête de section -->
-        <div class="text-center mb-20">
-    <!-- Conteneur de texte centré grâce à mx-auto -->
-    <div class="max-w-2xl mx-auto">
-        
-        <!-- Titre et Barre orange -->
-        <div class="mb-8">
-            <h2 class="text-3xl lg:text-4xl font-black text-[#1B2E58] uppercase tracking-tighter">
-                Membres de l'équipe
-            </h2>
-            <div class="h-1.5 w-20 bg-[#FF9F29] mx-auto mt-4 rounded-full"></div>
+    .animate-marquee {
+        display: flex;
+        width: max-content;
+        animation: marquee 40s linear infinite; /* 40s pour un mouvement très élégant et calme */
+    }
+
+    /* Pause au survol */
+    .animate-marquee:hover {
+        animation-play-state: paused;
+    }
+
+    /* Effet de fondu sur les bords de l'écran */
+    .mask-edges {
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+</style>
+
+<section class="py-10 bg-white font-sans overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 mb-8 text-center">
+        <div class="max-w-2xl mx-auto">
+            <div class="mb-4">
+                <h2 class="text-3xl lg:text-4xl font-black text-[#1B2E58] uppercase tracking-tighter">
+                    L'Équipe
+                </h2>
+                <div class="h-1 w-16 bg-[#FF9F29] mx-auto mt-2 rounded-full"></div>
+            </div>
+            <p class="text-gray-500 text-base font-medium leading-relaxed">
+                L'excellence au service de vos ambitions.
+            </p>
         </div>
-
-        <!-- Description centrée -->
-        <p class="text-gray-500 text-lg font-medium leading-relaxed">
-            L'excellence au service de vos ambitions, portée par une équipe d'experts passionnés.
-        </p>
     </div>
 
-    <!-- Bouton (si vous le réactivez plus tard, il sera aussi centré) -->
-    <!-- 
-    <div class="mt-10 flex justify-center">
-        <button class="...">...</button>
-    </div> 
-    -->
-</div>
-
-        <!-- GRILLE DE L'ÉQUIPE -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+    <div class="relative mask-edges">
+        <div class="animate-marquee gap-8 py-2">
             
-            <!-- MEMBRE 1 -->
-            <div class="group">
-                <div class="relative aspect-[3/4] overflow-hidden rounded-[3rem] bg-gray-100 mb-6">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800" class="w-full h-full object-cover  transition-all duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58] via-transparent to-transparent opacity-0 group-hover:opacity-80 transition-all duration-500 flex items-end p-8">
-                        <a href="#" class="text-[#FF9F29] font-bold text-sm hover:underline">LinkedIn Profile →</a>
-                    </div>
-                </div>
-                <h3 class="text-2xl font-black text-[#1B2E58] italic leading-none">Marc-Antoine K.</h3>
-                <p class="text-gray-400 font-bold uppercase text-[10px] tracking-[0.3em] mt-3">Directeur Général</p>
-            </div>
+            @php
+                $team = [
+                    ['name' => 'Marc-Antoine K.', 'role' => 'DG', 'img' => asset('images/11.jpg')],
+                    ['name' => 'Sarah L. Dossou', 'role' => 'Resp. Immobilier', 'img' => asset('images/5.jpg')],
+                    ['name' => 'Jean-Luc Agueh', 'role' => 'Expert Technique', 'img' => asset('images/10.webp')],
+                    ['name' => 'Elise B.', 'role' => 'Directrice Agro', 'img' => asset('images/5.jpg')],
+                    ['name' => 'Patrice M.', 'role' => 'Logistique', 'img' => asset('images/11.jpg')],
+                ];
+            @endphp
 
-            <!-- MEMBRE 2 -->
-            <div class="group">
-                <div class="relative aspect-[3/4] overflow-hidden rounded-[3rem] bg-gray-100 mb-6">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800" class="w-full h-full object-cover  transition-all duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58] via-transparent to-transparent opacity-0 group-hover:opacity-80 transition-all duration-500 flex items-end p-8">
-                        <a href="#" class="text-[#FF9F29] font-bold text-sm hover:underline">LinkedIn Profile →</a>
+            @foreach(array_merge($team, $team) as $member)
+            <div class="w-[240px] group flex-shrink-0">
+                <div class="relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-gray-50 mb-4 transition-all duration-500 hover:shadow-lg">
+                    
+                    <img src="{{ $member['img'] }}" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                         alt="{{ $member['name'] }}">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6">
+                        <span class="text-white font-bold text-xs flex items-center gap-2">
+                            LinkedIn <span class="text-[#FF9F29]">→</span>
+                        </span>
                     </div>
                 </div>
-                <h3 class="text-2xl font-black text-[#1B2E58] italic leading-none">Sarah L. Dossou</h3>
-                <p class="text-gray-400 font-bold uppercase text-[10px] tracking-[0.3em] mt-3">Resp. Immobilier</p>
-            </div>
 
-            <!-- MEMBRE 3 -->
-            <div class="group">
-                <div class="relative aspect-[3/4] overflow-hidden rounded-[3rem] bg-gray-100 mb-6">
-                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58] via-transparent to-transparent opacity-0 group-hover:opacity-80 transition-all duration-500 flex items-end p-8">
-                        <a href="#" class="text-[#FF9F29] font-bold text-sm hover:underline">LinkedIn Profile →</a>
-                    </div>
+                <div class="px-2 text-center">
+                    <h3 class="text-xl font-black text-[#1B2E58] italic leading-none">{{ $member['name'] }}</h3>
+                    <p class="text-[#FF9F29] font-bold uppercase text-[9px] tracking-[0.2em] mt-2">{{ $member['role'] }}</p>
                 </div>
-                <h3 class="text-2xl font-black text-[#1B2E58] italic leading-none">Jean-Luc Agueh</h3>
-                <p class="text-gray-400 font-bold uppercase text-[10px] tracking-[0.3em] mt-3">Expert Technique</p>
             </div>
+            @endforeach
 
-            <!-- MEMBRE 4 -->
-            <div class="group">
-                <div class="relative aspect-[3/4] overflow-hidden rounded-[3rem] bg-gray-100 mb-6">
-                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58] via-transparent to-transparent opacity-0 group-hover:opacity-80 transition-all duration-500 flex items-end p-8">
-                        <a href="#" class="text-[#FF9F29] font-bold text-sm hover:underline">LinkedIn Profile →</a>
-                    </div>
-                </div>
-                <h3 class="text-2xl font-black text-[#1B2E58] italic leading-none">Elise B.</h3>
-                <p class="text-gray-400 font-bold uppercase text-[10px] tracking-[0.3em] mt-3">Directrice Agro</p>
-            </div>
-
-            <!-- SECTION CACHÉE (Apparaît au clic) -->
-            <template x-if="open">
-                <div class="contents">
-                    <!-- MEMBRE 5 -->
-                    <div class="group" x-transition:enter="transition ease-out duration-500 delay-100" x-transition:enter-start="opacity-0 translate-y-10">
-                        <div class="relative aspect-[3/4] overflow-hidden rounded-[3rem] bg-gray-100 mb-6 border border-gray-100">
-                             <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800" class="w-full h-full object-cover transition-all duration-700">
-                        </div>
-                        <h3 class="text-2xl font-black text-[#1B2E58] italic leading-none">Patrice M.</h3>
-                        <p class="text-gray-400 font-bold uppercase text-[10px] tracking-[0.3em] mt-3">Logistique</p>
-                    </div>
-                    <!-- Ajoute autant de membres que tu veux ici -->
-                </div>
-            </template>
         </div>
-
-        <!-- Bouton Voir Plus (Mobile) -->
-        <!-- <div class="mt-16 text-center md:hidden">
-            <button @click="open = !open" class="inline-flex items-center gap-4 bg-[#FF9F29] text-[#1B2E58] px-10 py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl">
-                <span x-text="open ? 'Réduire' : 'Voir toute l\'équipe'"></span>
-                <i class="fas fa-plus" :class="open ? 'rotate-45' : ''"></i>
-            </button>
-        </div> -->
     </div>
 </section>
 

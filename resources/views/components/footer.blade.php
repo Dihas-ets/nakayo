@@ -71,12 +71,12 @@
                     </div>
                     <div class="flex items-center gap-4">
                         <i class="fas fa-phone-alt text-[#FF9F29] text-lg"></i>
-                        <span class="text-[#FF9F29] font-bold text-[14px] lg:text-[16px] tracking-wider">+229 12 34 56 78</span>
+                        <span class="text-[#FF9F29] font-bold text-[14px] lg:text-[16px] tracking-wider">+229 66 55 61 61</span>
                     </div>
                     <div class="flex items-start gap-4">
                         <i class="fas fa-map-marker-alt text-[#FF9F29] text-lg mt-1"></i>
                         <span class="text-gray-400 text-[14px] leading-relaxed">
-                            Hedomey C/SB IMMEUBLE AISSOUN,<br class="hidden lg:block"> Cotonou, Bénin
+                            Zogbo Yénawa Lot 1887  “G” Maison AMOUSSOU Benoit,<br class="hidden lg:block"> Cotonou, Bénin
                         </span>
                     </div>
                 </div>

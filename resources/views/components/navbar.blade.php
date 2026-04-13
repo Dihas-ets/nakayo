@@ -57,10 +57,8 @@
                 <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Accueil</a></li>
                 <li><a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">À Propos</a></li>
 
-                <!-- Services (Dynamiques si tu as une table services, sinon garde ton tableau statique) -->
-                <!-- Services Dropdown — Adaptatif -->
+                <!-- Services Dropdown -->
                 <li class="relative py-8" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                    
                     <div class="flex items-center gap-1 cursor-pointer {{ request()->is('services*') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all font-bold">
                         Nos Services <i class="fas fa-chevron-down text-[8px] opacity-70 ml-1 transition-transform" :class="open ? 'rotate-180' : ''"></i>
                     </div>
@@ -68,19 +66,16 @@
                     @php
                         $allServices = \App\Models\Service::select('id_service', 'titre')->get();
                         $totalServices = $allServices->count();
-                        // Colonnes : 1 si ≤4, 2 si ≤8, 3 si >8
                         $cols = $totalServices <= 4 ? 1 : ($totalServices <= 8 ? 2 : 3);
                         $colClass = [1 => 'grid-cols-1 w-64', 2 => 'grid-cols-2 w-[500px]', 3 => 'grid-cols-3 w-[720px]'][$cols];
                     @endphp
 
                     <div x-show="open" x-cloak x-transition
                         class="absolute top-full left-1/2 -translate-x-1/2 border-t-2 border-blue-600 bg-white shadow-2xl rounded-b-xl z-50 overflow-hidden">
-                        
                         <div class="grid {{ $colClass }} divide-x divide-gray-100">
                             @foreach($allServices as $srv)
                                 <a href="{{ route('services.show', $srv->id_service) }}"
-                                class="flex items-center justify-between px-6 py-4 text-sm font-semibold text-[#1B2E58] border-b border-gray-50 hover:bg-blue-50 hover:text-blue-600 transition-all group
-                                        {{ request()->route('id') == $srv->id_service ? 'bg-blue-50 text-blue-600' : '' }}">
+                                class="flex items-center justify-between px-6 py-4 text-sm font-semibold text-[#1B2E58] border-b border-gray-50 hover:bg-blue-50 hover:text-blue-600 transition-all group">
                                     <span class="truncate max-w-[160px]">{{ $srv->titre }}</span>
                                     <span class="ml-3 opacity-0 group-hover:opacity-100 transition text-blue-400 text-xs">↗</span>
                                 </a>
@@ -90,7 +85,10 @@
                 </li>
 
                 <li><a href="{{ route('blog.index') }}" class="{{ request()->routeIs('blog.*') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Blog</a></li>
-                <!-- Réalisations ... (Inchangé) -->
+                
+                <!-- LIEN PROJETS COMPLÉTÉ -->
+                <li><a href="{{ route('realisations.projets') }}" class="{{ request()->routeIs('realisations.*') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Projets</a></li>
+                
                 <li><a href="{{ route('recrutement') }}" class="{{ request()->routeIs('recrutement') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Recrutement</a></li>
                 <li><a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Contact</a></li>
             </ul>
@@ -101,46 +99,47 @@
             </button>
         </div>
 
-        <!-- RIGHT SECTION -->
-        <div class="hidden lg:flex bg-[#1B2E58] items-center px-6 xl:px-8 text-white min-w-fit lg:min-w-[380px] xl:min-w-[450px]">
-            <a href="{{ route('login') }}" class="bg-white text-[#1B2E58] px-5 xl:px-8 py-3 rounded-xl font-bold text-xs xl:text-sm uppercase hover:bg-[#FF9F29] hover:text-white transition-all mr-6 whitespace-nowrap">Connexion</a>
+        <!-- RIGHT SECTION (BANDE BLEUE DIMINUÉE) -->
+        <div class="hidden lg:flex bg-[#1B2E58] items-center px-6 text-white min-w-fit lg:min-w-[250px] xl:min-w-[300px]">
             <div class="flex items-center gap-3 whitespace-nowrap">
                 @php 
-                    // Nettoyage du numéro pour le lien WhatsApp (enlever les espaces et parenthèses)
                     $whatsappClean = preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp); 
                 @endphp
-                <a href="https://wa.me/{{ $whatsappClean }}" target="_blank" class="relative flex items-center justify-center w-9 h-9">
+                <a href="https://wa.me/{{ $whatsappClean }}" target="_blank" class="relative flex items-center justify-center w-8 h-8">
                     <div class="absolute inset-0 rounded-full border border-green-400 opacity-40 animate-ping"></div>
                     <div class="w-7 h-7 bg-[#FF9F29] rounded-full flex items-center justify-center relative z-10 shadow-lg text-white">
                         <i class="fab fa-whatsapp text-sm"></i>
                     </div>
                 </a>
                 <div class="flex flex-col">
-                    <span class="text-[16px] font-medium">Besoin d'assistance?</span>
-                    <span class="text-[19px] font-black tracking-tight leading-none whitespace-nowrap">{{ $settings->telephone_appel ?? '(+229) 00 00 00 00' }}</span>
+                    <span class="text-[14px] font-medium opacity-80">Assistance?</span>
+                    <span class="text-[16px] font-black tracking-tight leading-none whitespace-nowrap">{{ $settings->telephone_appel ?? '(+229) 00 00 00 00' }}</span>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- MOBILE MENU SIDEBAR -->
+    <!-- MOBILE MENU SIDEBAR (N'oubliez pas d'y ajouter le lien Projets aussi) -->
     <div x-show="mobileMenuOpen" x-cloak class="lg:hidden fixed inset-0 z-[150]">
         <div @click="mobileMenuOpen = false" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
         <div class="absolute right-0 top-0 h-full w-[85%] max-w-sm bg-[#1B2E58] text-white p-8 overflow-y-auto">
-            <!-- Logo Mobile dynamique -->
             <div class="flex justify-between items-center mb-10">
-                <img src="{{ asset('images/logo.png') }}" class="h-10 brightness-200" alt="{{ $settings->nom_agence }}">
+                <img src="{{ asset('images/logo3.png') }}" class="h-10 brightness-200" alt="{{ $settings->nom_agence }}">
                 <button @click="mobileMenuOpen = false" class="text-3xl"><i class="fas fa-times"></i></button>
             </div>
-
-            <!-- ... (Menu mobile inchangé) ... -->
+            
+            <ul class="space-y-6 text-lg font-bold">
+                <li><a href="{{ route('home') }}">Accueil</a></li>
+                <li><a href="{{ route('about') }}">À Propos</a></li>
+                <li><a href="{{ route('realisations.projets') }}">Projets</a></li>
+                <li><a href="{{ route('contact') }}">Contact</a></li>
+            </ul>
 
             <div class="mt-12 pt-8 border-t border-white/10">
-                <a href="{{ route('login') }}" class="inline-block w-full bg-[#FF9F29] text-[#1B2E58] py-4 rounded-2xl font-black uppercase text-sm shadow-xl text-center mb-8">Espace Connexion</a>
-                <div class="flex items-center justify-center gap-4 p-4 bg-white/5 rounded-xl">
+                <div class="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
                     <i class="fab fa-whatsapp text-2xl text-green-400"></i>
                     <div class="text-left">
-                        <p class="text-[10px] uppercase opacity-50">Assistance WhatsApp</p>
+                        <p class="text-[10px] uppercase opacity-50">WhatsApp</p>
                         <p class="font-bold text-base">{{ $settings->telephone_whatsapp ?? 'Non défini' }}</p>
                     </div>
                 </div>

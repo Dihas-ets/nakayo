@@ -3,10 +3,11 @@
     class="fixed inset-y-0 left-0 z-50 w-72 bg-[#00261C] transition-transform duration-300 transform lg:translate-x-0 lg:static lg:inset-0 flex flex-col h-screen overflow-hidden shadow-2xl">
     
     <div class="flex flex-col items-center py-10 flex-shrink-0">
-        <a href="{{ route('admin.dashboard') }}" class="relative w-24 h-24 bg-[#FF9F29] rounded-full flex items-center justify-center shadow-2xl border-4 border-white/10 group transition-all hover:scale-105">
-            <img src="{{ asset('images/logo2.svg') }}" 
-                 alt="Nakayo Logo" 
-                 class="w-16 h-16 object-contain"
+        <a href="{{ route('admin.dashboard') }}" class="relative group transition-all hover:scale-105">
+            <!-- Logo agrandi (w-40 au lieu de w-16) -->
+            <img src="{{ asset('images/logo2.png') }}" 
+                alt="Nakayo Logo" 
+                class="w-40 h-auto object-contain"
             >
         </a>
     </div>

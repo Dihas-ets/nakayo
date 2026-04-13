@@ -9,78 +9,80 @@ use Illuminate\Support\Facades\Storage;
 
 class TeamController extends Controller
 {
-    // Liste des membres
-    public function index()
-    {
+    // On utilise 'team.index' car votre dossier s'appelle 'team'
+    public function index() {
         $membres = Membre::orderBy('ordre', 'asc')->get();
-        return view('admin.team.index', compact('membres'));
+        return view('admin.team.index', compact('membres')); 
     }
 
-    // Enregistrer un nouveau membre
+    public function create() {
+        return view('admin.team.create');
+    }
+
+    public function edit($id) {
+        $membre = Membre::findOrFail($id);
+        return view('admin.team.edit', compact('membre'));
+    }
+
     public function store(Request $request)
     {
-
-
-     $request->validate([
-        'nom_complet' => 'required',
-        'poste' => 'required',
-        'photo' => 'nullable|image|max:2048'
-    ]);
         $request->validate([
-            'nom_complet' => 'required|string|max:255',
-            'poste' => 'required|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'nom_complet' => 'required|string',
+            'poste' => 'required|string',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp',
             'ordre' => 'nullable|integer',
         ]);
 
         $data = $request->all();
 
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('equipe', 'public');
+            $data['photo'] = $request->file('photo')->store('team', 'public');
         }
 
         Membre::create($data);
 
-        return redirect()->back()->with('success', 'Nouveau collaborateur ajouté !');
+        // Après l'ajout, on redirige vers la LISTE (index) et non en arrière
+        return redirect()->route('admin.team.index')->with('success', 'Nouveau collaborateur ajouté !');
     }
 
-    // Mettre à jour un profil
     public function update(Request $request, $id)
     {
         $membre = Membre::findOrFail($id);
 
         $request->validate([
-            'nom_complet' => 'required|string|max:255',
-            'poste' => 'required|string|max:255',
-            'photo' => 'nullable|image|max:2048',
+            'nom_complet' => 'required|string',
+            'poste' => 'required|string',
+            'photo' => 'nullable|image',
         ]);
 
         $data = $request->all();
 
         if ($request->hasFile('photo')) {
-            // Supprimer l'ancienne photo
             if ($membre->photo) {
                 Storage::disk('public')->delete($membre->photo);
             }
-            $data['photo'] = $request->file('photo')->store('equipe', 'public');
+            $data['photo'] = $request->file('photo')->store('team', 'public');
         }
 
         $membre->update($data);
 
-        return redirect()->back()->with('success', 'Profil mis à jour avec succès.');
+        // Après la modif, on redirige vers la LISTE
+        return redirect()->route('admin.team.index')->with('success', 'Profil mis à jour avec succès.');
     }
 
-    // Supprimer un membre
     public function destroy($id)
     {
         $membre = Membre::findOrFail($id);
-
-        if ($membre->photo) {
-            Storage::disk('public')->delete($membre->photo);
-        }
-
+        if ($membre->photo) { Storage::disk('public')->delete($membre->photo); }
         $membre->delete();
 
-        return redirect()->back()->with('success', 'Membre retiré de l\'équipe.');
+        return redirect()->route('admin.team.index')->with('success', 'Membre retiré.');
     }
+
+    public function show($id)
+{
+    $membre = Membre::findOrFail($id);
+    // On pointe vers resources/views/team/show.blade.php
+    return view('admin.team.show', compact('membre'));
+}
 }

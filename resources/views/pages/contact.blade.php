@@ -41,7 +41,7 @@
                     <div class="flex items-center gap-4 group">
                         <i class="fas fa-envelope text-[#FFB75E] text-xl"></i>
                         <p class="text-lg font-bold text-[#1B2E58]">
-                            Contact: <span class="text-orange-500 font-medium">(229) 01061245741</span>
+                            Contact: <span class="text-orange-500 font-medium">(229) 01 94 86 61 61</span>
                         </p>
                     </div>
                     <div class="flex items-center gap-4">
@@ -53,7 +53,7 @@
                     <div class="flex items-center gap-4">
                         <i class="fas fa-clock text-[#FFB75E] text-xl"></i>
                         <p class="text-lg font-bold text-[#1B2E58]">
-                            Lun - Ven: <span class="text-gray-500 font-medium">7:30 am - 17:00</span>
+                            Lun - Ven: <span class="text-gray-500 font-medium">8H - 19H</span>
                         </p>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                 <h3 class="text-[#1B2E58] text-2xl font-bold mb-4">Envoyez-nous un Message</h3>
                 <p class="text-gray-400 text-sm mb-8 leading-relaxed">
                     Veuillez remplir le formulaire ci-dessous pour une demande particulière, et nous vous recontacterons. Vous pouvez également nous appeler. 
-                    <span class="text-[#1B2E58] font-bold border-b border-[#1B2E58]">+229 01161145741</span> et nos spécialistes vous apporteront l'aide nécessaire !
+                    <span class="text-[#1B2E58] font-bold border-b border-[#1B2E58]">+229 01 94 86 61 61</span> et nos spécialistes vous apporteront l'aide nécessaire !
                 </p>
 
                 <form action="#" method="POST" class="space-y-6">

@@ -29,7 +29,7 @@
 
         <!-- Sous-titre aéré -->
         <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-200 leading-relaxed mb-10 font-medium">
-            Découvrez l'histoire, la mission et les valeurs qui font d'Access Finance Bénin un leader dans les services financiers
+            Découvrez l'histoire, la mission et les valeurs qui font de NAKAYO un leader dans les services 
         </p>
 
         <!-- Bouton Blanc Arrondi (Look moderne) -->

@@ -20,7 +20,15 @@ class BlogController extends Controller
     | GESTION DES ARTICLES
     |--------------------------------------------------------------------------
     */
-
+     public function index()
+    {
+        // Pour l'instant, on retourne juste une vue (assurez-vous que la vue existe)
+        return view('pages.blog'); 
+        
+        // Ou si vous avez des articles en base de données :
+        // $posts = Post::latest()->paginate(10);
+        // return view('pages.blog.index', compact('posts'));
+    }
 
 
 

@@ -16,67 +16,73 @@ use App\Http\Controllers\Admin\GallerieController;
 use App\Http\Controllers\Admin\CompanySettingController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\ProjetController;
-use App\Models\Service; // Ajoutez cette ligne
+use App\Models\Service;
 use App\Models\CompanySetting;
 use App\Models\Article;
-
-
-
-
 
 /*
 |--------------------------------------------------------------------------
 | 1. ROUTES PUBLIQUES
 |--------------------------------------------------------------------------
 */
+
+// Route d'accueil
 Route::get('/', function () {
+    // A. Récupérer les catégories disponibles
     $categories = DB::table('categories')->where('status', 1)->get();
+
+    // B. Récupérer l'article en vedette
     $featuredArticle = DB::table('articles')
         ->join('categories', 'articles.id_categorie', '=', 'categories.id_categorie')
         ->select('articles.*', 'categories.nom as category_name')
         ->where('featured', 1)->first();
+
+    // C. Récupérer les articles récents
     $recentArticles = DB::table('articles')
         ->join('categories', 'articles.id_categorie', '=', 'categories.id_categorie')
         ->select('articles.*', 'categories.nom as category_name')
         ->where('featured', 0)->orderBy('articles.created_at', 'desc')->limit(3)->get();
+
     return view('welcome', compact('categories', 'featuredArticle', 'recentArticles'));
-
-
-    
 })->name('home');
 
-Route::get('/a-propos', function () { return view('pages.about'); })->name('about');
-Route::get('/contact', function () { return view('pages.contact'); })->name('contact');
-Route::get('/recrutement', function () { return view('pages.recrutement'); })->name('recrutement');
+// Autres pages publiques
+Route::get('/a-propos', function () { 
+    return view('pages.about'); 
+})->name('about');
 
+Route::get('/contact', function () { 
+    return view('pages.contact'); 
+})->name('contact');
 
-
-
-
-
-
-
+Route::get('/recrutement', function () { 
+    return view('pages.recrutement'); 
+})->name('recrutement');
 
 /*
 |--------------------------------------------------------------------------
 | 1. ROUTE ACCUEIL (Slider Dynamique + Blog)
 |--------------------------------------------------------------------------
 */
+
+// Route d'accueil pour le slider et les blogs
 Route::get('/', function () {
-    // A. On récupère les services pour le slider
+    // A. Récupérer les services pour le slider
     $services = Service::where('status', 'publié')->get();
 
-    // B. On récupère les infos de l'entreprise
+    // B. Récupérer les paramètres de l'entreprise
     $settings = CompanySetting::first();
 
-    // C. Logiques de blog existantes
+    // C. Récupérer les catégories
     $categories = DB::table('categories')->where('status', 1)->get();
     
+    // D. Logique pour l'article en vedette
     $featuredArticle = DB::table('articles')
         ->join('categories', 'articles.id_categorie', '=', 'categories.id_categorie')
         ->select('articles.*', 'categories.nom as category_name')
         ->where('featured', 1)->first();
 
+    // E. Récupérer les articles récents
     $recentArticles = DB::table('articles')
         ->join('categories', 'articles.id_categorie', '=', 'categories.id_categorie')
         ->select('articles.*', 'categories.nom as category_name')
@@ -84,7 +90,7 @@ Route::get('/', function () {
         ->orderBy('articles.created_at', 'desc')
         ->limit(3)->get();
 
-    // D. AJOUT : Logique pour les réalisations (Projets)
+    // F. Récupérer les projets publiés
     $projets = DB::table('projets')
         ->join('services', 'projets.id_service', '=', 'services.id_service')
         ->select('projets.*', 'services.titre as service_nom')
@@ -93,7 +99,7 @@ Route::get('/', function () {
         ->limit(4)
         ->get();
 
-    // On passe TOUTES les variables à la vue
+    // Passer toutes les variables à la vue
     return view('welcome', compact(
         'services', 
         'categories', 
@@ -104,14 +110,13 @@ Route::get('/', function () {
     ));
 })->name('home');
 
-
 /*
 |--------------------------------------------------------------------------
-| 2. ROUTES SERVICES (Vos routes existantes)
+| 2. ROUTES SERVICES
 |--------------------------------------------------------------------------
 */
 
-// Détail du service (4 produits + Galerie + Settings)
+// Détail d'un service
 Route::get('/services/{id_service}', function ($id) {
     $service = Service::where('id_service', $id)
                       ->with([
@@ -130,7 +135,7 @@ Route::get('/services/{id_service}', function ($id) {
     ]);
 })->name('services.show');
 
-// Route catalogue complet
+// Catalogue complet pour un service
 Route::get('/services/{id}/produits', function ($id) {
     $service = Service::where('id', $id)
         ->with(['produits' => fn($q) => $q->where('statut', 'disponible')])
@@ -139,7 +144,7 @@ Route::get('/services/{id}/produits', function ($id) {
     return view('services.products', compact('service'));
 })->name('services.products');
 
-// Catalogue complet (Tous les produits + Settings)
+// Catalogue complet par slug
 Route::get('/services/{slug}/catalogue', function ($slug) {
     $mapping = [
         'construction-piscine' => 'Construction Piscine',
@@ -149,7 +154,7 @@ Route::get('/services/{slug}/catalogue', function ($slug) {
         'agro-industrie'       => 'Agro industrie et élevage' 
     ];
 
-    if (!isset($mapping[$slug])) abort(404);
+    if (!isset($mapping[$slug])) abort(404); // Vérifier si le slug existe
 
     $service = Service::where('titre', 'like', '%' . $mapping[$slug] . '%')
                       ->with(['produits' => function($q) {
@@ -166,33 +171,37 @@ Route::get('/services/{slug}/catalogue', function ($slug) {
     ]);
 })->name('services.products');
 
-
-
-
+// Blog routes
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', function ($slug) {
-
     $article = Article::where('slug', $slug)->firstOrFail();
-
     $recentArticles = Article::where('id_article', '!=', $article->id_article)
         ->latest()
         ->take(5)
         ->get();
 
     return view('blog.show', compact('article', 'recentArticles'));
-
 })->name('blog.show');
-Route::get('/realisations/projets', function () { return view('realisations.projets'); })->name('realisations.projets');
-Route::get('/realisations/galerie', function () { return view('realisations.galerie'); })->name('realisations.galerie');
+
+// Réalisations routes
 
 
+Route::get('/nos-projets', function () {
+    // On récupère les projets pour les afficher
+    $projets = \App\Models\Projet::where('status', 'publié')
+                ->orderBy('date_realisation', 'desc')
+                ->get();
 
-
+    // On retourne votre vue : resources/views/realisations/projets.blade.php
+    return view('realisations.projets', compact('projets'));
+})->name('realisations.projets');
 /*
 |--------------------------------------------------------------------------
 | 2. AUTHENTIFICATION
 |--------------------------------------------------------------------------
 */
+
+// Routes d'authentification
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::get('/inscription', [AuthController::class, 'showRegister'])->name('register');
@@ -204,12 +213,15 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 | 3. ESPACE ADMINISTRATION (Protégé)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
 
+// Middleware pour les routes de l'administration
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    
     // --- ACCÈS COMMUN : ADMIN & RÉDACTEUR ---
     Route::middleware(['role:admin,rédacteur'])->group(function () {
+        // Tableau de bord
         Route::get('/dashboard', [DashboardController::class, 'admin'])->name('dashboard');
-        
+
         // Profil
         Route::get('/profil', [ProfileController::class, 'index'])->name('profile.index');
         Route::put('/profil/info', [ProfileController::class, 'updateInfo'])->name('profile.info');
@@ -225,18 +237,19 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
             Route::put('/articles/{id}/maj', [BlogController::class, 'update'])->name('update');
             Route::delete('/articles/{id}/supprimer', [BlogController::class, 'destroy'])->name('destroy');
             Route::post('/upload-image', [BlogController::class, 'uploadImage'])->name('upload');
-            
-                // Liste des catégories
+
+            // Liste des catégories
             Route::get('/categories', [BlogController::class, 'categories'])->name('categories');
             Route::post('/categories/store', [BlogController::class, 'storeCategory'])->name('categories.store');
             Route::put('/categories/{id_categorie}', [BlogController::class, 'updateCategory'])->name('categories.update');
             Route::delete('/categories/{id_categorie}', [BlogController::class, 'destroyCategory'])->name('categories.destroy');
 
-
-             Route::get('/avis', [BlogController::class, 'avis'])->name('avis');
+            // Avis
+            Route::get('/avis', [BlogController::class, 'avis'])->name('avis');
             Route::put('/avis/{id}/status', [BlogController::class, 'updateAvisStatus'])->name('avis.status');
             Route::delete('/avis/{id}', [BlogController::class, 'destroyAvis'])->name('avis.destroy');
-            
+
+            // Etiquettes
             Route::get('/etiquettes', [BlogController::class, 'etiquettes'])->name('etiquettes');
             Route::post('/etiquettes', [BlogController::class, 'storeTag'])->name('etiquettes.store');
             Route::put('/etiquettes/{id}', [BlogController::class, 'updateTag'])->name('etiquettes.update');
@@ -263,19 +276,16 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::post('/categories-services', [CategoryController::class, 'store'])->name('categories.store');
         Route::delete('/categories-services/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
-        // --- GESTION DES PRODUITS ---
-            // --- GESTION DES PRODUITS ---
+        // Gestion des Produits
         Route::get('/produits', [ProductController::class, 'index'])->name('produits.index');
         Route::get('/produits/creer', [ProductController::class, 'create'])->name('produits.create');
         Route::post('/produits', [ProductController::class, 'store'])->name('produits.store');
-
-        // AJOUTE CETTE LIGNE (Celle qui manque)
         Route::get('/produits/{id}', [ProductController::class, 'show'])->name('produits.show');
-
         Route::get('/produits/{id}/modifier', [ProductController::class, 'edit'])->name('produits.edit');
         Route::put('/produits/{id}', [ProductController::class, 'update'])->name('produits.update');
         Route::delete('/produits/{id}', [ProductController::class, 'destroy'])->name('produits.destroy');
-                            // Galerie
+
+        // Galerie
         Route::get('/galleries', [GallerieController::class, 'index'])->name('galleries.index');
         Route::post('/galleries', [GallerieController::class, 'store'])->name('galleries.store');
         Route::delete('/galleries/{id}', [GallerieController::class, 'destroy'])->name('galleries.destroy');
@@ -285,27 +295,38 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::resource('formations', FormationController::class)->names('formations');
 
         // Équipe
-        Route::prefix('equipe')->name('team.')->group(function () {
-            Route::get('/', [TeamController::class, 'index'])->name('index');
-            Route::post('/', [TeamController::class, 'store'])->name('store');
-            Route::put('/{id}', [TeamController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [TeamController::class, 'destroy'])->name('destroy');
-        });
+
+    Route::get('/team', [TeamController::class, 'index'])->name('team.index');
+    Route::get('/team/create', [TeamController::class, 'create'])->name('team.create');
+    Route::post('/team', [TeamController::class, 'store'])->name('team.store');
+    Route::get('/team/{id}/edit', [TeamController::class, 'edit'])->name('team.edit');
+    Route::put('/team/{id}', [TeamController::class, 'update'])->name('team.update');
+    Route::delete('/team/{id}', [TeamController::class, 'destroy'])->name('team.destroy');
+    Route::get('/team/{id}/show', [TeamController::class, 'show'])->name('team.show');
+
+
+    
 
         // Projets
         Route::resource('projets', ProjetController::class);
 
         // Infos Entreprise
         Route::get('/settings', [CompanySettingController::class, 'index'])->name('settings.index');
-    Route::put('/settings', [CompanySettingController::class, 'update'])->name('settings.update');
+        Route::put('/settings', [CompanySettingController::class, 'update'])->name('settings.update');
     });
 });
+
+
+
+    
 
 /*
 |--------------------------------------------------------------------------
 | 4. ESPACE ABONNÉ
 |--------------------------------------------------------------------------
 */
+
+// Middleware pour les abonnés
 Route::middleware(['auth', 'role:abonné'])->prefix('mon-compte')->name('abonner.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'abonner'])->name('dashboard');
 });

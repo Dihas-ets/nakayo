@@ -2,13 +2,12 @@
 
 @section('content')
 
-
-{{-- 1. NAVBAR (Optionnelle si déjà dans layout) --}}
-@if(!Route::is('login', 'register', 'admin.dashboard', 'abonner.dashboard'))
-    <header class="sticky top-0 z-[100] w-full shadow-sm bg-white">
-        @include('components.navbar')
-    </header>
-@endif
+    {{-- 1. HEADER (Déplacé à l'intérieur de la section pour la validité du fichier) --}}
+    @if(!Route::is('login', 'register', 'admin.dashboard', 'abonner.dashboard'))
+        <header class="sticky top-0 z-[100] w-full shadow-md">
+            @include('components.navbar')
+        </header>
+    @endif
 
 
 
@@ -22,43 +21,45 @@
 </style>
 
 <!-- 1. HERO SECTION LUXE -->
-<section class="relative h-[600px] flex flex-col items-center justify-center text-white overflow-hidden font-sans">
+<section class="relative h-[550px] flex flex-col items-center justify-center text-white overflow-hidden font-sans">
+    <!-- Image de fond avec l'overlay spécifique de ton exemplaire -->
     <div class="absolute inset-0 z-0">
-        <!-- Image de fond (Bureau d'étude / Chantier Pro) -->
         <img src="https://images.unsplash.com/photo-1503387762-592dee58c460?q=80&w=1920" 
-             alt="Background" 
-             class="w-full h-full object-cover animate-kenburns">
-        
-        <!-- Overlay Sombre Profond -->
+            alt="Chantiers NAKAYO" 
+            class="w-full h-full object-cover">
+        <!-- Overlay teinté (Multiply) pour le look professionnel sombre -->
         <div class="absolute inset-0 bg-[#0a1d21]/85 mix-blend-multiply"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#F8FAFC]"></div>
     </div>
 
-    <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
-        <span class="text-[#FF9F29] font-black uppercase tracking-[7px] text-[10px] mb-6 block">Expertise & Réalisation</span>
-        <h1 class="text-5xl md:text-8xl font-black tracking-tighter leading-none mb-8 uppercase">
-            Nos Grands <br> <span class="text-[#FF9F29]">Chantiers</span>
+    <!-- Contenu Central -->
+    <div class="container mx-auto px-6 relative z-10 text-center">
+        <!-- Titre Massive (font-black pour l'épaisseur maximale) -->
+        <h1 class="text-6xl md:text-7xl font-black mb-6 tracking-tight leading-none uppercase">
+            Nos Grands Chantiers
         </h1>
-        <p class="text-white/80 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-10 font-medium">
-            De la conception à la livraison finale, découvrez comment NAKAYO transforme des idées en réalités concrètes et durables au Bénin.
+
+        <!-- Sous-titre aéré -->
+        <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-200 leading-relaxed mb-10 font-medium">
+            De la conception à la livraison finale, découvrez comment NAKAYO transforme des visions architecturales en réalités concrètes et durables à travers le Bénin.
         </p>
-        
-        <div class="flex justify-center mb-12">
-            <a href="https://wa.me/2290166556161" target="_blank" class="inline-flex items-center gap-4 bg-white text-[#1B2E58] px-10 py-4 rounded-2xl font-black uppercase text-xs tracking-[2px] hover:bg-[#FF9F29] hover:text-white transition-all shadow-2xl group">
-                Lancer mon projet avec NAKAYO
-                <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+
+        <!-- Bouton Blanc Arrondi (Look moderne comme l'exemplaire) -->
+        <div class="flex justify-center">
+            <a href="https://wa.me/2290166556161" target="_blank" class="bg-white text-[#0a1d21] px-10 py-4 rounded-xl font-bold flex items-center gap-3 hover:bg-[#FF9F29] hover:text-white transition shadow-lg group">
+                Lancer mon projet
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
             </a>
         </div>
     </div>
 
-    <!-- Breadcrumbs bas -->
-    <div class="absolute bottom-10 w-full text-center z-10">
-        <nav class="flex justify-center items-center gap-3 text-white text-[10px] font-black uppercase tracking-[3px] text-white/60">
-            <a href="/" class="hover:text-[#FF9F29] transition">Accueil</a>
-            <span class="text-[#FF9F29] opacity-40">/</span>
-            <span class="text-white">Réalisations</span>
-            <span class="text-[#FF9F29] opacity-40">/</span>
-            <span class="text-white">Projets</span>
+    <!-- Fil d'ariane (Breadcrumbs) discret en bas -->
+    <div class="absolute bottom-8 w-full text-center z-10">
+        <nav class="flex justify-center items-center gap-3 text-white/40 text-[10px] font-bold uppercase tracking-[2px]">
+            <a href="/" class="hover:text-white transition">Accueil</a>
+            <span>/</span>
+            <span class="text-white/80">Réalisations</span>
         </nav>
     </div>
 </section>
