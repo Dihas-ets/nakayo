@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\ProjetController;
 use App\Models\Service;
 use App\Models\CompanySetting;
 use App\Models\Article;
+use App\Models\Membre;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,17 +48,102 @@ Route::get('/', function () {
 })->name('home');
 
 // Autres pages publiques
-Route::get('/a-propos', function () { 
-    return view('pages.about'); 
+
+Route::get('/about', function () {
+    $team = DB::table('equipe')
+                ->where('statut', 1)
+                ->orderBy('ordre', 'asc')
+                ->get();
+
+    return view('pages.about', compact('team'));
 })->name('about');
+
 
 Route::get('/contact', function () { 
     return view('pages.contact'); 
 })->name('contact');
 
-Route::get('/recrutement', function () { 
-    return view('pages.recrutement'); 
+Route::get('/recrutement', function () {
+    $offres = DB::table('recrutements')
+                ->where('status', 'publié')
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+    // Vérifiez bien que le fichier est dans resources/views/pages/recrutement.blade.php
+    return view('pages.recrutement', compact('offres'));
 })->name('recrutement');
+
+
+
+// Route pour voir le détail d'une offre
+Route::get('/recrutement/{id}', function ($id) {
+    $offre = DB::table('recrutements')
+                ->where('id_recrutement', $id)
+                ->first();
+
+    if (!$offre) abort(404);
+
+    return view('pages.recrutement_detail', compact('offre'));
+})->name('recrutement.show');
+
+
+// page blog
+Route::get('/blog', function () {
+    $allArticles = DB::table('articles')
+    ->join('categories', 'articles.id_categorie', '=', 'categories.id_categorie')
+    ->select(
+        'articles.*',
+        'categories.nom as category_name',
+        'articles.Média as media',   // On force le nom 'media' sans accent
+        'articles.J\'aime as likes'   // On force le nom 'likes' sans accent
+    )
+    ->where('articles.status', 'publié')
+    ->orderBy('articles.created_at', 'desc')
+    ->get();
+
+    $featuredArticle = $allArticles->where('featured', 1)->first() ?? $allArticles->first();
+    $otherArticles = $allArticles->where('id_article', '!=', ($featuredArticle->id_article ?? 0));
+
+    return view('blog', compact('featuredArticle', 'otherArticles'));
+})->name('blog.index');
+
+
+// page proje
+Route::get('/projets', function () {
+    $projets = DB::table('projets')
+        ->join('services', 'projets.id_service', '=', 'services.id_service')
+        ->select(
+            'projets.*', 
+            'services.titre as service_nom'
+        )
+        ->where('projets.status', 'publié')
+        ->orderBy('projets.date_realisation', 'desc')
+        ->get();
+
+    // On transforme le nom du service en "slug" pour que les filtres (ex: "Construction") 
+    // correspondent aux catégories (ex: "construction")
+    foreach ($projets as $p) {
+        $p->cat_slug = Str::slug($p->service_nom); 
+    }
+
+    return view('realisations.projets', compact('projets'));
+})->name('projets');
+
+
+// Route pour voir le détail d'un projet
+Route::get('/projets/{id}', function ($id) {
+    $projet = DB::table('projets')
+        ->join('services', 'projets.id_service', '=', 'services.id_service')
+        ->select('projets.*', 'services.titre as service_nom')
+        ->where('id_projet', $id)
+        ->first();
+
+    if (!$projet) abort(404);
+
+    return view('realisations.projet_detail', compact('projet'));
+})->name('projets.show');
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -99,8 +185,13 @@ Route::get('/', function () {
         ->limit(4)
         ->get();
 
+    $team = \App\Models\Membre::where('statut', 1)
+                  ->orderBy('ordre', 'asc')
+                  ->get();    
+
     // Passer toutes les variables à la vue
     return view('welcome', compact(
+        'team',
         'services', 
         'categories', 
         'featuredArticle', 

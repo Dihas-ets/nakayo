@@ -24,4 +24,9 @@ class Membre extends Model
         'ordre',
         'statut'
     ];
+
+    public function scopeActif($query)
+    {
+        return $query->where('statut', 1)->orderBy('ordre', 'asc');
+    }
 }

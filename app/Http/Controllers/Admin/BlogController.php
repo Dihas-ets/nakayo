@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 
 class BlogController extends Controller
@@ -22,12 +23,31 @@ class BlogController extends Controller
     */
      public function index()
     {
-        // Pour l'instant, on retourne juste une vue (assurez-vous que la vue existe)
-        return view('pages.blog'); 
-        
-        // Ou si vous avez des articles en base de données :
-        // $posts = Post::latest()->paginate(10);
-        // return view('pages.blog.index', compact('posts'));
+        // 1. Récupérer les paramètres (déjà présent dans vos données Ignition)
+        // Remplacez 'paramètres_entreprise' par le nom réel trouvé dans votre base
+        $settings = DB::table('company_settings')->first();
+
+        // 2. Récupérer tous les articles avec leur catégorie
+        $allArticles = DB::table('articles')
+            ->join('categories', 'articles.id_categorie', '=', 'categories.id_categorie')
+            ->select(
+                'articles.*', 
+                'categories.nom as category_name',
+                'articles.media as media' // On crée un alias pour éviter l'accent si besoin
+            )
+            ->where('articles.status', 'publié')
+            ->orderBy('articles.created_at', 'desc')
+            ->get();
+
+        // 3. Définir l'article à la une (featured)
+        // On cherche celui qui a featured = 1, sinon on prend le plus récent
+        $featuredArticle = $allArticles->where('featured', 1)->first() ?? $allArticles->first();
+
+        // 4. Filtrer les autres articles (tous sauf celui à la une)
+        $otherArticles = $allArticles->where('id_article', '!=', optional($featuredArticle)->id_article);
+
+        // 5. Envoyer TOUT à la vue
+        return view('pages.blog', compact('featuredArticle', 'otherArticles', 'settings'));
     }
 
 

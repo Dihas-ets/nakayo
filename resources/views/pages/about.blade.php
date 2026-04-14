@@ -107,124 +107,68 @@
 </section>
 
 
-<section class="bg-[#1B2E58] py-16 font-sans overflow-hidden relative">
-    <!-- Texture de fond légère (optionnel) -->
-    <div class="absolute inset-0 opacity-5 pointer-events-none">
-        <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <path d="M0 100 L100 0 Z" stroke="white" stroke-width="0.1"/>
-        </svg>
-    </div>
+<!-- SECTION : NOS PARTENAIRES -->
+<section class="bg-white py-4 font-sans">
+    <div class="max-w-7xl mx-auto px-6">
+        
+        <!-- Titre de la section -->
+        <div class="text-center mb-16">
+            <h2 class="text-[#1B2E58] text-3xl font-black uppercase tracking-tight">Notre Réseau de Confiance</h2>
+            <div class="h-1.5 w-16 bg-[#FF9F29] mx-auto mt-4 rounded-full"></div>
+            <p class="text-gray-500 mt-4 font-semibold italic">Partenaires stratégiques par secteur d'activité</p>
+        </div>
 
-    <div class="max-w-7xl mx-auto px-6 relative z-10">
-        <!-- Grille adaptative : 2 colonnes mobile, 3 tablette, 5 desktop -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-12 gap-x-4 text-center items-start">
-
-            <!-- 1. CLIENTS -->
-            <div x-data="counter(61, 'K+')" x-init="start()" class="flex flex-col items-center group">
-                <div class="mb-6 transition-transform duration-500 group-hover:-translate-y-2">
-                    <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="1.2">
-                        <path d="M32 30C38.6274 30 44 24.6274 44 18C44 11.3726 38.6274 6 32 6C25.3726 6 20 11.3726 20 18C20 24.6274 25.3726 30 32 30Z"/>
-                        <path d="M12 58C12 46.9543 20.9543 38 32 38C43.0457 38 52 46.9543 52 58" stroke-linecap="round"/>
-                        <circle cx="50" cy="20" r="4" fill="#FFB75E" stroke="none"/>
-                    </svg>
-                </div>
-                <div class="text-white text-3xl font-black mb-2 tracking-tighter">
-                    <span x-text="displayValue">0</span><span x-text="suffix"></span>
-                </div>
-                <div class="text-[#FFB75E] text-[10px] font-black uppercase tracking-[0.3em]">Clients</div>
-            </div>
-
-            <!-- 2. PRODUITS -->
-            <div x-data="counter(25, '+')" x-init="start()" class="flex flex-col items-center group">
-                <div class="mb-6 transition-transform duration-500 group-hover:-translate-y-2">
-                    <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="1.2">
-                        <path d="M32 8L54 18V46L32 56L10 46V18L32 8Z"/>
-                        <path d="M10 18L32 28L54 18" />
-                        <path d="M32 28V56" />
-                        <path d="M43 13L43 22" stroke="#FFB75E" stroke-width="2"/>
-                    </svg>
-                </div>
-                <div class="text-white text-3xl font-black mb-2 tracking-tighter">
-                    <span x-text="displayValue">0</span><span x-text="suffix"></span>
-                </div>
-                <div class="text-[#FFB75E] text-[10px] font-black uppercase tracking-[0.3em]">Produits</div>
-            </div>
-
-            <!-- 3. FORMATIONS -->
-            <div x-data="counter(12, '+')" x-init="start()" class="flex flex-col items-center group">
-                <div class="mb-6 transition-transform duration-500 group-hover:-translate-y-2">
-                    <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="1.2">
-                        <path d="M8 24L32 12L56 24L32 36L8 24Z"/>
-                        <path d="M16 28V42C16 42 22 48 32 48C42 48 48 42 48 42V28"/>
-                        <path d="M56 24V36" />
-                        <circle cx="32" cy="24" r="3" fill="#FFB75E" stroke="none"/>
-                    </svg>
-                </div>
-                <div class="text-white text-3xl font-black mb-2 tracking-tighter">
-                    <span x-text="displayValue">0</span><span x-text="suffix"></span>
-                </div>
-                <div class="text-[#FFB75E] text-[10px] font-black uppercase tracking-[0.3em]">Formations</div>
-            </div>
-
-            <!-- 4. EMPLOYÉS -->
-            <div x-data="counter(300, '+')" x-init="start()" class="flex flex-col items-center group">
-                <div class="mb-6 transition-transform duration-500 group-hover:-translate-y-2">
-                    <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="1.2">
-                        <rect x="12" y="20" width="40" height="32" rx="2"/>
-                        <path d="M24 20V14C24 12.8954 24.8954 12 26 12H38C39.1046 12 40 12.8954 40 14V20"/>
-                        <path d="M12 32H52" />
-                        <path d="M32 32V42" stroke="#FFB75E" stroke-width="2"/>
-                    </svg>
-                </div>
-                <div class="text-white text-3xl font-black mb-2 tracking-tighter">
-                    <span x-text="displayValue">0</span><span x-text="suffix"></span>
-                </div>
-                <div class="text-[#FFB75E] text-[10px] font-black uppercase tracking-[0.3em]">Employés</div>
-            </div>
-
+        <!-- Grille des Partenaires (Statique et Claire) -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
             
+            <!-- 1. Institutions -->
+            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
+                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
+                    <i class="fas fa-landmark text-2xl text-[#1B2E58]"></i>
+                </div>
+                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
+                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Institutions</p>
+            </div>
 
-            <!-- 6. EXPÉRIENCE -->
-            <div x-data="counter(15, 'ans')" x-init="start()" class="flex flex-col items-center group">
-                <div class="mb-6 transition-transform duration-500 group-hover:-translate-y-2">
-                    <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="1.2">
-                        <circle cx="32" cy="32" r="26"/>
-                        <path d="M32 16V32L42 42" stroke="#FFB75E" stroke-width="2" stroke-linecap="round"/>
-                        <path d="M32 6V10M32 54V58M58 32H54M10 32H6" />
-                    </svg>
+            <!-- 2. Finance -->
+            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
+                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
+                    <i class="fas fa-university text-2xl text-[#1B2E58]"></i>
                 </div>
-                <div class="text-white text-3xl font-black mb-2 tracking-tighter">
-                    <span x-text="displayValue">0</span><span x-text="suffix"></span>
+                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
+                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Finance</p>
+            </div>
+
+            <!-- 3. Industrie -->
+            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
+                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
+                    <i class="fas fa-industry text-2xl text-[#1B2E58]"></i>
                 </div>
-                <div class="text-[#FFB75E] text-[10px] font-black uppercase tracking-[0.3em]">Expérience</div>
+                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
+                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Industrie</p>
+            </div>
+
+            <!-- 4. Logistique -->
+            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
+                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
+                    <i class="fas fa-shipping-fast text-2xl text-[#1B2E58]"></i>
+                </div>
+                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
+                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Logistique</p>
+            </div>
+
+            <!-- 5. Énergie -->
+            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
+                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
+                    <i class="fas fa-bolt text-2xl text-[#1B2E58]"></i>
+                </div>
+                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
+                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Énergie</p>
             </div>
 
         </div>
     </div>
 </section>
-
-<script>
-    function counter(target, suffix = '') {
-        return {
-            displayValue: 0,
-            target: target,
-            suffix: suffix,
-            start() {
-                let duration = 2500;
-                let startTimestamp = null;
-                const step = (timestamp) => {
-                    if (!startTimestamp) startTimestamp = timestamp;
-                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                    this.displayValue = Math.floor(progress * this.target);
-                    if (progress < 1) {
-                        window.requestAnimationFrame(step);
-                    }
-                };
-                window.requestAnimationFrame(step);
-            }
-        }
-    }
-</script><br><br>
 
 
 <!-- les membres -->
@@ -239,15 +183,13 @@
     .animate-marquee {
         display: flex;
         width: max-content;
-        animation: marquee 40s linear infinite; /* 40s pour un mouvement très élégant et calme */
+        animation: marquee 40s linear infinite;
     }
 
-    /* Pause au survol */
     .animate-marquee:hover {
         animation-play-state: paused;
     }
 
-    /* Effet de fondu sur les bords de l'écran */
     .mask-edges {
         mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
         -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
@@ -270,40 +212,50 @@
     </div>
 
     <div class="relative mask-edges">
-        <div class="animate-marquee gap-8 py-2">
-            
-            @php
-                $team = [
-                    ['name' => 'Marc-Antoine K.', 'role' => 'DG', 'img' => asset('images/11.jpg')],
-                    ['name' => 'Sarah L. Dossou', 'role' => 'Resp. Immobilier', 'img' => asset('images/5.jpg')],
-                    ['name' => 'Jean-Luc Agueh', 'role' => 'Expert Technique', 'img' => asset('images/10.webp')],
-                    ['name' => 'Elise B.', 'role' => 'Directrice Agro', 'img' => asset('images/5.jpg')],
-                    ['name' => 'Patrice M.', 'role' => 'Logistique', 'img' => asset('images/11.jpg')],
-                ];
-            @endphp
+        <div class="animate-marquee gap-8 py-2 flex">
+            @if(isset($team) && $team->count() > 0)
+                {{-- On concatène la collection avec elle-même pour l'effet de boucle infinie sans saut --}}
+                @foreach($team->concat($team) as $member)
+                <div class="w-[240px] group flex-shrink-0">
+                    <div class="relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-gray-100 mb-4 shadow-sm border border-gray-50">
+                        
+                        {{-- Affichage de la photo à partir du dossier storage --}}
+                        @if($member->photo)
+                            <img src="{{ asset('storage/' . $member->photo) }}" 
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                                 alt="{{ $member->nom_complet }}">
+                        @else
+                            <div class="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400">
+                                <i class="fas fa-user fa-3x"></i>
+                            </div>
+                        @endif
 
-            @foreach(array_merge($team, $team) as $member)
-            <div class="w-[240px] group flex-shrink-0">
-                <div class="relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-gray-50 mb-4 transition-all duration-500 hover:shadow-lg">
-                    
-                    <img src="{{ $member['img'] }}" 
-                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                         alt="{{ $member['name'] }}">
-                    
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6">
-                        <span class="text-white font-bold text-xs flex items-center gap-2">
-                            LinkedIn <span class="text-[#FF9F29]">→</span>
-                        </span>
+                        {{-- Lien LinkedIn dynamique s'il existe --}}
+                        @if($member->linkedin)
+                        <a href="{{ $member->linkedin }}" target="_blank" 
+                           class="absolute inset-0 bg-gradient-to-t from-[#1B2E58]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                            <span class="text-white font-bold text-xs flex items-center gap-2">
+                                <i class="fab fa-linkedin"></i> LinkedIn →
+                            </span>
+                        </a>
+                        @endif
+                    </div>
+
+                    <div class="px-2 text-center">
+                        <h3 class="text-xl font-black text-[#1B2E58] italic leading-tight">
+                            {{ $member->nom_complet }}
+                        </h3>
+                        <p class="text-[#FF9F29] font-bold uppercase text-[10px] tracking-widest mt-2">
+                            {{ $member->poste }}
+                        </p>
                     </div>
                 </div>
-
-                <div class="px-2 text-center">
-                    <h3 class="text-xl font-black text-[#1B2E58] italic leading-none">{{ $member['name'] }}</h3>
-                    <p class="text-[#FF9F29] font-bold uppercase text-[9px] tracking-[0.2em] mt-2">{{ $member['role'] }}</p>
+                @endforeach
+            @else
+                <div class="w-full text-center py-10">
+                    <p class="text-gray-400 italic">Aucun membre d'équipe n'est disponible pour le moment.</p>
                 </div>
-            </div>
-            @endforeach
-
+            @endif
         </div>
     </div>
 </section>
@@ -427,9 +379,12 @@
     </div>
 </section>
 
+
+ <!-- 1. CARTE GOOGLE MAPS (Couleurs standards et lisibles) -->
+
 <section class="relative w-full h-[550px] md:h-[650px] flex items-center overflow-hidden font-sans bg-gray-100">
     
-    <!-- 1. CARTE GOOGLE MAPS (Couleurs standards et lisibles) -->
+   
     <div class="absolute inset-0 z-0">
         <iframe 
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.148509652131!2d2.417246!3d6.374945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x102355998a449d63%3A0x633512f451f49615!2sCotonou%2C%20Bénin!5e0!3m2!1sfr!2sbj!4v1710000000000!5m2!1sfr!2sbj" 

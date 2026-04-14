@@ -662,41 +662,37 @@
     </div>
 
     <div class="relative mask-edges">
-        <div class="animate-marquee gap-8 py-2">
-            
-            @php
-                $team = [
-                    ['name' => 'Marc-Antoine K.', 'role' => 'DG', 'img' => asset('images/11.jpg')],
-                    ['name' => 'Sarah L. Dossou', 'role' => 'Resp. Immobilier', 'img' => asset('images/5.jpg')],
-                    ['name' => 'Jean-Luc Agueh', 'role' => 'Expert Technique', 'img' => asset('images/10.webp')],
-                    ['name' => 'Elise B.', 'role' => 'Directrice Agro', 'img' => asset('images/5.jpg')],
-                    ['name' => 'Patrice M.', 'role' => 'Logistique', 'img' => asset('images/11.jpg')],
-                ];
-            @endphp
+        {{-- Dans welcome.blade.php --}}
 
-            @foreach(array_merge($team, $team) as $member)
-            <div class="w-[240px] group flex-shrink-0">
-                <div class="relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-gray-50 mb-4 transition-all duration-500 hover:shadow-lg">
-                    
-                    <img src="{{ $member['img'] }}" 
-                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                         alt="{{ $member['name'] }}">
-                    
-                    <!-- <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6">
-                        <span class="text-white font-bold text-xs flex items-center gap-2">
-                            LinkedIn <span class="text-[#FF9F29]">→</span>
-                        </span>
-                    </div> -->
-                </div>
+     <div class="animate-marquee gap-8 py-2 flex">
+    @if(isset($team) && $team->count() > 0)
+        {{-- On concatène pour l'effet de boucle infinie --}}
+        @foreach($team->concat($team) as $member)
+        <div class="w-[240px] group flex-shrink-0">
+            <div class="relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-gray-50 mb-4 shadow-sm">
+                
+                {{-- Chemin vers le stockage --}}
+                <img src="{{ asset('storage/' . $member->photo) }}" 
+                     class="w-full h-full object-cover" 
+                     alt="{{ $member->nom_complet }}">
 
-                <div class="px-2 text-center">
-                    <h3 class="text-xl font-black text-[#1B2E58] italic leading-none">{{ $member['name'] }}</h3>
-                    <p class="text-[#FF9F29] font-bold uppercase text-[9px] tracking-[0.2em] mt-2">{{ $member['role'] }}</p>
-                </div>
+                <!-- @if($member->linkedin)
+                <a href="{{ $member->linkedin }}" target="_blank" class="absolute inset-0 bg-gradient-to-t from-[#1B2E58]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                    <span class="text-white font-bold text-xs">LinkedIn →</span>
+                </a>
+                @endif -->
             </div>
-            @endforeach
 
+            <div class="px-2 text-center">
+                <h3 class="text-xl font-black text-[#1B2E58] italic">{{ $member->nom_complet }}</h3>
+                <p class="text-[#FF9F29] font-bold uppercase text-[9px] mt-2">{{ $member->poste }}</p>
+            </div>
         </div>
+        @endforeach
+    @else
+        <p>Aucun membre d'équipe à afficher.</p>
+    @endif
+</div>
     </div>
 </section>
 

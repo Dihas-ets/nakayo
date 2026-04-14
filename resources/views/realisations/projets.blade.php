@@ -65,98 +65,101 @@
 </section>
 
 <!-- 2. SECTION GRILLE DYNAMIQUE -->
+
 <section class="py-24 bg-[#F8FAFC]" x-data="{ activeFilter: 'tous' }">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
         
-        <!-- Filtres de Catégories (Alpine.js) -->
+        <div class="text-center mb-16">
+            <h2 class="text-[#1B2E58] text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">
+                Nos Réalisations
+            </h2>
+            <p class="text-gray-500 max-w-2xl mx-auto">
+                Découvrez l'expertise de Nakayo Corporation à travers nos projets emblématiques dans plusieurs secteurs d'activité.
+            </p>
+        </div>
+
         <div class="flex flex-wrap justify-center gap-3 mb-20">
-            @foreach(['tous', 'construction', 'immobilier', 'agro', 'industrie'] as $filter)
+            <button 
+                @click="activeFilter = 'tous'"
+                :class="activeFilter === 'tous' ? 'bg-[#1B2E58] text-white shadow-xl scale-105' : 'bg-white text-[#1B2E58] hover:bg-gray-100'"
+                class="px-8 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all duration-300 border border-gray-100">
+                Tous
+            </button>
+            
+            {{-- On boucle sur les catégories uniques présentes dans vos projets --}}
+            @foreach(['construction', 'immobilier', 'agro', 'industrie'] as $filter)
             <button 
                 @click="activeFilter = '{{ $filter }}'"
                 :class="activeFilter === '{{ $filter }}' ? 'bg-[#1B2E58] text-white shadow-xl scale-105' : 'bg-white text-[#1B2E58] hover:bg-gray-100'"
                 class="px-8 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all duration-300 border border-gray-100">
-                {{ $filter }}
+                {{ ucfirst($filter) }}
             </button>
             @endforeach
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
-            @php
-                $projets = [
-                    [
-                        'title' => 'Piscine Olympique Villa Horizon', 
-                        'cat' => 'construction', 
-                        'img' => 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=1200',
-                        'desc' => 'Conception d\'un bassin à débordement avec système de filtration intelligent et éclairage LED intégré.'
-                    ],
-                    [
-                        'title' => 'Complexe Résidentiel Nakayo', 
-                        'cat' => 'immobilier', 
-                        'img' => 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=1200',
-                        'desc' => 'Vente et aménagement d\'une résidence de luxe sécurisée, incluant la gestion locative.'
-                    ],
-                    [
-                        'title' => 'Unité de Savonnerie Industrielle', 
-                        'cat' => 'industrie', 
-                        'img' => 'https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=1200',
-                        'desc' => 'Installation d\'une ligne de production artisanale automatisée pour la gamme de savons Nakayo.'
-                    ],
-                    [
-                        'title' => 'Ferme Agro-Connectée', 
-                        'cat' => 'agro', 
-                        'img' => 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=1200',
-                        'desc' => 'Aménagement de terres agricoles avec système d\'irrigation solaire et élevage moderne.'
-                    ],
-                ];
-            @endphp
-
-            @foreach($projets as $p)
+            @forelse($projets as $p)
             <div 
-                x-show="activeFilter === 'tous' || activeFilter === '{{ $p['cat'] }}'"
+                x-show="activeFilter === 'tous' || activeFilter === '{{ $p->cat_slug }}'"
                 x-transition:enter="transition ease-out duration-500"
                 x-transition:enter-start="opacity-0 translate-y-10"
                 x-transition:enter-end="opacity-100 translate-y-0"
                 class="group relative bg-white rounded-[4rem] overflow-hidden shadow-sm hover:shadow-[0_40px_80px_-15px_rgba(27,46,88,0.2)] transition-all duration-700 border border-gray-100">
                 
-                <!-- Zone Image avec Badge Flottant -->
                 <div class="h-[400px] overflow-hidden relative">
-                    <img src="{{ $p['img'] }}" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110">
+                    <img src="{{ asset('storage/' . $p->image) }}" 
+                         alt="{{ $p->nom }}"
+                         class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110">
+                    
                     <div class="absolute top-8 left-8 bg-white/10 backdrop-blur-xl border border-white/20 text-white px-6 py-2 rounded-full text-[9px] font-black uppercase tracking-widest">
-                        {{ $p['cat'] }}
+                        {{ $p->service_nom }}
                     </div>
                 </div>
 
-                <!-- Zone Texte Luxe -->
                 <div class="p-12 lg:p-16">
                     <div class="flex items-center gap-4 mb-6">
                         <div class="h-px flex-1 bg-gray-100"></div>
-                        <span class="text-[#FF9F29] font-black text-[10px] uppercase tracking-[4px]">Détails du Projet</span>
+                        <span class="text-[#FF9F29] font-black text-[10px] uppercase tracking-[4px]">
+                            {{ $p->lieu ?? 'Projet Réalisé' }}
+                        </span>
                         <div class="h-px flex-1 bg-gray-100"></div>
                     </div>
 
                     <h3 class="text-3xl font-black text-[#1B2E58] mb-6 uppercase tracking-tighter leading-none group-hover:text-[#FF9F29] transition-colors duration-500">
-                        {{ $p['title'] }}
+                        <a href="{{ route('projets.show', $p->id_projet) }}">
+                            {{ $p->nom }}
+                        </a>
                     </h3>
                     
-                    <p class="text-gray-500 mb-10 leading-relaxed italic text-lg">
-                        "{{ $p['desc'] }}"
+                    <p class="text-gray-500 mb-10 leading-relaxed italic text-lg line-clamp-3">
+                        "{{ $p->description }}"
                     </p>
 
                     <div class="flex justify-between items-center">
-                        <a href="#" class="inline-flex items-center gap-3 text-[#1B2E58] font-black text-xs uppercase tracking-widest group/link transition-all">
+                        <a href="{{ route('projets.show', $p->id_projet) }}" 
+                           class="inline-flex items-center gap-3 text-[#1B2E58] font-black text-xs uppercase tracking-widest group/link transition-all">
                             Voir le dossier complet
                             <span class="w-10 h-10 rounded-full bg-[#F8FAFC] flex items-center justify-center group-hover/link:bg-[#1B2E58] group-hover/link:text-white transition-all">
                                 <i class="fas fa-plus"></i>
                             </span>
                         </a>
-                        <span class="text-gray-300 text-[10px] font-bold">© 2026 Nakayo Corp</span>
+                        
+                        <span class="text-gray-300 text-[10px] font-bold">
+                            {{ $p->date_realisation ? \Carbon\Carbon::parse($p->date_realisation)->format('Y') : '2026' }}
+                        </span>
                     </div>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <div class="col-span-full text-center py-20">
+                <div class="mb-4 text-6xl">📁</div>
+                <p class="text-gray-400 font-bold uppercase tracking-widest">Aucun projet publié pour le moment.</p>
+            </div>
+            @endforelse
         </div>
     </div>
 </section>
+
 
 <!-- 3. SECTION CTA FINALE -->
 <section class="py-24 bg-[#1B2E58] relative overflow-hidden">

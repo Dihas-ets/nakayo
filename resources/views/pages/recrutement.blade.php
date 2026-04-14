@@ -34,7 +34,7 @@
 
         <!-- Bouton Blanc Arrondi -->
         <div class="flex justify-center">
-            <a href="#" class="bg-white text-[#0a1d21] px-10 py-4 rounded-xl font-bold flex items-center gap-3 hover:bg-gray-100 transition shadow-lg group">
+            <a href="{{ route('contact') }}" class="bg-white text-[#0a1d21] px-10 py-4 rounded-xl font-bold flex items-center gap-3 hover:bg-gray-100 transition shadow-lg group">
                 Nous Contactez
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -112,20 +112,37 @@
         </div>
 
         <div class="space-y-4">
-            <!-- Exemple Job -->
-            <div class="group bg-white border border-gray-100 p-6 md:px-10 rounded-3xl flex flex-col md:flex-row md:items-center justify-between hover:shadow-2xl transition-all duration-300">
-                <div class="flex flex-col">
-                    <span class="text-orange-500 text-[10px] font-bold uppercase tracking-widest mb-1">Opérations</span>
-                    <h3 class="text-[#1B2E58] text-xl font-extrabold group-hover:text-blue-600 transition-colors">Gestionnaire de Portefeuille</h3>
-                    <div class="flex items-center gap-4 text-gray-400 text-sm mt-2">
-                        <span><i class="fas fa-map-marker-alt"></i> Cotonou</span>
-                        <span><i class="fas fa-clock"></i> CDI</span>
+            @forelse($offres as $offre)
+                <div class="group bg-white border border-gray-100 p-6 md:px-10 rounded-3xl flex flex-col md:flex-row md:items-center justify-between hover:shadow-2xl transition-all duration-300">
+                    <div class="flex flex-col">
+                        <span class="text-orange-500 text-[10px] font-bold uppercase tracking-widest mb-1">
+                            {{ $offre->agence ?? 'Recrutement' }}
+                        </span>
+                        
+                        <h3 class="text-[#1B2E58] text-xl font-extrabold group-hover:text-blue-600 transition-colors">
+                            {{ $offre->nom }}
+                        </h3>
+                        
+                        <div class="flex flex-wrap items-center gap-4 text-gray-400 text-sm mt-2">
+                            <span><i class="fas fa-map-marker-alt"></i> {{ $offre->lieu }}</span>
+                            <span><i class="fas fa-clock"></i> {{ $offre->type }}</span>
+                            <span class="text-red-400 font-semibold">
+                                <i class="fas fa-calendar-alt"></i> Limite : {{ \Carbon\Carbon::parse($offre->date_limite)->format('d/m/Y') }}
+                            </span>
+                        </div>
                     </div>
+
+                    {{-- Remplacez l'ancien bouton par celui-ci --}}
+                    <a href="{{ route('recrutement.show', $offre->id_recrutement) }}" 
+                    class="mt-6 md:mt-0 bg-[#1B2E58] text-white px-8 py-3 rounded-xl font-bold text-sm hover:bg-orange-400 transition-all shadow-lg text-center">
+                        Consulter & Postuler
+                    </a>
                 </div>
-                <a href="mailto:recrutement@accessfinance.bj" class="mt-6 md:mt-0 bg-[#1B2E58] text-white px-8 py-3 rounded-xl font-bold text-sm hover:bg-orange-400 transition-all shadow-lg text-center">
-                    Postuler
-                </a>
-            </div>
+            @empty
+                <div class="text-center py-10">
+                    <p class="text-gray-500 italic">Aucune offre disponible pour le moment.</p>
+                </div>
+            @endforelse
         </div>
     </div>
 </section>
