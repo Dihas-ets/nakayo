@@ -14,8 +14,8 @@
         <!-- Image de fond avec l'overlay spécifique -->
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920" 
-                alt="Background" 
-                class="w-full h-full object-cover">
+             alt="Background" 
+             class="w-full h-full object-cover">
             <!-- Overlay teinté (Multiply) pour le look professionnel sombre -->
             <div class="absolute inset-0 bg-[#0a1d21]/85 mix-blend-multiply"></div>
         </div>

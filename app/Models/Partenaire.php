@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Partenaire extends Model
+{
+    use HasFactory;
+
+    protected $table = 'partenaires';
+    protected $primaryKey = 'id_partenaire';
+
+    protected $fillable = [
+        'nom',
+        'image',
+        'lien',
+    ];
+}

@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Models\CompanySetting; // Assurez-vous que le modèle existe dans app/Models/
 
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -19,15 +20,11 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot()
     {
-        // On partage la variable $settings avec TOUTES les vues du site
+        // Partage la variable $settings avec toutes les vues du site (*)
         View::composer('*', function ($view) {
-            // On récupère les réglages (la première ligne de la table)
-            // Si la table est vide, on crée un objet vide pour éviter les erreurs
-            $settings = CompanySetting::first() ?? new CompanySetting();
-
-            // On envoie la variable à la vue
+            $settings = CompanySetting::first();
             $view->with('settings', $settings);
         });
     }

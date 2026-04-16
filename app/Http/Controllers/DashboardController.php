@@ -20,8 +20,9 @@ class DashboardController extends Controller
         $stats = [
             'articles'    => Article::count(),
             'produits'    => Produit::count(),
-            'clients'     => User::where('role', 'abonné')->count(),
+            
             'services'    => Service::count(),
+            'projets'      => \App\Models\Projet::count(),
             'formations'  => Formation::count(), // Table formations
             'recrutements' => \App\Models\Recrutement::count(),
             'avis'        => Avis::count(),

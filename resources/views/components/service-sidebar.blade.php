@@ -35,7 +35,7 @@
 
     <!-- Carte Orange (Reste aussi dans le bloc sticky) -->
     <div class="bg-[#E69B12] p-10 text-white relative shadow-md">
-        <h3 class="text-2xl font-bold mb-4 uppercase leading-tight">Un accès à <br> NAKAYO Finance !</h3>
+        <h3 class="text-2xl font-bold mb-4 uppercase leading-tight">Un accès à <br> NAKAYO  !</h3>
         <p class="text-xs mb-8 opacity-90 leading-relaxed">Nos experts vous accompagnent dans tous vos projets financiers et immobiliers au Bénin.</p>
         <button class="w-full bg-white text-[#1A2B49] py-4 rounded-sm font-bold uppercase text-xs hover:bg-gray-100 transition">
             Contactez Notre Équipe ↗

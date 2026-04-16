@@ -108,63 +108,46 @@
 
 
 <!-- SECTION : NOS PARTENAIRES -->
-<section class="bg-white py-4 font-sans">
-    <div class="max-w-7xl mx-auto px-6">
-        
-        <!-- Titre de la section -->
-        <div class="text-center mb-16">
-            <h2 class="text-[#1B2E58] text-3xl font-black uppercase tracking-tight">Notre Réseau de Confiance</h2>
-            <div class="h-1.5 w-16 bg-[#FF9F29] mx-auto mt-4 rounded-full"></div>
-            <p class="text-gray-500 mt-4 font-semibold italic">Partenaires stratégiques par secteur d'activité</p>
+<section class="py-16 bg-gray-50/50 font-sans">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+        <!-- En-tête -->
+        <div class="text-center mb-12 reveal-on-scroll">
+            <h2 class="text-2xl lg:text-3xl font-black text-[#1B2E58] uppercase tracking-tighter">
+                Ils nous font confiance
+            </h2>
+            <div class="h-1.5 w-20 bg-[#FF9F29] mx-auto mt-2 rounded-full shadow-sm"></div>
+            <p class="text-gray-500 mt-4 max-w-xl mx-auto text-sm">
+                Nakayo Corporation collabore avec des leaders pour vous offrir l'excellence au Bénin.
+            </p>
         </div>
 
-        <!-- Grille des Partenaires (Statique et Claire) -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
+        <!-- Grille des partenaires dynamique -->
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center">
             
-            <!-- 1. Institutions -->
-            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
-                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
-                    <i class="fas fa-landmark text-2xl text-[#1B2E58]"></i>
-                </div>
-                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
-                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Institutions</p>
-            </div>
+            @forelse($partenaires as $partenaire)
+                <div class="group p-6 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center h-28 hover:border-[#FF9F29]/30 hover:shadow-xl transition-all duration-500">
+                    
+                    {{-- Si un lien existe, on rend le logo cliquable --}}
+                    @if($partenaire->lien)
+                        <a href="{{ $partenaire->lien }}" target="_blank" title="{{ $partenaire->nom }}" class="flex items-center justify-center w-full h-full">
+                    @endif
 
-            <!-- 2. Finance -->
-            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
-                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
-                    <i class="fas fa-university text-2xl text-[#1B2E58]"></i>
-                </div>
-                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
-                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Finance</p>
-            </div>
+                        <img src="{{ asset('storage/' . $partenaire->image) }}" 
+                             alt="{{ $partenaire->nom }}" 
+                             onerror="this.src='https://via.placeholder.com/150x50?text={{ urlencode($partenaire->nom) }}'"
+                             class="max-h-12 w-auto object-contain grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-105">
 
-            <!-- 3. Industrie -->
-            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
-                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
-                    <i class="fas fa-industry text-2xl text-[#1B2E58]"></i>
-                </div>
-                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
-                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Industrie</p>
-            </div>
+                    @if($partenaire->lien)
+                        </a>
+                    @endif
 
-            <!-- 4. Logistique -->
-            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
-                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
-                    <i class="fas fa-shipping-fast text-2xl text-[#1B2E58]"></i>
                 </div>
-                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
-                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Logistique</p>
-            </div>
-
-            <!-- 5. Énergie -->
-            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
-                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
-                    <i class="fas fa-bolt text-2xl text-[#1B2E58]"></i>
+            @empty
+                {{-- Message si aucun partenaire en base de données --}}
+                <div class="col-span-full text-center py-10">
+                    <p class="text-gray-400 italic text-sm">Nos partenaires seront bientôt affichés.</p>
                 </div>
-                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
-                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Énergie</p>
-            </div>
+            @endforelse
 
         </div>
     </div>
@@ -404,10 +387,10 @@
         <div class="max-w-md">
             
             <!-- Badge "Nous trouver" -->
-            <div class="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-[#1B2E58] px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-[2px] mb-6 shadow-sm border border-gray-100">
+            <!-- <div class="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-[#1B2E58] px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-[2px] mb-6 shadow-sm border border-gray-100">
                 <i class="fas fa-map-marker-alt text-[#FFB75E]"></i>
                 Siège Social Access Finance
-            </div>
+            </div> -->
 
             <!-- BLOC DE CONTACT -->
             <div class="bg-white rounded-3xl p-8 md:p-10 shadow-[0_30px_60px_-15px_rgba(27,46,88,0.2)] border border-gray-50 relative overflow-hidden">
@@ -426,7 +409,7 @@
                         </div>
                         <div>
                             <p class="text-xs text-gray-400 font-bold uppercase mb-1">Adresse</p>
-                            <p class="text-[#1B2E58] font-medium leading-relaxed">99CR+4F9 032015 - Littoral<br>Cotonou, Bénin</p>
+                            <p class="text-[#1B2E58] font-medium leading-relaxed">{{ $settings->localisation ?? 'Adresse non définie' }}</p>
                         </div>
                     </div>
 
@@ -437,7 +420,7 @@
                         </div>
                         <div>
                             <p class="text-xs text-gray-400 font-bold uppercase mb-1">Email</p>
-                            <a href="mailto:accessbeninsa@gmail.com" class="text-[#1B2E58] font-bold hover:underline">accessbeninsa@gmail.com</a>
+                            <a href="mailto:accessbeninsa@gmail.com" class="text-[#1B2E58] font-bold hover:underline">{{ $settings->email ?? 'contact@domaine.com' }}</a>
                         </div>
                     </div>
 
@@ -448,7 +431,7 @@
                         </div>
                         <div>
                             <p class="text-xs text-gray-400 font-bold uppercase mb-1">Téléphone</p>
-                            <a href="tel:+2290121322019" class="text-[#1B2E58] font-black text-lg tracking-tight hover:text-orange-500 transition-colors">+229 0121322019</a>
+                            <a href="{{ $settings->telephone_appel ?? '(+229) 00 00 00 00' }}" class="text-[#1B2E58] font-black text-lg tracking-tight hover:text-orange-500 transition-colors">{{ $settings->telephone_appel ?? '(+229) 00 00 00 00' }}</a>
                         </div>
                     </div>
                 </div>

@@ -46,4 +46,12 @@ public function produits()
     // Un service a plusieurs produits liés par id_service
     return $this->hasMany(Produit::class, 'id_service', 'id_service');
 }
+
+public function marques()
+{
+    return $this->hasMany(Marque::class, 'id_service', 'id_service');
+}
+
+
+
 }

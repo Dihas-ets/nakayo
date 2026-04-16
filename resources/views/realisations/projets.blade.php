@@ -24,9 +24,9 @@
 <section class="relative h-[550px] flex flex-col items-center justify-center text-white overflow-hidden font-sans">
     <!-- Image de fond avec l'overlay spécifique de ton exemplaire -->
     <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1503387762-592dee58c460?q=80&w=1920" 
-            alt="Chantiers NAKAYO" 
-            class="w-full h-full object-cover">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920" 
+             alt="Background" 
+             class="w-full h-full object-cover">
         <!-- Overlay teinté (Multiply) pour le look professionnel sombre -->
         <div class="absolute inset-0 bg-[#0a1d21]/85 mix-blend-multiply"></div>
     </div>
@@ -78,7 +78,7 @@
             </p>
         </div>
 
-        <div class="flex flex-wrap justify-center gap-3 mb-20">
+        <!-- <div class="flex flex-wrap justify-center gap-3 mb-20">
             <button 
                 @click="activeFilter = 'tous'"
                 :class="activeFilter === 'tous' ? 'bg-[#1B2E58] text-white shadow-xl scale-105' : 'bg-white text-[#1B2E58] hover:bg-gray-100'"
@@ -95,7 +95,7 @@
                 {{ ucfirst($filter) }}
             </button>
             @endforeach
-        </div>
+        </div> -->
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
             @forelse($projets as $p)

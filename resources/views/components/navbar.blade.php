@@ -1,7 +1,7 @@
 <!-- Wrapper Header Sticky -->
-<header x-data="{ mobileMenuOpen: false, servicesOpen: false, projsOpen: false }" class="sticky top-0 z-[100] w-full shadow-md font-sans">
+<header x-data="{ mobileMenuOpen: false, servicesMobileOpen: false }" class="sticky top-0 z-[100] w-full shadow-md font-sans">
     
-    <!-- 1. TOP BAR -->
+    <!-- 1. TOP BAR (Cachée sur mobile) -->
     <div class="bg-[#002117] text-white py-2 px-6 hidden lg:block w-full">
         <div class="max-w-[1600px] mx-auto flex justify-between items-center text-[12px]">
             <!-- Infos Gauche -->
@@ -25,10 +25,10 @@
 
             <!-- Liens et Réseaux Droite -->
             <div class="flex items-center gap-6">
-                <div class="flex gap-4">
+                <!-- <div class="flex gap-4">
                     <a href="#" class="hover:text-[#FF9F29]">Agence</a>
                     <a href="#" class="hover:text-[#FF9F29]">FAQs</a>
-                </div>
+                </div> -->
                 <div class="flex items-center gap-2">
                     @if($settings->facebook_link)
                         <a href="{{ $settings->facebook_link }}" target="_blank" class="w-6 h-6 bg-[#FF9F29] rounded-full flex items-center justify-center text-[#002117] text-[10px]"><i class="fab fa-facebook-f"></i></a>
@@ -45,11 +45,12 @@
     </div>
 
     <!-- 2. MAIN NAVBAR -->
-    <nav class="bg-white h-8 lg:h-18 flex items-stretch w-full relative">
-        <div class="flex-1 flex items-center justify-between pl-0 pr-4 lg:pl-0 lg:pr-10">
-            <!-- LOGO -->
-            <a href="{{ route('home') }}" class="flex-shrink-0 ">
-                <img src="{{ asset('images/logo3.png') }}" alt="{{ $settings->nom_agence }}" class="h-10 lg:h-48">
+    <!-- Ajustement hauteur mobile : h-20 au lieu de h-8 pour laisser de la place au logo -->
+    <nav class="bg-white h-10 lg:h-14 flex items-stretch w-full relative">
+        <div class="flex-1 flex items-center justify-between pl-4 pr-4 lg:pl-0 lg:pr-10">
+            <!-- LOGO (Agrandi sur mobile : h-16) -->
+            <a href="{{ route('home') }}" class="flex-shrink-0 flex items-center">
+                <img src="{{ asset('images/logo3.png') }}" alt="{{ $settings->nom_agence }}" class="h-32 lg:h-48 object-contain">
             </a>
 
             <!-- DESKTOP MENU -->
@@ -57,7 +58,7 @@
                 <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Accueil</a></li>
                 <li><a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">À Propos</a></li>
 
-                <!-- Services Dropdown -->
+                <!-- Services Dropdown Desktop -->
                 <li class="relative py-8" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
                     <div class="flex items-center gap-1 cursor-pointer {{ request()->is('services*') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all font-bold">
                         Nos Services <i class="fas fa-chevron-down text-[8px] opacity-70 ml-1 transition-transform" :class="open ? 'rotate-180' : ''"></i>
@@ -85,25 +86,22 @@
                 </li>
 
                 <li><a href="{{ route('blog.index') }}" class="{{ request()->routeIs('blog.*') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Blog</a></li>
-                
-                <!-- LIEN PROJETS COMPLÉTÉ -->
                 <li><a href="{{ route('realisations.projets') }}" class="{{ request()->routeIs('realisations.*') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Projets</a></li>
-                
                 <li><a href="{{ route('recrutement') }}" class="{{ request()->routeIs('recrutement') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Recrutement</a></li>
                 <li><a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Contact</a></li>
             </ul>
 
             <!-- BURGER BUTTON -->
             <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-[#1B2E58] p-2 focus:outline-none">
-                <i :class="mobileMenuOpen ? 'fas fa-times' : 'fas fa-bars'" class="text-2xl"></i>
+                <i :class="mobileMenuOpen ? 'fas fa-times' : 'fas fa-bars'" class="text-3xl"></i>
             </button>
         </div>
 
-        <!-- RIGHT SECTION (BANDE BLEUE DIMINUÉE) -->
+        <!-- RIGHT SECTION (Desktop) -->
         <div class="hidden lg:flex bg-[#1B2E58] items-center px-6 text-white min-w-fit lg:min-w-[250px] xl:min-w-[300px]">
             <div class="flex items-center gap-3 whitespace-nowrap">
                 @php 
-                    $whatsappClean = preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp); 
+                    $whatsappClean = preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp ?? ''); 
                 @endphp
                 <a href="https://wa.me/{{ $whatsappClean }}" target="_blank" class="relative flex items-center justify-center w-8 h-8">
                     <div class="absolute inset-0 rounded-full border border-green-400 opacity-40 animate-ping"></div>
@@ -119,20 +117,36 @@
         </div>
     </nav>
 
-    <!-- MOBILE MENU SIDEBAR (N'oubliez pas d'y ajouter le lien Projets aussi) -->
+    <!-- MOBILE MENU SIDEBAR -->
     <div x-show="mobileMenuOpen" x-cloak class="lg:hidden fixed inset-0 z-[150]">
         <div @click="mobileMenuOpen = false" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-        <div class="absolute right-0 top-0 h-full w-[85%] max-w-sm bg-[#1B2E58] text-white p-8 overflow-y-auto">
+        <div class="absolute right-0 top-0 h-full w-[85%] max-w-sm bg-[#1B2E58] text-white p-8 overflow-y-auto transition-transform duration-300">
             <div class="flex justify-between items-center mb-10">
-                <img src="{{ asset('images/logo3.png') }}" class="h-10 brightness-200" alt="{{ $settings->nom_agence }}">
+                <img src="{{ asset('images/logo3.png') }}" class="h-12 brightness-200" alt="{{ $settings->nom_agence }}">
                 <button @click="mobileMenuOpen = false" class="text-3xl"><i class="fas fa-times"></i></button>
             </div>
             
             <ul class="space-y-6 text-lg font-bold">
-                <li><a href="{{ route('home') }}">Accueil</a></li>
-                <li><a href="{{ route('about') }}">À Propos</a></li>
-                <li><a href="{{ route('realisations.projets') }}">Projets</a></li>
-                <li><a href="{{ route('contact') }}">Contact</a></li>
+                <li><a href="{{ route('home') }}" @click="mobileMenuOpen = false">Accueil</a></li>
+                <li><a href="{{ route('about') }}" @click="mobileMenuOpen = false">À Propos</a></li>
+                
+                <!-- Services Mobile Accordion -->
+                <li>
+                    <div @click="servicesMobileOpen = !servicesMobileOpen" class="flex items-center justify-between cursor-pointer">
+                        <span>Nos Services</span>
+                        <i class="fas fa-chevron-down text-sm transition-transform" :class="servicesMobileOpen ? 'rotate-180' : ''"></i>
+                    </div>
+                    <ul x-show="servicesMobileOpen" x-cloak x-transition class="mt-4 ml-4 space-y-4 border-l border-white/20 pl-4 font-normal text-base text-gray-300">
+                        @foreach($allServices as $srv)
+                            <li><a href="{{ route('services.show', $srv->id_service) }}" @click="mobileMenuOpen = false">{{ $srv->titre }}</a></li>
+                        @endforeach
+                    </ul>
+                </li>
+
+                <li><a href="{{ route('blog.index') }}" @click="mobileMenuOpen = false">Blog</a></li>
+                <li><a href="{{ route('realisations.projets') }}" @click="mobileMenuOpen = false">Projets</a></li>
+                <li><a href="{{ route('recrutement') }}" @click="mobileMenuOpen = false">Recrutement</a></li>
+                <li><a href="{{ route('contact') }}" @click="mobileMenuOpen = false">Contact</a></li>
             </ul>
 
             <div class="mt-12 pt-8 border-t border-white/10">

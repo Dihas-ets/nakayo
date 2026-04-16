@@ -13,8 +13,8 @@
 <section class="relative h-[550px] flex flex-col items-center justify-center text-white overflow-hidden">
     <!-- Image de fond avec l'overlay spécifique -->
     <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1920" 
-             alt="Recrutement Access Finance" 
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920" 
+             alt="Background" 
              class="w-full h-full object-cover">
         <!-- Overlay teinté (Multiply) pour le look professionnel sombre -->
         <div class="absolute inset-0 bg-[#0a1d21]/85 mix-blend-multiply"></div>
@@ -55,53 +55,10 @@
             <span class="text-white">Recrutement</span>
         </nav>
     </div>
-</section><br><br><br><br><br>
-
-
-{{-- 3. SECTION STATS (INTÉGRÉE DIRECTEMENT - PAS DE X-STATS-IMPACT) --}}
-<section class="relative z-20 -mt-12 px-6">
-    <div class="max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            
-            <!-- Carte 1 -->
-            <div class="bg-white p-8 rounded-[2rem] shadow-xl border-b-4 border-orange-400 flex flex-col items-center text-center hover:-translate-y-2 transition-all duration-300 group">
-                <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-[#1B2E58] mb-4 group-hover:bg-[#1B2E58] group-hover:text-white transition-colors">
-                    <i class="fas fa-users text-xl"></i>
-                </div>
-                <span class="text-2xl font-black text-[#1B2E58]">150+</span>
-                <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mt-1">Collaborateurs</p>
-            </div>
-
-            <!-- Carte 2 -->
-            <div class="bg-white p-8 rounded-[2rem] shadow-xl border-b-4 border-orange-400 flex flex-col items-center text-center hover:-translate-y-2 transition-all duration-300 group">
-                <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500 mb-4 group-hover:bg-orange-500 group-hover:text-white transition-colors">
-                    <i class="fas fa-venus text-xl"></i>
-                </div>
-                <span class="text-2xl font-black text-[#1B2E58]">45%</span>
-                <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mt-1">Femmes Managers</p>
-            </div>
-
-            <!-- Carte 3 -->
-            <div class="bg-white p-8 rounded-[2rem] shadow-xl border-b-4 border-orange-400 flex flex-col items-center text-center hover:-translate-y-2 transition-all duration-300 group">
-                <div class="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center text-green-600 mb-4 group-hover:bg-green-600 group-hover:text-white transition-colors">
-                    <i class="fas fa-graduation-cap text-xl"></i>
-                </div>
-                <span class="text-2xl font-black text-[#1B2E58]">1200h</span>
-                <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mt-1">Formation / an</p>
-            </div>
-
-            <!-- Carte 4 -->
-            <div class="bg-white p-8 rounded-[2rem] shadow-xl border-b-4 border-orange-400 flex flex-col items-center text-center hover:-translate-y-2 transition-all duration-300 group">
-                <div class="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-red-500 mb-4 group-hover:bg-red-500 group-hover:text-white transition-colors">
-                    <i class="fas fa-chart-line text-xl"></i>
-                </div>
-                <span class="text-2xl font-black text-[#1B2E58]">92%</span>
-                <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mt-1">Promotion Interne</p>
-            </div>
-
-        </div>
-    </div>
 </section>
+
+
+
 
 {{-- 4. LISTE DES OFFRES --}}
 <section class="py-24 bg-white">

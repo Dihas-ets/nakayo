@@ -3,7 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name', 'Access Finance Benin') }}</title>
+
+
+    <!-- @if(isset($company) && $company->favicon)
+    {{-- On ajoute un paramètre de version aléatoire pour forcer le rechargement --}}
+    <link rel="icon" type="image/png" href="{{ asset('storage/' . $company->favicon) }}?v={{ time() }}">
+@else -->
+    <link rel="icon" type="image/png" href="{{ asset('favico.png') }}?v=1">
+    <link rel="shortcut icon" href="{{ asset('favico.png') }}?v=1">
+<!-- @endif -->
+
+    <title>{{ $company->nom_agence ?? 'Nakayo' }} - @yield('title')</title>
+
+    
+    
 
     <style>
         /* On masque tout le corps par défaut avant le chargement */
@@ -19,7 +32,8 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+       <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">

@@ -38,18 +38,13 @@
         <x-nav-item type="dropdown" title="Gestion des Blogs" icon="fa-solid fa-user-group" :active="request()->is('admin/blogs*')">
             <a href="#" class="block py-2 px-8 text-white font-bold">Articles</a>
             <a href="#" class="block py-2 px-8 text-sm text-white/60 hover:text-white">Catégories</a>
-            <a href="#" class="block py-2 px-8 text-sm text-white/60 hover:text-white">Avis</a>
-            <a href="#" class="block py-2 px-8 text-sm text-white/60 hover:text-white">Étiquettes</a>
+            
         </x-nav-item>
 
     </nav>
 
     <!-- 3. BADGE "N" (Bas de page) -->
-    <div class="p-6 flex-shrink-0">
-        <div class="w-12 h-12 bg-black/40 border border-white/10 rounded-full flex items-center justify-center group cursor-pointer hover:bg-[#FF9F29] transition-all duration-300">
-            <span class="text-white font-black text-xl italic group-hover:scale-110 transition">N</span>
-        </div>
-    </div>
+    
 </aside>
 
 <style>

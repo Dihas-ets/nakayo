@@ -37,11 +37,11 @@
             <div class="h-1 w-20 bg-[#FF9F29] rounded-full"></div>
         </div>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <x-stat-card title="Articles" value="{{ $stats['articles'] }}" icon="fa-solid fa-newspaper" color="blue" />
+            <x-stat-card title="Services" value="{{ $stats['services'] }}" icon="fa-solid fa-box-open" color="blue" />
             <x-stat-card title="Produits" value="{{ $stats['produits'] }}" icon="fa-solid fa-box-open" color="blue" />
-            <x-stat-card title="Clients" value="{{ $stats['clients'] }}" icon="fa-solid fa-users" color="green" />
-            <x-stat-card title="Services" value="{{ $stats['services'] }}" icon="fa-solid fa-briefcase" color="blue" />
+            <!-- <x-stat-card title="Projets" value="{{ $stats['projets'] }}" icon="fa-solid fa-briefcase" color="blue" /> -->
         </div>
     </div>
 
@@ -68,14 +68,7 @@
 
 
 
-                <a href="{{ route('admin.recrutements.index') }}" class="block transform transition hover:scale-105">
-                    <x-stat-card 
-                        title="Offres d'Emploi" 
-                        value="{{ $stats['recrutements'] }}" 
-                        icon="fa-solid fa-user-tie" 
-                        color="orange" 
-                    />
-                </a>
+                <x-stat-card title="Projets" value="{{ $stats['projets'] }}" icon="fa-solid fa-briefcase" color="orange" />
                 
                 
             </div>

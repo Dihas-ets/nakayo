@@ -20,6 +20,12 @@ use App\Models\Service;
 use App\Models\CompanySetting;
 use App\Models\Article;
 use App\Models\Membre;
+use App\Models\Marque;
+use App\Models\Partenaire;
+use App\Http\Controllers\Admin\PartenaireController; 
+use App\Http\Controllers\Admin\MarqueController;
+use App\Http\Controllers\Admin\MessageController;
+use App\Models\Message;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,13 +61,27 @@ Route::get('/about', function () {
                 ->orderBy('ordre', 'asc')
                 ->get();
 
-    return view('pages.about', compact('team'));
+     $partenaires = Partenaire::all();    
+     $settings = CompanySetting::first();        
+
+    return view('pages.about', compact('team', 'partenaires', 'settings'));
 })->name('about');
 
+    
 
-Route::get('/contact', function () { 
-    return view('pages.contact'); 
+
+
+// Route pour afficher la page de contact (le formulaire)
+Route::get('/contact', function () {
+    return view('pages.contact'); // Assurez-vous que votre fichier s'appelle resources/views/contact.blade.php
 })->name('contact');
+
+// La route POST pour soumettre le formulaire (que nous avons faite juste avant)
+Route::post('/contact-submit', function (Illuminate\Http\Request $request) {
+    // ... le code de validation et création de message ...
+})->name('contact.store');
+
+
 
 Route::get('/recrutement', function () {
     $offres = DB::table('recrutements')
@@ -187,7 +207,11 @@ Route::get('/', function () {
 
     $team = \App\Models\Membre::where('statut', 1)
                   ->orderBy('ordre', 'asc')
-                  ->get();    
+                  ->get();   
+                  
+    $marques = Marque::with('service')->get(); 
+    
+    $partenaires = Partenaire::all();
 
     // Passer toutes les variables à la vue
     return view('welcome', compact(
@@ -197,7 +221,10 @@ Route::get('/', function () {
         'featuredArticle', 
         'recentArticles', 
         'settings', 
-        'projets'
+        'projets',
+        'marques',
+        'partenaires'
+
     ));
 })->name('home');
 
@@ -335,16 +362,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
             Route::put('/categories/{id_categorie}', [BlogController::class, 'updateCategory'])->name('categories.update');
             Route::delete('/categories/{id_categorie}', [BlogController::class, 'destroyCategory'])->name('categories.destroy');
 
-            // Avis
-            Route::get('/avis', [BlogController::class, 'avis'])->name('avis');
-            Route::put('/avis/{id}/status', [BlogController::class, 'updateAvisStatus'])->name('avis.status');
-            Route::delete('/avis/{id}', [BlogController::class, 'destroyAvis'])->name('avis.destroy');
-
-            // Etiquettes
-            Route::get('/etiquettes', [BlogController::class, 'etiquettes'])->name('etiquettes');
-            Route::post('/etiquettes', [BlogController::class, 'storeTag'])->name('etiquettes.store');
-            Route::put('/etiquettes/{id}', [BlogController::class, 'updateTag'])->name('etiquettes.update');
-            Route::delete('/etiquettes/{id}', [BlogController::class, 'destroyTag'])->name('etiquettes.destroy');
+            
         });
     });
 
@@ -385,6 +403,20 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::resource('recrutements', RecrutementController::class)->names('recrutements');
         Route::resource('formations', FormationController::class)->names('formations');
 
+
+
+        Route::resource('partenaires', PartenaireController::class)->names('partenaires');
+        Route::resource('messages', MessageController::class)->names('messages');
+
+
+
+        Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::post('/messages/{id}/read', [MessageController::class, 'markAsRead']);
+    Route::delete('/messages/{id}', [MessageController::class, 'destroy'])->name('messages.destroy');
+        
+
+
+        Route::resource('marques', MarqueController::class)->names('marques');
         // Équipe
 
     Route::get('/team', [TeamController::class, 'index'])->name('team.index');

@@ -104,7 +104,7 @@
                 <div class="h-1.5 w-20 bg-[#FF9F29] mx-auto mt-3 rounded-full shadow-sm"></div>
             </div>
 
-            <!-- BOUTON (Positionné à droite sur desktop, centré en dessous sur mobile) -->
+            <!-- BOUTON : Masqué si 0 services, affiché si >= 6 -->
             @if($services->count() >= 6)
             <div class="mt-8 md:mt-0 md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2 text-center">
                 <a href="{{ route('services.index') }}" class="inline-flex items-center gap-3 bg-[#1B2E58] text-white px-6 py-3 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-[#FF9F29] transition-all shadow-lg group">
@@ -115,7 +115,7 @@
             @endif
         </div>
 
-        <!-- GRILLE DYNAMIQUE (Limitée à 5 items) -->
+        <!-- GRILLE DYNAMIQUE -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             
             @php
@@ -128,8 +128,8 @@
                 ];
             @endphp
 
-            {{-- On affiche maximum 5 cartes --}}
-            @foreach($services->take(5) as $index => $service)
+            {{-- Utilisation de @forelse pour gérer le cas vide --}}
+            @forelse($services->take(5) as $index => $service)
                 @php 
                     $color = $colors[$index % count($colors)];
                 @endphp
@@ -163,7 +163,18 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <!-- MESSAGE SI AUCUN SERVICE -->
+                <div class="col-span-full py-20 text-center reveal-on-scroll opacity-0 transition-all duration-1000">
+                    <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-50 rounded-full mb-6">
+                        <i class="fas fa-concierge-bell text-3xl text-gray-300"></i>
+                    </div>
+                    <h3 class="text-[#1B2E58] text-xl font-bold mb-2">Aucun service disponible</h3>
+                    <p class="text-gray-400 max-w-md mx-auto italic">
+                        Nous mettons actuellement à jour nos offres. Revenez très bientôt pour découvrir nos nouvelles prestations.
+                    </p>
+                </div>
+            @endforelse
 
         </div>
     </div>
@@ -261,7 +272,7 @@
 <section class="py-12 font-sans overflow-hidden bg-[#F8FAFC]">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
         
-        <!-- Titre de la section (Plus compact) -->
+        <!-- Titre de la section -->
         <div class="text-center mb-10 reveal-on-scroll opacity-0 transition-all duration-1000 transform translate-y-10">
             <h2 class="text-2xl lg:text-3xl font-black text-[#1B2E58] uppercase tracking-tighter">
                 Nos Marques
@@ -269,73 +280,59 @@
             <div class="h-1 w-16 bg-[#FF9F29] mx-auto mt-2 rounded-full"></div>
         </div>
 
-        <!-- Grille à 4 colonnes -->
+        <!-- Grille dynamique -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             
-            <!-- Marque 1 : Immobilier -->
-            <div class="reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out">
-                <div class="group relative bg-white rounded-[1.5rem] p-5 flex flex-col items-center border border-gray-100 shadow-sm transition-all duration-500 transform hover:-translate-y-2 hover:bg-[#1B2E58] h-full cursor-pointer">
-                    <!-- Icone plus petite -->
-                    <div class="relative z-10 w-14 h-14 bg-[#F8FAFC] rounded-xl flex items-center justify-center mb-3 transition-all duration-500 group-hover:bg-[#FF9F29] group-hover:rotate-[360deg]">
-                        <i class="fas fa-swimming-pool text-2xl text-[#1B2E58] transition-colors duration-500 group-hover:text-white"></i>
-                    </div>
+            @forelse($marques as $index => $marque)
+                <div class="reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out" 
+                     style="transition-delay: {{ $index * 100 }}ms">
                     
-                    <h3 class="relative z-10 text-lg font-black text-[#1B2E58] mb-2 transition-colors duration-500 group-hover:text-white uppercase italic text-center">Nakayo Estate</h3>
-                    <p class="relative z-10 text-gray-500 text-[11px] text-center mb-4 transition-colors duration-500 group-hover:text-white/70 line-clamp-2">Piscines, entretien et promotion immobilière d'exception.</p>
-                    
-                    <div class="relative z-10 mt-auto w-full">
-                        <a href="#" class="inline-block w-full text-center bg-[#FF9F29] text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-[#1B2E58]">Découvrir</a>
-                    </div>
-                </div>
-            </div>
+                    <div class="group relative bg-white rounded-[1.5rem] p-5 flex flex-col items-center border border-gray-100 shadow-sm transition-all duration-500 transform hover:-translate-y-2 hover:bg-[#1B2E58] h-full cursor-pointer">
+                        
+                        <!-- Image/Logo de la marque (Remplace l'icône) -->
+                        <div class="relative z-10 w-16 h-16 bg-[#F8FAFC] rounded-xl flex items-center justify-center mb-3 transition-all duration-500 group-hover:bg-white group-hover:rotate-[360deg] overflow-hidden p-2">
+                            @if($marque->image)
+                                <img src="{{ asset('storage/' . $marque->image) }}" alt="{{ $marque->nom }}" class="w-full h-full object-contain">
+                            @else
+                                <!-- Icône par défaut si pas d'image -->
+                                <i class="fas fa-brand text-2xl text-[#1B2E58]"></i>
+                            @endif
+                        </div>
+                        
+                        <!-- Nom de la marque -->
+                        <h3 class="relative z-10 text-lg font-black text-[#1B2E58] mb-2 transition-colors duration-500 group-hover:text-white uppercase italic text-center">
+                            {{ $marque->nom }}
+                        </h3>
 
-            <!-- Marque 2 : Agro -->
-            <div class="reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out delay-100">
-                <div class="group relative bg-white rounded-[1.5rem] p-5 flex flex-col items-center border border-gray-100 shadow-sm transition-all duration-500 transform hover:-translate-y-2 hover:bg-[#1B2E58] h-full cursor-pointer">
-                    <div class="relative z-10 w-14 h-14 bg-[#F8FAFC] rounded-xl flex items-center justify-center mb-3 transition-all duration-500 group-hover:bg-[#FF9F29] group-hover:rotate-[360deg]">
-                        <i class="fas fa-seedling text-2xl text-[#1B2E58] transition-colors duration-500 group-hover:text-white"></i>
-                    </div>
-                    
-                    <h3 class="relative z-10 text-lg font-black text-[#1B2E58] mb-2 transition-colors duration-500 group-hover:text-white uppercase italic text-center">Nakayo Agro</h3>
-                    <p class="relative z-10 text-gray-500 text-[11px] text-center mb-4 transition-colors duration-500 group-hover:text-white/70 line-clamp-2">Production agro-industrielle et élevage moderne.</p>
-                    
-                    <div class="relative z-10 mt-auto w-full">
-                        <a href="#" class="inline-block w-full text-center bg-[#FF9F29] text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-[#1B2E58]">Découvrir</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Marque 3 : Savonnerie -->
-            <div class="reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out delay-200">
-                <div class="group relative bg-white rounded-[1.5rem] p-5 flex flex-col items-center border border-gray-100 shadow-sm transition-all duration-500 transform hover:-translate-y-2 hover:bg-[#1B2E58] h-full cursor-pointer">
-                    <div class="relative z-10 w-14 h-14 bg-[#F8FAFC] rounded-xl flex items-center justify-center mb-3 transition-all duration-500 group-hover:bg-[#FF9F29] group-hover:rotate-[360deg]">
-                        <i class="fas fa-pump-soap text-2xl text-[#1B2E58] transition-colors duration-500 group-hover:text-white"></i>
-                    </div>
-                    
-                    <h3 class="relative z-10 text-lg font-black text-[#1B2E58] mb-2 transition-colors duration-500 group-hover:text-white uppercase italic text-center">Nakayo Care</h3>
-                    <p class="relative z-10 text-gray-500 text-[11px] text-center mb-4 transition-colors duration-500 group-hover:text-white/70 line-clamp-2">Savonnerie artisanale et formations professionnelles.</p>
-                    
-                    <div class="relative z-10 mt-auto w-full">
-                        <a href="#" class="inline-block w-full text-center bg-[#FF9F29] text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-[#1B2E58]">Découvrir</a>
+                        <!-- Description (Si tu as ajouté un champ description, sinon on affiche le nom du service lié) -->
+                        <p class="relative z-10 text-gray-500 text-[11px] text-center mb-4 transition-colors duration-500 group-hover:text-white/70 line-clamp-2">
+                            @if($marque->service)
+                                Partenaire de notre pôle {{ $marque->service->titre }}
+                            @else
+                                Marque de confiance du groupe.
+                            @endif
+                        </p>
+                        
+                        <!-- Bouton Découvrir -->
+                        <div class="relative z-10 mt-auto w-full">
+                            @if($marque->id_service)
+                                <a href="{{ route('services.show', $marque->id_service) }}" class="inline-block w-full text-center bg-[#FF9F29] text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-[#1B2E58]">
+                                    Découvrir
+                                </a>
+                            @else
+                                <span class="inline-block w-full text-center bg-gray-100 text-gray-400 px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest cursor-default">
+                                    Bientôt disponible
+                                </span>
+                            @endif
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Marque 4 : Papeterie -->
-            <div class="reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out delay-300">
-                <div class="group relative bg-white rounded-[1.5rem] p-5 flex flex-col items-center border border-gray-100 shadow-sm transition-all duration-500 transform hover:-translate-y-2 hover:bg-[#1B2E58] h-full cursor-pointer">
-                    <div class="relative z-10 w-14 h-14 bg-[#F8FAFC] rounded-xl flex items-center justify-center mb-3 transition-all duration-500 group-hover:bg-[#FF9F29] group-hover:rotate-[360deg]">
-                        <i class="fas fa-pen-fancy text-2xl text-[#1B2E58] transition-colors duration-500 group-hover:text-white"></i>
-                    </div>
-                    
-                    <h3 class="relative z-10 text-lg font-black text-[#1B2E58] mb-2 transition-colors duration-500 group-hover:text-white uppercase italic text-center">Nakayo Office</h3>
-                    <p class="relative z-10 text-gray-500 text-[11px] text-center mb-4 transition-colors duration-500 group-hover:text-white/70 line-clamp-2">Fournitures de bureau et papeterie pour professionnels.</p>
-                    
-                    <div class="relative z-10 mt-auto w-full">
-                        <a href="#" class="inline-block w-full text-center bg-[#FF9F29] text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-[#1B2E58]">Découvrir</a>
-                    </div>
+            @empty
+                <!-- Cas où il n'y a pas de marques en base de données -->
+                <div class="col-span-full text-center py-10">
+                    <p class="text-gray-400 italic">Aucune marque n'est enregistrée pour le moment.</p>
                 </div>
-            </div>
+            @endforelse
 
         </div>
     </div>
@@ -387,166 +384,208 @@
                 <div class="h-1.5 w-20 bg-[#FF9F29] mx-auto mt-2 rounded-full shadow-sm"></div>
             </div>
 
-            <div class="absolute right-0 top-1/2 -translate-y-1/2 hidden md:block">
-                <a href="{{ route('blog.index') }}" class="inline-flex items-center gap-2 text-[#FF9F29] font-black uppercase text-[11px] tracking-[0.2em] group">
-                    Voir tout le blog
-                    <i class="fas fa-arrow-right text-[10px] transition-transform group-hover:translate-x-2"></i>
-                </a>
-            </div>
+            {{-- On n'affiche le lien "Voir tout" que s'il y a au moins un article --}}
+            @if($featuredArticle || $recentArticles->count() > 0)
+                <div class="absolute right-0 top-1/2 -translate-y-1/2 hidden md:block">
+                    <a href="{{ route('blog.index') }}" class="inline-flex items-center gap-2 text-[#FF9F29] font-black uppercase text-[11px] tracking-[0.2em] group">
+                        Voir tout le blog
+                        <i class="fas fa-arrow-right text-[10px] transition-transform group-hover:translate-x-2"></i>
+                    </a>
+                </div>
+            @endif
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-
-            <!-- BLOC GAUCHE : l'article mis en avant -->
-            <div class="lg:col-span-7">
-                @if($featuredArticle)
-                    <a href="{{ route('blog.show', $featuredArticle->slug) }}" class="relative group cursor-pointer h-full flex flex-col">
-
-                        <div class="h-[380px] overflow-hidden rounded-[2rem] shadow-lg flex-shrink-0">
-                            <img src="{{ asset('storage/' . $featuredArticle->media) }}"
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 bg-gray-100"
-                                 alt="{{ $featuredArticle->titre }}">
-                        </div>
-
-                        <div class="relative -mt-28 mx-4 lg:mx-8 bg-white rounded-3xl shadow-xl p-6 lg:p-8 border border-gray-50 z-10 transition-transform duration-300 group-hover:-translate-y-2 flex-grow">
-                            <div class="absolute -top-3 left-6 bg-[#FF9F29] text-[#1B2E58] px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-md">
-                                {{ $featuredArticle->category_name ?? 'Catégorie' }}
-                            </div>
-
-                            <h3 class="text-[#1B2E58] text-xl lg:text-2xl font-black leading-tight mb-4 mt-2 group-hover:text-[#FF9F29] transition-colors">
-                                {{ $featuredArticle->titre }}
-                            </h3>
-
-                            <p class="text-gray-500 text-sm leading-relaxed mb-6 opacity-90 line-clamp-3">
-                                {{ Str::limit(strip_tags($featuredArticle->description), 180) }}
-                            </p>
-
-                            <div class="flex items-center justify-between text-gray-400 text-[10px] font-bold uppercase tracking-widest border-t border-gray-50 pt-4">
-                                <span class="flex items-center gap-2">
-                                    <i class="far fa-calendar-alt text-[#FF9F29]"></i>
-                                    {{ \Carbon\Carbon::parse($featuredArticle->created_at)->translatedFormat('d F, Y') }}
-                                </span>
-                                <span class="text-[#1B2E58]/40 italic">Nakayo Group</span>
-                            </div>
-                        </div>
+        {{-- CONDITION GLOBALE : Si aucun article n'existe du tout --}}
+        @if(!$featuredArticle && $recentArticles->isEmpty())
+            
+            <div class="py-20 text-center reveal-on-scroll">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-50 rounded-full mb-6">
+                    <i class="fas fa-newspaper text-3xl text-gray-300"></i>
+                </div>
+                <h3 class="text-[#1B2E58] text-xl font-bold mb-2">Aucun article disponible</h3>
+                <p class="text-gray-400 max-w-md mx-auto italic">
+                    Nos rédacteurs préparent du contenu passionnant pour vous. Revenez très bientôt pour lire nos dernières actualités.
+                </p>
+                <div class="mt-8">
+                    <a href="{{ route('home') }}" class="text-[#FF9F29] text-[10px] font-black uppercase tracking-widest border-b-2 border-[#FF9F29] pb-1 hover:text-[#1B2E58] hover:border-[#1B2E58] transition-all">
+                        Retour à l'accueil
                     </a>
-                @else
-                    <div class="h-full flex items-center justify-center border-2 border-dashed border-gray-200 rounded-[2rem] text-gray-400">
-                        Aucun article mis en avant
-                    </div>
-                @endif
-            </div>
-
-            <!-- BLOC DROITE : autres articles récents -->
-            <div class="lg:col-span-5 flex flex-col">
-                <div class="space-y-6 h-full flex flex-col justify-between">
-
-                    @forelse($recentArticles as $article)
-                        <a href="{{ route('blog.show', $article->slug) }}" class="flex gap-5 mb-0 group cursor-pointer items-center p-3 rounded-2xl hover:bg-gray-50 transition-all">
-
-                            <div class="w-28 h-24 flex-shrink-0 overflow-hidden rounded-xl shadow-sm">
-                                <img src="{{ asset('storage/' . $article->media) }}"
-                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                     alt="{{ $article->titre }}">
-                            </div>
-
-                            <div class="flex-1">
-                                <span class="text-[#FF9F29] text-[9px] font-black uppercase tracking-widest mb-1 inline-block">
-                                    {{ $article->category_name ?? 'Catégorie' }}
-                                </span>
-
-                                <h4 class="text-[#1B2E58] text-base font-bold mb-1 leading-snug group-hover:text-[#FF9F29] transition-colors line-clamp-2">
-                                    {{ $article->titre }}
-                                </h4>
-
-                                <div class="text-gray-400 text-[9px] font-bold uppercase italic">
-                                    {{ \Carbon\Carbon::parse($article->created_at)->translatedFormat('d F, Y') }}
-                                </div>
-                            </div>
-                        </a>
-
-                        @if(!$loop->last)
-                            <div class="h-px bg-gray-100 mx-3"></div>
-                        @endif
-                    @empty
-                        <p class="text-gray-400 text-center py-10">Pas d'autres articles récents.</p>
-                    @endforelse
-
                 </div>
             </div>
 
-        </div>
+        @else
+
+            {{-- GRILLE : S'affiche s'il y a au moins un article --}}
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+
+                <!-- BLOC GAUCHE : l'article mis en avant -->
+                <div class="lg:col-span-7">
+                    @if($featuredArticle)
+                        <a href="{{ route('blog.show', $featuredArticle->slug) }}" class="relative group cursor-pointer h-full flex flex-col">
+
+                            <div class="h-[380px] overflow-hidden rounded-[2rem] shadow-lg flex-shrink-0">
+                                <img src="{{ asset('storage/' . $featuredArticle->media) }}"
+                                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 bg-gray-100"
+                                     alt="{{ $featuredArticle->titre }}">
+                            </div>
+
+                            <div class="relative -mt-28 mx-4 lg:mx-8 bg-white rounded-3xl shadow-xl p-6 lg:p-8 border border-gray-50 z-10 transition-transform duration-300 group-hover:-translate-y-2 flex-grow">
+                                <div class="absolute -top-3 left-6 bg-[#FF9F29] text-[#1B2E58] px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-md">
+                                    {{ $featuredArticle->category_name ?? 'Catégorie' }}
+                                </div>
+
+                                <h3 class="text-[#1B2E58] text-xl lg:text-2xl font-black leading-tight mb-4 mt-2 group-hover:text-[#FF9F29] transition-colors">
+                                    {{ $featuredArticle->titre }}
+                                </h3>
+
+                                <p class="text-gray-500 text-sm leading-relaxed mb-6 opacity-90 line-clamp-3">
+                                    {{ Str::limit(strip_tags($featuredArticle->description), 180) }}
+                                </p>
+
+                                <div class="flex items-center justify-between text-gray-400 text-[10px] font-bold uppercase tracking-widest border-t border-gray-50 pt-4">
+                                    <span class="flex items-center gap-2">
+                                        <i class="far fa-calendar-alt text-[#FF9F29]"></i>
+                                        {{ \Carbon\Carbon::parse($featuredArticle->created_at)->translatedFormat('d F, Y') }}
+                                    </span>
+                                    <span class="text-[#1B2E58]/40 italic">Nakayo Group</span>
+                                </div>
+                            </div>
+                        </a>
+                    @else
+                        {{-- Si pas de featured mais des récents existent --}}
+                        <div class="h-full flex items-center justify-center border-2 border-dashed border-gray-200 rounded-[2rem] text-gray-400 italic p-10 text-center">
+                            Consultez nos derniers articles dans la liste ci-contre.
+                        </div>
+                    @endif
+                </div>
+
+                <!-- BLOC DROITE : autres articles récents -->
+                <div class="lg:col-span-5 flex flex-col">
+                    <div class="space-y-6 h-full flex flex-col justify-start">
+
+                        @forelse($recentArticles as $article)
+                            <a href="{{ route('blog.show', $article->slug) }}" class="flex gap-5 mb-0 group cursor-pointer items-center p-3 rounded-2xl hover:bg-gray-50 transition-all">
+
+                                <div class="w-28 h-24 flex-shrink-0 overflow-hidden rounded-xl shadow-sm">
+                                    <img src="{{ asset('storage/' . $article->media) }}"
+                                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                         alt="{{ $article->titre }}">
+                                </div>
+
+                                <div class="flex-1">
+                                    <span class="text-[#FF9F29] text-[9px] font-black uppercase tracking-widest mb-1 inline-block">
+                                        {{ $article->category_name ?? 'Catégorie' }}
+                                    </span>
+
+                                    <h4 class="text-[#1B2E58] text-base font-bold mb-1 leading-snug group-hover:text-[#FF9F29] transition-colors line-clamp-2">
+                                        {{ $article->titre }}
+                                    </h4>
+
+                                    <div class="text-gray-400 text-[9px] font-bold uppercase italic">
+                                        {{ \Carbon\Carbon::parse($article->created_at)->translatedFormat('d F, Y') }}
+                                    </div>
+                                </div>
+                            </a>
+
+                            @if(!$loop->last)
+                                <div class="h-px bg-gray-100 mx-3"></div>
+                            @endif
+                        @empty
+                            @if($featuredArticle)
+                                <p class="text-gray-400 text-center py-10 italic">Aucun autre article récent pour le moment.</p>
+                            @endif
+                        @endforelse
+
+                    </div>
+                </div>
+
+            </div>
+        @endif
+
     </div>
 </section>
 
 
-<section class="py-10 bg-white font-sans overflow-hidden">
+<section class="py-12 bg-gray-50 font-sans overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
         
         <!-- En-tête -->
-        <div class="text-center max-w-3xl mx-auto mb-10 reveal-on-scroll">
+        <div class="text-center max-w-3xl mx-auto mb-10">
             <div class="mb-4">
                 <h2 class="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#1B2E58] uppercase tracking-tighter">
                     Nos Réalisations
                 </h2>
-                <div class="h-1 w-16 bg-[#FF9F29] mx-auto mt-2 rounded-full"></div>
+                <div class="h-1.5 w-20 bg-[#FF9F29] mx-auto mt-2 rounded-full"></div>
             </div>
-            <p class="text-gray-500 text-sm md:text-base px-4">
-                La preuve de notre savoir-faire à travers nos projets emblématiques au Bénin.
+            <p class="text-gray-500 text-sm md:text-base px-4 italic">
+                Découvrez l'excellence de Nakayo Corporation à travers nos projets emblématiques.
             </p>
         </div>
 
-        <!-- Grille Responsive -->
-        <!-- Mobile: 1 col | Tablette: 2 cols | Desktop: 4 cols -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 gap-4 h-auto lg:h-[500px]">
+        <!-- Grille Dynamique -->
+        <!-- La hauteur fixe lg:h-[550px] n'est appliquée que si $projets n'est pas vide -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 gap-4 {{ $projets->count() > 0 ? 'lg:h-[450px]' : '' }}">
             
-            @foreach($projets->take(4) as $index => $projet)
+            @forelse($projets->take(4) as $index => $projet)
                 @php
                     $gridClasses = '';
-                    $delay = ($index + 1) * 150;
-                    
                     if ($index == 0) {
-                        // Grand rectangle : prend 2x2 sur desktop, 2 cols sur tablette, 1 col sur mobile
-                        $gridClasses = 'lg:col-span-2 lg:row-span-2 sm:col-span-2 lg:transform lg:-translate-x-10';
+                        // GAUCHE : Grand rectangle (2 colonnes de large, 2 lignes de haut)
+                        $gridClasses = 'lg:col-span-2 lg:row-span-2 sm:col-span-2';
                     } elseif ($index == 1) {
-                        // Rectangle large : prend 2x1 sur desktop, 2 cols sur tablette, 1 col sur mobile
-                        $gridClasses = 'lg:col-span-2 lg:row-span-1 sm:col-span-2 lg:transform lg:translate-x-10';
+                        // DROITE HAUT : Rectangle large (2 colonnes de large, 1 ligne de haut)
+                        $gridClasses = 'lg:col-span-2 lg:row-span-1 sm:col-span-2';
                     } else {
-                        // Petits carrés : 1 col partout (sauf mobile 1 col)
-                        $gridClasses = 'col-span-1 lg:transform lg:translate-y-10';
+                        // DROITE BAS : Deux petits carrés (1 colonne de large chacun, 1 ligne de haut)
+                        $gridClasses = 'lg:col-span-1 lg:row-span-1 col-span-1';
                     }
                 @endphp
 
                 <a href="{{ route('realisations.projets', $projet->id_projet) }}" 
-                   class="{{ $gridClasses }} relative group overflow-hidden rounded-3xl shadow-lg reveal-on-scroll opacity-0 transition-all duration-1000 min-h-[250px] sm:min-h-[300px] lg:min-h-full block cursor-pointer" 
-                   style="transition-delay: {{ $delay }}ms">
+                   class="{{ $gridClasses }} relative group overflow-hidden rounded-2xl shadow-md block cursor-pointer bg-[#1B2E58]">
                     
-                    {{-- Image du projet --}}
+                    {{-- Image avec overlay progressif --}}
                     <img src="{{ asset('storage/' . $projet->image) }}" 
                          alt="{{ $projet->nom }}" 
-                         class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100">
                     
-                    {{-- Overlay permanent sur mobile, au survol sur desktop --}}
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58] via-[#1B2E58]/40 to-transparent opacity-90 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 md:p-8">
-                        
-                        <span class="text-[#FF9F29] font-black uppercase text-[10px] tracking-widest mb-1 lg:translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-500">
+                    {{-- Dégradé sombre pour la lisibilité du texte --}}
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58] via-transparent to-transparent opacity-80"></div>
+
+                    {{-- Contenu texte --}}
+                    <div class="absolute inset-0 flex flex-col justify-end p-5 md:p-6 text-white">
+                        <span class="text-[#FF9F29] font-bold uppercase text-[10px] tracking-widest mb-1">
                             {{ $projet->service_nom }}
                         </span>
                         
-                        <h3 class="text-white {{ $index == 0 ? 'text-xl md:text-2xl' : 'text-lg' }} font-bold italic lg:translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-500 delay-75 line-clamp-2">
+                        <h3 class="{{ $index == 0 ? 'text-xl md:text-2xl' : 'text-lg' }} font-bold leading-tight mb-2">
                             {{ $projet->nom }}
                         </h3>
                         
-                        <p class="text-white/80 text-xs mt-1 lg:translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-500 delay-100">
-                            <i class="fas fa-map-marker-alt text-[#FF9F29] mr-1"></i> {{ $projet->lieu }}
-                        </p>
-
-                        <span class="text-white/70 text-[10px] uppercase mt-3 flex items-center gap-2 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-700 delay-150 font-bold">
-                            Voir le projet <i class="fas fa-arrow-right text-[#FF9F29]"></i>
-                        </span>
+                        <div class="flex items-center justify-between overflow-hidden">
+                            <p class="text-white/80 text-xs flex items-center">
+                                <i class="fas fa-map-marker-alt text-[#FF9F29] mr-1.5"></i> {{ $projet->lieu }}
+                            </p>
+                            
+                            {{-- Flèche qui apparaît au survol --}}
+                            <span class="transform translate-x-10 group-hover:translate-x-0 transition-transform duration-300">
+                                <i class="fas fa-arrow-right text-[#FF9F29]"></i>
+                            </span>
+                        </div>
                     </div>
                 </a>
-            @endforeach
+            @empty
+                <!-- MESSAGE SI AUCUNE RÉALISATION (Centré) -->
+                <div class="col-span-full py-20 flex flex-col items-center justify-center text-center">
+                    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-project-diagram text-3xl text-gray-300"></i>
+                    </div>
+                    <h3 class="text-[#1B2E58] text-xl font-bold mb-2">Aucune réalisation disponible</h3>
+                    <p class="text-gray-400 max-w-md mx-auto italic px-6">
+                        Nous n'avons pas encore publié de projets pour le moment. Revenez bientôt pour découvrir nos travaux.
+                    </p>
+                </div>
+            @endforelse
 
         </div>
     </div>
@@ -557,63 +596,47 @@
 
 
 <!-- SECTION : NOS PARTENAIRES -->
-<section class="bg-white py-4 font-sans">
-    <div class="max-w-7xl mx-auto px-6">
-        
-        <!-- Titre de la section -->
-        <div class="text-center mb-16">
-            <h2 class="text-[#1B2E58] text-3xl font-black uppercase tracking-tight">Notre Réseau de Confiance</h2>
-            <div class="h-1.5 w-16 bg-[#FF9F29] mx-auto mt-4 rounded-full"></div>
-            <p class="text-gray-500 mt-4 font-semibold italic">Partenaires stratégiques par secteur d'activité</p>
+
+<section class="py-16 bg-gray-50/50 font-sans">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+        <!-- En-tête -->
+        <div class="text-center mb-12 reveal-on-scroll">
+            <h2 class="text-2xl lg:text-3xl font-black text-[#1B2E58] uppercase tracking-tighter">
+                Ils nous font confiance
+            </h2>
+            <div class="h-1.5 w-20 bg-[#FF9F29] mx-auto mt-2 rounded-full shadow-sm"></div>
+            <p class="text-gray-500 mt-4 max-w-xl mx-auto text-sm">
+                Nakayo Corporation collabore avec des leaders pour vous offrir l'excellence au Bénin.
+            </p>
         </div>
 
-        <!-- Grille des Partenaires (Statique et Claire) -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
+        <!-- Grille des partenaires dynamique -->
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center">
             
-            <!-- 1. Institutions -->
-            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
-                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
-                    <i class="fas fa-landmark text-2xl text-[#1B2E58]"></i>
-                </div>
-                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
-                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Institutions</p>
-            </div>
+            @forelse($partenaires as $partenaire)
+                <div class="group p-6 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center h-28 hover:border-[#FF9F29]/30 hover:shadow-xl transition-all duration-500">
+                    
+                    {{-- Si un lien existe, on rend le logo cliquable --}}
+                    @if($partenaire->lien)
+                        <a href="{{ $partenaire->lien }}" target="_blank" title="{{ $partenaire->nom }}" class="flex items-center justify-center w-full h-full">
+                    @endif
 
-            <!-- 2. Finance -->
-            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
-                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
-                    <i class="fas fa-university text-2xl text-[#1B2E58]"></i>
-                </div>
-                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
-                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Finance</p>
-            </div>
+                        <img src="{{ asset('storage/' . $partenaire->image) }}" 
+                             alt="{{ $partenaire->nom }}" 
+                             onerror="this.src='https://via.placeholder.com/150x50?text={{ urlencode($partenaire->nom) }}'"
+                             class="max-h-12 w-auto object-contain grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-105">
 
-            <!-- 3. Industrie -->
-            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
-                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
-                    <i class="fas fa-industry text-2xl text-[#1B2E58]"></i>
-                </div>
-                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
-                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Industrie</p>
-            </div>
+                    @if($partenaire->lien)
+                        </a>
+                    @endif
 
-            <!-- 4. Logistique -->
-            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
-                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
-                    <i class="fas fa-shipping-fast text-2xl text-[#1B2E58]"></i>
                 </div>
-                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
-                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Logistique</p>
-            </div>
-
-            <!-- 5. Énergie -->
-            <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col items-center">
-                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm">
-                    <i class="fas fa-bolt text-2xl text-[#1B2E58]"></i>
+            @empty
+                {{-- Message si aucun partenaire en base de données --}}
+                <div class="col-span-full text-center py-10">
+                    <p class="text-gray-400 italic text-sm">Nos partenaires seront bientôt affichés.</p>
                 </div>
-                <div class="w-8 h-1 bg-[#FF9F29] mb-3 rounded-full"></div>
-                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B2E58]">Énergie</p>
-            </div>
+            @endforelse
 
         </div>
     </div>
@@ -662,37 +685,37 @@
     </div>
 
     <div class="relative mask-edges">
-        {{-- Dans welcome.blade.php --}}
+        @if(isset($team) && $team->count() > 0)
+            {{-- On n'affiche le div animée QUE s'il y a des membres --}}
+            <div class="animate-marquee gap-8 py-2 flex">
+                {{-- On concatène pour l'effet de boucle infinie --}}
+                @foreach($team->concat($team) as $member)
+                <div class="w-[240px] group flex-shrink-0">
+                    <div class="relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-gray-50 mb-4 shadow-sm border border-gray-100">
+                        <img src="{{ asset('storage/' . $member->photo) }}" 
+                             class="w-full h-full object-cover" 
+                             alt="{{ $member->nom_complet }}">
+                    </div>
 
-     <div class="animate-marquee gap-8 py-2 flex">
-    @if(isset($team) && $team->count() > 0)
-        {{-- On concatène pour l'effet de boucle infinie --}}
-        @foreach($team->concat($team) as $member)
-        <div class="w-[240px] group flex-shrink-0">
-            <div class="relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-gray-50 mb-4 shadow-sm">
-                
-                {{-- Chemin vers le stockage --}}
-                <img src="{{ asset('storage/' . $member->photo) }}" 
-                     class="w-full h-full object-cover" 
-                     alt="{{ $member->nom_complet }}">
-
-                <!-- @if($member->linkedin)
-                <a href="{{ $member->linkedin }}" target="_blank" class="absolute inset-0 bg-gradient-to-t from-[#1B2E58]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
-                    <span class="text-white font-bold text-xs">LinkedIn →</span>
-                </a>
-                @endif -->
+                    <div class="px-2 text-center">
+                        <h3 class="text-xl font-black text-[#1B2E58] italic">{{ $member->nom_complet }}</h3>
+                        <p class="text-[#FF9F29] font-bold uppercase text-[9px] mt-2 tracking-widest">{{ $member->poste }}</p>
+                    </div>
+                </div>
+                @endforeach
             </div>
-
-            <div class="px-2 text-center">
-                <h3 class="text-xl font-black text-[#1B2E58] italic">{{ $member->nom_complet }}</h3>
-                <p class="text-[#FF9F29] font-bold uppercase text-[9px] mt-2">{{ $member->poste }}</p>
+        @else
+            {{-- MESSAGE SI VIDE : Centré, sans animation, sans défilement --}}
+            <div class="py-16 flex flex-col items-center justify-center text-center">
+                <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-users-slash text-3xl text-gray-300"></i>
+                </div>
+                <h3 class="text-[#1B2E58] text-xl font-bold mb-2">Aucun membre disponible</h3>
+                <p class="text-gray-400 max-w-md mx-auto italic px-6">
+                    Notre équipe est en cours de mise à jour. Revenez bientôt pour découvrir les visages qui font le succès de Nakayo Group.
+                </p>
             </div>
-        </div>
-        @endforeach
-    @else
-        <p>Aucun membre d'équipe à afficher.</p>
-    @endif
-</div>
+        @endif
     </div>
 </section>
 
@@ -743,7 +766,7 @@
                     
                     <h3 class="text-white text-xl font-black mb-2 ">Téléphone</h3>
                     <div class="space-y-1 mb-6">
-                        <p class="text-[#FF9F29] text-lg font-bold">{{ $settings->telephone_whatsapp ?? 'Non défini' }}</p>
+                        
                         <p class="text-[#FF9F29] text-lg font-bold">{{ $settings->telephone_appel ?? '(+229) 00 00 00 00' }}</p>
                     </div>
 
@@ -837,16 +860,24 @@
                 </div>
 
                 <!-- Zone d'action -->
+                <!-- Zone d'action -->
                 <div class="bg-gray-50 p-6 rounded-[2rem] border border-gray-100 shadow-sm">
-                    <div class="flex flex-wrap gap-4">
-                        <!-- Redirection vers Recrutement -->
-                        <a href="{{ route('recrutement') }}" class="bg-[#1B2E58] text-white px-6 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg hover:bg-[#FF9F29] transition-all">
+                    <!-- On utilise grid-cols-1 sur mobile et grid-cols-2 dès le breakpoint 'sm' (tablette/desktop) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        
+                        <!-- Bouton 1 : Recrutement -->
+                        <a href="{{ route('recrutement') }}" 
+                        class="flex items-center justify-center bg-[#1B2E58] text-white py-4 rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg hover:bg-[#FF9F29] transition-all text-center">
                             Voir les offres
                         </a>
-                        <!-- Redirection vers WhatsApp -->
-                        <a href="https://wa.me/{{ $whatsappClean }}" target="_blank" class="bg-white text-[#1B2E58] border-2 border-[#1B2E58] px-6 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-gray-100 transition-all">
+                        
+                        <!-- Bouton 2 : WhatsApp -->
+                        <a href="{{ route('realisations.projets') }}" 
+                        target="_blank" 
+                        class="flex items-center justify-center bg-white text-[#1B2E58] border-2 border-[#1B2E58] py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-gray-100 transition-all text-center">
                             Partenaire
                         </a>
+
                     </div>
                 </div>
             </div>
@@ -854,7 +885,7 @@
             <!-- DROITE : Illustration -->
             <div class="relative reveal-on-scroll opacity-0 transform translate-x-20 transition-all duration-1000 delay-400">
                 <div class="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl">
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200" alt="Équipe NAKAYO" class="w-full h-[350px] object-cover transition-transform duration-700 hover:scale-105">
+                    <img src="{{ asset('images/deux.webp') }}" alt="Équipe NAKAYO" class="w-full h-[350px] object-cover transition-transform duration-700 hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58] via-transparent to-transparent opacity-60"></div>
                 </div>
                 
@@ -889,7 +920,7 @@
         <!-- Bloc Boutons -->
         <div class="flex flex-col sm:flex-row gap-4 reveal-on-scroll opacity-0 transform translate-x-20 transition-all duration-1000 delay-300">
             <!-- Bouton 1 (Passage de py-4 à py-3.5 pour réduire la hauteur) -->
-            <a href="{{ route('contact') }}" class="group relative bg-[#FF9F29] text-white px-8 py-3.5 rounded-xl font-black text-xs uppercase tracking-widest text-center overflow-hidden transition-all duration-300 hover:scale-105 shadow-xl">
+            <a href="https://wa.me/{{ $whatsappClean }}" class="group relative bg-[#FF9F29] text-white px-8 py-3.5 rounded-xl font-black text-xs uppercase tracking-widest text-center overflow-hidden transition-all duration-300 hover:scale-105 shadow-xl">
                 <span class="relative z-10">Devenir Client</span>
                 <div class="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
                 <style>
@@ -898,7 +929,7 @@
             </a>
             
             <!-- Bouton 2 (Passage de py-4 à py-3.5) -->
-            <a href="{{ route('contact') }}" class="bg-transparent border-2 border-[#FF9F29] text-[#FF9F29] px-8 py-3.5 rounded-xl font-black text-xs uppercase tracking-widest text-center hover:bg-[#FF9F29] hover:text-white transition-all duration-300 hover:scale-105 shadow-lg">
+            <a href="{{ route('realisations.projets') }}" class="bg-transparent border-2 border-[#FF9F29] text-[#FF9F29] px-8 py-3.5 rounded-xl font-black text-xs uppercase tracking-widest text-center hover:bg-[#FF9F29] hover:text-white transition-all duration-300 hover:scale-105 shadow-lg">
                 Devenir Partenaire
             </a>
         </div>

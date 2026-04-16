@@ -41,19 +41,19 @@
                     <div class="flex items-center gap-4 group">
                         <i class="fas fa-envelope text-[#FFB75E] text-xl"></i>
                         <p class="text-lg font-bold text-[#1B2E58]">
-                            Contact: <span class="text-orange-500 font-medium">(229) 01 94 86 61 61</span>
+                            Contact: <span class="text-orange-500 font-medium">{{ $settings->telephone_appel ?? '(+229) 00 00 00 00' }}</span>
                         </p>
                     </div>
                     <div class="flex items-center gap-4">
                         <i class="fas fa-map-marker-alt text-[#FFB75E] text-xl"></i>
                         <p class="text-lg font-bold text-[#1B2E58]">
-                            Emplacement: <span class="text-gray-500 font-medium">Littoral Cotonou - Bénin</span>
+                            Emplacement: <span class="text-gray-500 font-medium">{{ $settings->localisation ?? 'Adresse non définie' }}</span>
                         </p>
                     </div>
                     <div class="flex items-center gap-4">
                         <i class="fas fa-clock text-[#FFB75E] text-xl"></i>
                         <p class="text-lg font-bold text-[#1B2E58]">
-                            Lun - Ven: <span class="text-gray-500 font-medium">8H - 19H</span>
+                            Lun - Ven: <span class="text-gray-500 font-medium">{{ $settings->horaires_ouverture ?? 'Non définis' }}</span>
                         </p>
                     </div>
                 </div>
@@ -64,45 +64,55 @@
                 <h3 class="text-[#1B2E58] text-2xl font-bold mb-4">Envoyez-nous un Message</h3>
                 <p class="text-gray-400 text-sm mb-8 leading-relaxed">
                     Veuillez remplir le formulaire ci-dessous pour une demande particulière, et nous vous recontacterons. Vous pouvez également nous appeler. 
-                    <span class="text-[#1B2E58] font-bold border-b border-[#1B2E58]">+229 01 94 86 61 61</span> et nos spécialistes vous apporteront l'aide nécessaire !
+                    <span class="text-[#1B2E58] font-bold border-b border-[#1B2E58]">{{ $settings->telephone_appel ?? '(+229) 00 00 00 00' }}</span> et nos spécialistes vous apporteront l'aide nécessaire !
                 </p>
 
-                <form action="#" method="POST" class="space-y-6">
+                {{-- Message de succès --}}
+                @if(session('success'))
+                    <div class="bg-emerald-500 text-white p-4 rounded-xl mb-6 font-bold flex items-center gap-3 animate-bounce">
+                        <i class="fas fa-check-circle"></i>
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Nom</label>
-                            <input type="text" placeholder="John" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1B2E58] focus:border-transparent outline-none transition">
+                            <input type="text" name="nom" value="{{ old('nom') }}" placeholder="John" required class="w-full px-5 py-4 bg-gray-50 border @error('nom') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
+                            @error('nom') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Prénom</label>
-                            <input type="text" placeholder="Doe" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1B2E58] focus:border-transparent outline-none transition">
+                            <input type="text" name="prenom" value="{{ old('prenom') }}" placeholder="Doe" required class="w-full px-5 py-4 bg-gray-50 border @error('prenom') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
+                            @error('prenom') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Adresse Email</label>
-                            <input type="email" placeholder="contact@email.com" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1B2E58] focus:border-transparent outline-none transition">
+                            <input type="email" name="email" value="{{ old('email') }}" placeholder="contact@email.com" required class="w-full px-5 py-4 bg-gray-50 border @error('email') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
+                            @error('email') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Phone</label>
-                            <input type="text" placeholder="Numéro de téléphone" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1B2E58] focus:border-transparent outline-none transition">
+                            <input type="text" name="phone" value="{{ old('phone') }}" placeholder="Numéro de téléphone" required class="w-full px-5 py-4 bg-gray-50 border @error('phone') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
+                            @error('phone') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Quel est l'objet de votre demande ?</label>
-                        <select class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl outline-none appearance-none cursor-pointer">
-                            <option>Crédit</option>
-                            <option>Épargne</option>
-                            <option>Conseil</option>
-                        </select>
+                        <input type="text" name="objet" value="{{ old('objet') }}" placeholder="Entrez l'objet de votre demande" required class="w-full px-5 py-4 bg-gray-50 border @error('objet') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
+                        @error('objet') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Comment pouvons-nous vous aider ?</label>
-                        <textarea rows="4" placeholder="Votre Message" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl outline-none"></textarea>
+                        <textarea name="description" rows="4" placeholder="Votre Message" required class="w-full px-5 py-4 bg-gray-50 border @error('description') border-red-500 @else border-gray-200 @enderror rounded-xl outline-none">{{ old('description') }}</textarea>
+                        @error('description') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
 
                     <button type="submit" class="w-full bg-[#1B2E58] text-white font-bold py-5 rounded-xl hover:bg-orange-500 transition-all shadow-lg flex items-center justify-center gap-3 group">
