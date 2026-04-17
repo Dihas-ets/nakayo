@@ -115,7 +115,7 @@
                         <select name="id_service"  class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-gray-50/50 focus:bg-white focus:border-[#FF9F29] outline-none font-bold transition-all">
                             <option value="">Sélectionner un service</option>
                             @foreach($services as $service)
-                                <option value="{{ $service->id_service }}">{{ $service->nom }}</option>
+                                <option value="{{ $service->id_service }}">{{ $service->titre }}</option>
                             @endforeach
                         </select>
                     </div>
