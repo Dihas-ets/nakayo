@@ -28,7 +28,7 @@ class CompanySettingController extends Controller
             'ifu'                => 'nullable|string',
             
             
-            'numero_rccm'        => 'nullable|string',
+            
             'telephone_appel'    => 'nullable|string',
             'telephone_whatsapp' => 'nullable|string',
             'email'              => 'nullable|email',

@@ -91,7 +91,7 @@
                     
                 </div>
                 <x-input label="Numéro IFU" name="ifu" :value="$settings->ifu" />
-                <x-input label="Numéro RCCM" name="numero_rccm" :value="$settings->numero_rccm" />
+                
             </div>
 
             {{-- CONTACTS DIRECTS --}}
