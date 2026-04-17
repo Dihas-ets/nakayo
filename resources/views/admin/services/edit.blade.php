@@ -46,7 +46,7 @@
                                 {{-- Photos en base --}}
                                 @foreach($service->galleries->where('type_media', 'image') as $img)
                                     <div class="relative aspect-square rounded-xl overflow-hidden group">
-                                        <img src="{{ asset('storage/' . $img->image_url) }}" class="w-full h-full object-cover">
+                                        <img src="{{url('storage/' . $img->image_url) }}" class="w-full h-full object-cover">
                                         <div class="absolute inset-0 bg-red-600/80 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
                                             <i class="fa-solid fa-trash text-white"></i>
                                         </div>
@@ -105,7 +105,7 @@
                 {{-- IMAGE PRINCIPALE --}}
                 <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100 text-center">
                     <h3 class="text-xs font-black uppercase text-[#1B2E58] mb-6 text-left">Couverture Actuelle</h3>
-                    <img src="{{ asset('storage/'.$service->media) }}" class="rounded-3xl h-48 w-full object-cover mb-6">
+                    <img src="{{ url('storage/'.$service->media) }}" class="rounded-3xl h-48 w-full object-cover mb-6">
                     <label class="block w-full py-3 bg-gray-100 rounded-xl text-[10px] font-black cursor-pointer hover:bg-[#FF9F29] hover:text-white transition-all">
                         CHANGER L'IMAGE
                         <input type="file" name="media" class="hidden">

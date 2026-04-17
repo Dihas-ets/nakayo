@@ -59,7 +59,7 @@
                 <tr class="hover:bg-gray-50/50 transition-all group">
                     <td class="px-8 py-5">
                         <div class="w-14 h-14 rounded-xl overflow-hidden border border-gray-100 shadow-sm mx-auto bg-gray-50">
-                            <img src="{{ asset('storage/' . $produit->image) }}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100?text=Produit'">
+                            <img src="{{ url('storage/' . $produit->image) }}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100?text=Produit'">
                         </div>
                     </td>
                     <td class="px-8 py-5">

@@ -54,7 +54,7 @@
                     <div class="relative group border-2 border-dashed border-gray-100 rounded-[2rem] p-4 text-center hover:border-[#FF9F29] transition-all">
                         <input type="file" name="image" class="absolute inset-0 opacity-0 cursor-pointer">
                         @if($projet->image)
-                            <img src="{{ asset('storage/'.$projet->image) }}" class="rounded-2xl h-48 w-full object-cover mb-4 shadow-sm">
+                            <img src="{{ url('storage/'.$projet->image) }}" class="rounded-2xl h-48 w-full object-cover mb-4 shadow-sm">
                             <p class="text-[9px] font-black text-[#FF9F29] uppercase tracking-widest">Cliquer pour changer l'image</p>
                         @else
                             <div class="py-10">

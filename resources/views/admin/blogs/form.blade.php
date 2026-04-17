@@ -77,7 +77,7 @@
                     <div class="relative group cursor-pointer border-2 border-dashed border-gray-100 rounded-[2rem] p-4 text-center hover:border-[#FF9F29] transition-all">
                         <input type="file" name="media" class="absolute inset-0 opacity-0 cursor-pointer">
                         @if(isset($article) && $article->media)
-                            <img src="{{ asset('storage/' . $article->media) }}" class="rounded-2xl h-40 w-full object-cover mb-4">
+                            <img src="{{ url('storage/' . $article->media) }}" class="rounded-2xl h-40 w-full object-cover mb-4">
                         @else
                             <div class="py-12">
                                 <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-200 group-hover:text-[#FF9F29] transition-colors"></i>

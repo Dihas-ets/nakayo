@@ -15,7 +15,7 @@
         <div class="flex flex-col md:flex-row gap-12 items-center relative z-10">
             <!-- Portrait -->
             <div class="w-48 h-48 rounded-[2.5rem] overflow-hidden border-8 border-gray-50 shadow-xl">
-                <img src="{{ asset('storage/' . $membre->photo) }}" class="w-full h-full object-cover">
+                <img src="{{ url('storage/' . $membre->photo) }}" class="w-full h-full object-cover">
             </div>
 
             <!-- Infos -->

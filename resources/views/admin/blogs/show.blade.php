@@ -14,7 +14,7 @@
         <!-- ARTICLE -->
         <div class="lg:col-span-2 space-y-8">
             <div class="bg-white rounded-[3rem] overflow-hidden shadow-sm border border-gray-100">
-                <img src="{{ asset('storage/' . $article->media) }}" class="w-full h-[400px] object-cover" onerror="this.src='https://placehold.co/800x400'">
+                <img src="{{ url('storage/' . $article->media) }}" class="w-full h-[400px] object-cover" onerror="this.src='https://placehold.co/800x400'">
                 <div class="p-12">
                     <h1 class="text-5xl font-black text-[#1B2E58] mb-8 leading-tight">{{ $article->titre }}</h1>
                     

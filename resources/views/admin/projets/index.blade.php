@@ -40,7 +40,7 @@
                 @forelse($projets as $projet)
                 <tr class="group hover:bg-[#F8FAFC] transition-all">
                     <td class="px-8 py-5 text-center">
-                        <img src="{{ asset('storage/'.$projet->image) }}" class="w-14 h-10 rounded-xl object-cover border shadow-sm" onerror="this.src='https://placehold.co/100x100?text=Projet'">
+                        <img src="{{ url('storage/'.$projet->image) }}" class="w-14 h-10 rounded-xl object-cover border shadow-sm" onerror="this.src='https://placehold.co/100x100?text=Projet'">
                     </td>
                     <td class="px-8 py-5">
                         <p class="font-black text-[#1B2E58] text-base leading-tight">{{ $projet->nom }}</p>

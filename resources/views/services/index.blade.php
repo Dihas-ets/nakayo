@@ -52,7 +52,7 @@
                             
                             {{-- Image du service --}}
                             <div class="relative h-64 overflow-hidden">
-                                <img src="{{ $service->media ? asset('storage/' . $service->media) : asset('images/default-service.jpg') }}" 
+                                <img src="{{ $service->media ? url('storage/' . $service->media) : url('images/default-service.jpg') }}" 
                                      alt="{{ $service->titre }}" 
                                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                                 

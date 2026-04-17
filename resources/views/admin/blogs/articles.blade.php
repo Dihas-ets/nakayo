@@ -54,7 +54,7 @@
                     {{-- Image --}}
                     <td class="px-6 py-4">
                         <div class="w-16 h-12 rounded-xl overflow-hidden border border-gray-100 bg-gray-50 mx-auto shadow-sm">
-                            <img src="{{ asset('storage/' . $article->media) }}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x150?text=Nakayo'">
+                            <img src="{{ url('storage/' . $article->media) }}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x150?text=Nakayo'">
                         </div>
                     </td>
 

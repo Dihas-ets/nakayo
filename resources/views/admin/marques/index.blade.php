@@ -61,7 +61,7 @@
                     <tr class="hover:bg-gray-50/50 transition-all text-[#1B2E58]">
                         <td class="px-8 py-5">
                             <div class="w-16 h-16 rounded-xl overflow-hidden border border-gray-100 bg-white p-2">
-                                <img src="{{ asset('storage/' . $marque->image) }}" class="w-full h-full object-contain">
+                                <img src="{{ url('storage/' . $marque->image) }}" class="w-full h-full object-contain">
                             </div>
                         </td>
                         <td class="px-8 py-5">

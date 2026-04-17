@@ -46,7 +46,7 @@
                     <td class="px-8 py-4 text-center">
                         <div class="w-16 h-10 rounded-lg overflow-hidden border border-gray-100 shadow-sm mx-auto bg-gray-50">
                             @if($service->media)
-                                <img src="{{ asset('storage/' . $service->media) }}" class="w-full h-full object-cover">
+                                <img src="{{ url('storage/' . $service->media) }}" class="w-full h-full object-cover">
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-gray-300">
                                     <i class="fa-solid fa-image"></i>

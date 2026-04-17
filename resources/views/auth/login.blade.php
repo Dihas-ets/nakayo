@@ -5,7 +5,7 @@
     
     <!-- Ajout du Logo ou lien retour -->
     <a href="/">
-            <img src="{{ $settings->logo ? Storage::url($settings->logo) : asset('images/logo-default.png') }}" 
+            <img src="{{ $settings->logo ? Storage::url($settings->logo) : url('images/logo-default.png') }}" 
      alt="{{ $settings->nom_agence }}" 
      class="h-42 w-auto object-contain">
         </a>

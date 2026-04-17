@@ -50,7 +50,7 @@
                         <label class="block text-[10px] font-black uppercase opacity-60">Logo Principal</label>
                         @if($settings->logo)
                             <div class="mb-2 p-3 bg-gray-50 rounded-xl border border-dashed flex justify-center">
-                                <img src="{{ asset('storage/' . $settings->logo) }}" class="h-16 object-contain">
+                                <img src="{{ url('storage/' . $settings->logo) }}" class="h-16 object-contain">
                             </div>
                         @endif
                         <input type="file" name="logo" class="text-xs w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
@@ -60,7 +60,7 @@
                         <label class="block text-[10px] font-black uppercase opacity-60">Logo sans fond (PNG)</label>
                         @if($settings->logo_sans_fond)
                             <div class="mb-2 p-3 bg-[#1B2E58] rounded-xl flex justify-center shadow-inner">
-                                <img src="{{ asset('storage/' . $settings->logo_sans_fond) }}" class="h-16 object-contain">
+                                <img src="{{ url('storage/' . $settings->logo_sans_fond) }}" class="h-16 object-contain">
                             </div>
                         @endif
                         <input type="file" name="logo_sans_fond" class="text-xs w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
@@ -70,7 +70,7 @@
                         <label class="block text-[10px] font-black uppercase opacity-60">Favicon (Onglet)</label>
                         @if($settings->favicon)
                             <div class="mb-2 p-3 bg-gray-50 rounded-xl border border-dashed flex justify-center">
-                                <img src="{{ asset('storage/' . $settings->favicon) }}" class="w-8 h-8 object-contain shadow-sm">
+                                <img src="{{ url('storage/' . $settings->favicon) }}" class="w-8 h-8 object-contain shadow-sm">
                             </div>
                         @endif
                         <input type="file" name="favicon" class="text-xs w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">

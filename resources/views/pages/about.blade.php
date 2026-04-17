@@ -124,11 +124,11 @@
                         {{-- Si lien existe, on enveloppe tout dans un <a>, sinon un simple <div> --}}
                         @if($partenaire->lien)
                             <a href="{{ $partenaire->lien }}" target="_blank" class="block w-full h-16  transition-all duration-500  hover:opacity-100 cursor-pointer">
-                                <img src="{{ asset('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
+                                <img src="{{ url('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
                             </a>
                         @else
                             <div class="block w-full h-16  ">
-                                <img src="{{ asset('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
+                                <img src="{{ url('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
                             </div>
                         @endif
                     </div>
@@ -194,7 +194,7 @@
                         
                         {{-- Affichage de la photo à partir du dossier storage --}}
                         @if($member->photo)
-                            <img src="{{ asset('storage/' . $member->photo) }}" 
+                            <img src="{{ url('storage/' . $member->photo) }}" 
                                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
                                  alt="{{ $member->nom_complet }}">
                         @else

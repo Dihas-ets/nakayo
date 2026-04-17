@@ -107,7 +107,7 @@
                 class="group relative bg-white rounded-[4rem] overflow-hidden shadow-sm hover:shadow-[0_40px_80px_-15px_rgba(27,46,88,0.2)] transition-all duration-700 border border-gray-100">
                 
                 <div class="h-[400px] overflow-hidden relative">
-                    <img src="{{ asset('storage/' . $p->image) }}" 
+                    <img src="{{ url('storage/' . $p->image) }}" 
                          alt="{{ $p->nom }}"
                          class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110">
                     

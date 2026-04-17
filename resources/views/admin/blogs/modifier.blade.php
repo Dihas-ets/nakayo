@@ -69,7 +69,7 @@
                         
                         {{-- Image actuelle ou nouvelle --}}
                         <div class="h-48 w-full rounded-2xl overflow-hidden mb-4 shadow-inner">
-                            <img :src="imageUrl ? imageUrl : '{{ asset('storage/'.$article->media) }}'" 
+                            <img :src="imageUrl ? imageUrl : '{{ url('storage/'.$article->media) }}'" 
                                  class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Nakayo+Blog'">
                         </div>
                         

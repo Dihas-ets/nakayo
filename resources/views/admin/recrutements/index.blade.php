@@ -81,7 +81,7 @@
                         <td class="px-8 py-5">
                             <div class="flex items-center gap-4">
                                 <div class="w-12 h-12 rounded-xl overflow-hidden border border-gray-100 shadow-sm">
-                                    <img src="{{ $offre->image ? asset('storage/' . $offre->image) : 'https://placehold.co/100x100?text=Job' }}" class="w-full h-full object-cover">
+                                    <img src="{{ $offre->image ? url('storage/' . $offre->image) : 'https://placehold.co/100x100?text=Job' }}" class="w-full h-full object-cover">
                                 </div>
                                 <div>
                                     <p class="font-black text-lg leading-tight">{{ $offre->nom }}</p>

@@ -22,7 +22,7 @@
             'id_service' => $s->id_service,
             'title' => $s->titre,
             'subtitle' => $s->courte_description,
-            'img' => $s->media ? asset('storage/' . $s->media) : asset('images/default-hero.jpg'),
+            'img' => $s->media ? url('storage/' . $s->media) : url('images/default-hero.jpg'),
             // ON GÉNÈRE L'URL ICI :
             'url' => route('services.show', $s->id_service) 
         ];
@@ -140,7 +140,7 @@
                     <div class="relative group h-[250px] rounded-[2rem] overflow-hidden border-4 border-gray-100 shadow-sm transition-transform duration-500 hover:scale-[1.02]">
                         
                         <!-- Image Dynamique -->
-                        <img src="{{ $service->media ? asset('storage/' . $service->media) : asset('images/default-service.jpg') }}" 
+                        <img src="{{ $service->media ? url('storage/' . $service->media) : url('images/default-service.jpg') }}" 
                              alt="{{ $service->titre }}" 
                              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         
@@ -195,7 +195,7 @@
             
             <div class="relative reveal-on-scroll opacity-0 transform -translate-x-10 transition-all duration-1000">
                 <div class="relative">
-                    <img src="{{ asset('images/8.jpeg') }}" 
+                    <img src="{{ url('images/8.jpeg') }}" 
                          alt="Équipe NAKAYO" 
                          class="rounded-sm shadow-sm w-full object-cover h-[400px]">
                 </div>
@@ -299,7 +299,7 @@
                             <!-- Image/Logo de la marque -->
                             <div class="relative z-10 w-20 h-20 bg-[#F8FAFC] rounded-2xl flex items-center justify-center mb-4 transition-all duration-500 @if($marque->id_service) group-hover:bg-white group-hover:scale-110 @endif overflow-hidden p-3">
                                 @if($marque->image)
-                                    <img src="{{ asset('storage/' . $marque->image) }}" alt="{{ $marque->nom }}" class="w-full h-full object-contain">
+                                    <img src="{{ url('storage/' . $marque->image) }}" alt="{{ $marque->nom }}" class="w-full h-full object-contain">
                                 @else
                                     <i class="fas fa-certificate text-2xl text-gray-300"></i>
                                 @endif
@@ -413,7 +413,7 @@
                         <a href="{{ route('blog.show', $featuredArticle->slug) }}" class="relative group cursor-pointer h-full flex flex-col">
 
                             <div class="h-[380px] overflow-hidden rounded-[2rem] shadow-lg flex-shrink-0">
-                                <img src="{{ asset('storage/' . $featuredArticle->media) }}"
+                                <img src="{{ url('storage/' . $featuredArticle->media) }}"
                                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 bg-gray-100"
                                      alt="{{ $featuredArticle->titre }}">
                             </div>
@@ -456,7 +456,7 @@
                             <a href="{{ route('blog.show', $article->slug) }}" class="flex gap-5 mb-0 group cursor-pointer items-center p-3 rounded-2xl hover:bg-gray-50 transition-all">
 
                                 <div class="w-28 h-24 flex-shrink-0 overflow-hidden rounded-xl shadow-sm">
-                                    <img src="{{ asset('storage/' . $article->media) }}"
+                                    <img src="{{ url('storage/' . $article->media) }}"
                                          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                          alt="{{ $article->titre }}">
                                 </div>
@@ -534,7 +534,7 @@
                    class="{{ $gridClasses }} relative group overflow-hidden rounded-2xl shadow-md block cursor-pointer bg-[#1B2E58]">
                     
                     {{-- Image avec overlay progressif --}}
-                    <img src="{{ asset('storage/' . $projet->image) }}" 
+                    <img src="{{ url('storage/' . $projet->image) }}" 
                          alt="{{ $projet->nom }}" 
                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100">
                     
@@ -602,11 +602,11 @@
                         {{-- Si lien existe, on enveloppe tout dans un <a>, sinon un simple <div> --}}
                         @if($partenaire->lien)
                             <a href="{{ $partenaire->lien }}" target="_blank" class="block w-full h-16  transition-all duration-500  hover:opacity-100 cursor-pointer">
-                                <img src="{{ asset('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
+                                <img src="{{ url('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
                             </a>
                         @else
                             <div class="block w-full h-16 grayscale ">
-                                <img src="{{ asset('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
+                                <img src="{{ url('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
                             </div>
                         @endif
                     </div>
@@ -672,7 +672,7 @@
                 @foreach($team->concat($team) as $member)
                 <div class="w-[240px] group flex-shrink-0">
                     <div class="relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-gray-50 mb-4 shadow-sm border border-gray-100">
-                        <img src="{{ asset('storage/' . $member->photo) }}" 
+                        <img src="{{ url('storage/' . $member->photo) }}" 
                              class="w-full h-full object-cover" 
                              alt="{{ $member->nom_complet }}">
                     </div>
@@ -865,7 +865,7 @@
             <!-- DROITE : Illustration -->
             <div class="relative reveal-on-scroll opacity-0 transform translate-x-20 transition-all duration-1000 delay-400">
                 <div class="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl">
-                    <img src="{{ asset('images/deux.webp') }}" alt="Équipe NAKAYO" class="w-full h-[350px] object-cover transition-transform duration-700 hover:scale-105">
+                    <img src="{{ url('images/deux.webp') }}" alt="Équipe NAKAYO" class="w-full h-[350px] object-cover transition-transform duration-700 hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58] via-transparent to-transparent opacity-60"></div>
                 </div>
                 

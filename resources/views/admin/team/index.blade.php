@@ -26,7 +26,7 @@
                 @foreach($membres as $membre)
                 <tr class="group hover:bg-[#F8FAFC]">
                     <td class="px-8 py-5">
-                        <img src="{{ asset('storage/' . $membre->photo) }}" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
+                        <img src="{{ url('storage/' . $membre->photo) }}" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
                     </td>
                     <td class="px-8 py-5">
                         <p class="font-black text-[#1B2E58]">{{ $membre->nom_complet }}</p>

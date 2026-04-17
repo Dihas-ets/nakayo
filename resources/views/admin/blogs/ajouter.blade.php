@@ -54,7 +54,7 @@
         <div class="relative group border-2 border-dashed border-gray-100 rounded-[2rem] p-10 text-center hover:border-[#FF9F29] transition-all">
             <input type="file" name="media" class="absolute inset-0 opacity-0 cursor-pointer">
             @if(isset($article) && $article->media)
-                <img src="{{ asset('storage/'.$article->media) }}" class="rounded-xl h-32 w-full object-cover">
+                <img src="{{ url('storage/'.$article->media) }}" class="rounded-xl h-32 w-full object-cover">
             @else
                 <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-100 group-hover:text-[#FF9F29] mb-4 transition-colors"></i>
                 <p class="text-[10px] font-bold text-gray-300 uppercase">Cliquer pour uploader</p>

@@ -74,7 +74,7 @@
                     <tr class="hover:bg-gray-50/50 transition-all group text-[#1B2E58]">
                         <td class="px-8 py-5">
                             <div class="w-16 h-16 rounded-xl overflow-hidden border border-gray-100 bg-white p-2 shadow-sm">
-                                <img src="{{ $partenaire->image ? asset('storage/' . $partenaire->image) : 'https://placehold.co/200x200?text=Logo' }}" class="w-full h-full object-contain">
+                                <img src="{{ $partenaire->image ? url('storage/' . $partenaire->image) : 'https://placehold.co/200x200?text=Logo' }}" class="w-full h-full object-contain">
                             </div>
                         </td>
                         <td class="px-8 py-5">

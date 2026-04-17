@@ -18,7 +18,7 @@
             {{-- Bloc Article --}}
             <div class="bg-white rounded-[3rem] overflow-hidden shadow-sm border border-gray-100">
                 <div class="relative h-96">
-                    <img src="{{ asset('storage/' . $article->media) }}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/800x400?text=Nakayo+Blog'">
+                    <img src="{{ url('storage/' . $article->media) }}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/800x400?text=Nakayo+Blog'">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                     <div class="absolute bottom-8 left-8">
                         <span class="px-4 py-1.5 bg-[#FF9F29] text-white rounded-full text-[10px] font-black uppercase tracking-widest">

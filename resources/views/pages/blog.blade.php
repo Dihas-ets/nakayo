@@ -74,7 +74,7 @@
     @if(isset($featuredArticle))
         <article class="relative flex flex-col lg:flex-row bg-[#1B2E58] rounded-[40px] overflow-hidden shadow-2xl group mb-16">
             <div class="lg:w-1/2 h-[300px] lg:h-[500px] overflow-hidden">
-                <img src="{{ asset('storage/' . $featuredArticle->media) }}" 
+                <img src="{{ url('storage/' . $featuredArticle->media) }}" 
                      alt="{{ $featuredArticle->titre }}"
                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80">
             </div>
@@ -113,7 +113,7 @@
             <a href="{{ route('blog.show', $article->slug ?? $article->id) }}" class="group block">
                 <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 group-hover:-translate-y-2">
                     <div class="h-48 overflow-hidden">
-                        <img src="{{ asset('storage/' . $article->media) }}" 
+                        <img src="{{ url('storage/' . $article->media) }}" 
                              alt="{{ $article->titre }}"
                              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                     </div>

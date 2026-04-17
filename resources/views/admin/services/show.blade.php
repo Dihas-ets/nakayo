@@ -18,7 +18,7 @@
     <!-- 1. HERO SECTION : IMAGE PRINCIPALE & TITRE -->
     <div class="relative h-[500px] rounded-[4rem] overflow-hidden shadow-2xl border-8 border-white bg-gray-100 mx-4 md:mx-0">
         @if($service->media)
-            <img src="{{ asset('storage/' . $service->media) }}" class="w-full h-full object-cover">
+            <img src="{{ url('storage/' . $service->media) }}" class="w-full h-full object-cover">
         @endif
         <div class="absolute inset-0 bg-gradient-to-t from-[#00261C] via-[#00261C]/20 to-transparent opacity-90"></div>
         <div class="absolute bottom-16 left-16 right-16">
@@ -107,7 +107,7 @@
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                     @forelse($service->galleries->where('type_media', 'image') as $img)
                         <div class="aspect-square rounded-[3rem] overflow-hidden border-4 border-white shadow-xl hover:scale-105 transition-transform duration-500 bg-gray-50">
-                            <img src="{{ asset('storage/' . $img->image_url) }}" class="w-full h-full object-cover shadow-inner">
+                            <img src="{{ url('storage/' . $img->image_url) }}" class="w-full h-full object-cover shadow-inner">
                         </div>
                     @empty
                         <div class="col-span-full py-16 bg-white rounded-[3rem] border-2 border-dashed border-gray-100 text-center">

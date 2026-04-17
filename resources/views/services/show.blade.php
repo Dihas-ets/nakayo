@@ -16,7 +16,7 @@
     <!-- Image de fond dynamique (Image du service en base de données) -->
     <div class="absolute inset-0 z-0">
         {{-- On affiche l'image du service ou une image par défaut si vide --}}
-        <img src="{{ $service->media ? asset('storage/' . $service->media) : 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920' }}" 
+        <img src="{{ $service->media ? url('storage/' . $service->media) : 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920' }}" 
              class="w-full h-full object-cover">
         
         <!-- Overlay "Deep Teal" (Bleu-Vert sombre) comme sur ton image -->
@@ -139,7 +139,7 @@
         <!-- PDF DOWNLOAD (Statique ou à ajouter en DB) -->
         <div class="bg-gray-50 p-6 border-l-4 border-[#1B2E58] group hover:bg-gray-100 transition">
             <p class="font-black text-[#1B2E58] mb-4 uppercase text-[10px] tracking-widest">Documentation Officielle</p>
-            <a href="{{ asset('assets/documents/brochure-nakayo.pdf') }}" download class="flex items-center justify-between bg-[#1B2E58] text-white p-5 hover:bg-[#FF9F29] transition-all duration-300">
+            <a href="{{ url('assets/documents/brochure-nakayo.pdf') }}" download class="flex items-center justify-between bg-[#1B2E58] text-white p-5 hover:bg-[#FF9F29] transition-all duration-300">
                 <div class="flex items-center gap-4">
                     <i class="fa-solid fa-file-pdf text-2xl"></i>
                     <span class="font-black text-xs uppercase tracking-tighter">Brochure {{ $settings->nom_agence ?? 'Nakayo' }}</span>
@@ -178,7 +178,7 @@
                     <div class="bg-white border border-gray-100 rounded-sm group hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col">
                         <!-- Image du produit -->
                         <div class="relative h-64 overflow-hidden bg-gray-100">
-                            <img src="{{ $prod->image ? asset('storage/' . $prod->image) : 'https://placehold.co/600x400?text=NAKAYO' }}" 
+                            <img src="{{ $prod->image ? url('storage/' . $prod->image) : 'https://placehold.co/600x400?text=NAKAYO' }}" 
                                 alt="{{ $prod->nom }}" 
                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                             
@@ -256,13 +256,13 @@
                             
                             {{-- CAS 1 : IMAGE --}}
                             @if($media->type_media == 'image')
-                                <img src="{{ asset('storage/' . $media->image_url) }}" 
+                                <img src="{{ url('storage/' . $media->image_url) }}" 
                                     alt="Réalisation Nakayo"
                                     class="w-full h-auto object-cover transition duration-700 group-hover:scale-110">
                                 
                                 {{-- Overlay épuré (sans carte) --}}
                                 <div class="absolute inset-0 bg-[#061e24]/60 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-[2px]">
-                                    <a href="{{ asset('storage/' . $media->image_url) }}" 
+                                    <a href="{{ url('storage/' . $media->image_url) }}" 
                                     class="glightbox w-14 h-14 bg-white text-[#061e24] rounded-full flex items-center justify-center shadow-2xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
                                         <i class="fa-solid fa-plus text-xl"></i>
                                     </a>

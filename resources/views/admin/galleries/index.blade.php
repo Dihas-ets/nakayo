@@ -71,7 +71,7 @@
                         {{-- Rendu Visuel (Image ou Vidéo) --}}
                         <div class="aspect-video bg-gray-100 overflow-hidden relative">
                             @if($media->type_media == 'image')
-                                <img src="{{ asset('storage/' . $media->image_url) }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                <img src="{{ url('storage/' . $media->image_url) }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                             @else
                                 @php
                                     $videoId = '';

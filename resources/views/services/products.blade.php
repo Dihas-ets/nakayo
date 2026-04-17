@@ -41,7 +41,7 @@
                         <!-- Image du produit (Ouvre le modal au clic) -->
                         <div class="relative h-64 overflow-hidden bg-gray-100 cursor-pointer" 
                              @click="selectedProduct = {{ json_encode($prod) }}; selectedProduct.image_url = '{{ $prod->image ? asset('storage/' . $prod->image) : 'https://placehold.co/600x400?text=NAKAYO' }}'; openModal = true">
-                            <img src="{{ $prod->image ? asset('storage/' . $prod->image) : 'https://placehold.co/600x400?text=NAKAYO' }}" 
+                            <img src="{{ $prod->image ? url('storage/' . $prod->image) : 'https://placehold.co/600x400?text=NAKAYO' }}" 
                                  alt="{{ $prod->nom }}" 
                                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                             <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity text-white font-bold text-xs uppercase tracking-widest">Voir détails</div>
@@ -52,7 +52,7 @@
                             
                             <!-- Titre (Ouvre le modal au clic) -->
                             <h4 class="text-xl font-black text-blue-950 mb-4 leading-tight uppercase cursor-pointer hover:text-orange-500 transition"
-                                @click="selectedProduct = {{ json_encode($prod) }}; selectedProduct.image_url = '{{ $prod->image ? asset('storage/' . $prod->image) : 'https://placehold.co/600x400?text=NAKAYO' }}'; openModal = true">
+                                @click="selectedProduct = {{ json_encode($prod) }}; selectedProduct.image_url = '{{ $prod->image ? url('storage/' . $prod->image) : 'https://placehold.co/600x400?text=NAKAYO' }}'; openModal = true">
                                 {{ $prod->nom }}
                             </h4>
                             

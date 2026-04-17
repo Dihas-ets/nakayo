@@ -6,7 +6,7 @@
         <a href="{{ route('projets') }}" class="text-[#1B2E58] font-bold uppercase text-xs tracking-widest mb-8 inline-block">← Retour aux projets</a>
         
         <div class="rounded-[3rem] overflow-hidden mb-12 shadow-2xl">
-            <img src="{{ asset('storage/' . $projet->image) }}" class="w-full h-[500px] object-cover">
+            <img src="{{ url('storage/' . $projet->image) }}" class="w-full h-[500px] object-cover">
         </div>
 
         <span class="text-[#FF9F29] font-black uppercase tracking-[4px] text-sm">{{ $projet->service_nom }}</span>

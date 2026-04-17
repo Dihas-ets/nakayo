@@ -13,7 +13,7 @@
         <div class="text-center space-y-4">
             <p class="text-[10px] font-black uppercase opacity-50">Photo actuelle</p>
             <div class="w-full aspect-square rounded-[2rem] overflow-hidden border-4 border-gray-50 shadow-inner">
-                <img src="{{ asset('storage/' . $membre->photo) }}" class="w-full h-full object-cover">
+                <img src="{{ url('storage/' . $membre->photo) }}" class="w-full h-full object-cover">
             </div>
         </div>
 

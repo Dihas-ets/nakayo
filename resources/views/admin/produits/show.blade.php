@@ -24,7 +24,7 @@
             <div class="bg-white rounded-[3rem] overflow-hidden shadow-sm border border-gray-100 group">
                 <div class="relative h-[450px] bg-gray-50 flex items-center justify-center">
                     @if($produit->image)
-                        <img src="{{ asset('storage/' . $produit->image) }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <img src="{{ url('storage/' . $produit->image) }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                     @else
                         <i class="fa-solid fa-box-open text-9xl text-gray-100"></i>
                     @endif
