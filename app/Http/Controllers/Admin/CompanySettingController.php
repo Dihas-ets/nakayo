@@ -44,6 +44,12 @@ class CompanySettingController extends Controller
             'logo'               => 'nullable|image',
             'logo_sans_fond'     => 'nullable|image',
             'favicon'            => 'nullable|image',
+
+            'annee_creation' => 'nullable|integer',
+        'statut_juridique' => 'nullable|string|max:255',
+        'horaires_ouverture' => 'nullable|string|max:255',
+        'jours_ouverture' => 'nullable|string|max:255',
+        'numero_rccm' => 'nullable|string|max:255',
         ]);
 
         try {

@@ -11,7 +11,11 @@ class CompanySetting extends Model
      'telephone_appel', 'telephone_whatsapp', 
     'email', 'localisation', 'google_maps_link', 'facebook_link', 
     'instagram_link', 'linkedin_link', 'availability_hours', 
-    
+    'annee_creation',
+    'horaires_ouverture',
+    'jours_ouverture',
+    'statut_juridique',
+    'numero_rccm',
     // Nouveaux champs
     'description_footer', 'tiktok_link', 'logo', 'logo_sans_fond', 'favicon'
 ];

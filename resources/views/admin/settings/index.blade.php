@@ -87,11 +87,11 @@
                 </div>
                 <x-input label="Nom de l'agence / Siège" name="nom_agence" :value="$settings->nom_agence" />
                 <div class="grid grid-cols-2 gap-4">
-                    
-                    
+                    <x-input label="Statut Juridique" name="statut_juridique" :value="$settings->statut_juridique" placeholder="Ex: SARL" />
+                    <x-input label="Année de création" name="" type="number" :value="$settings->annee_creation" />
                 </div>
                 <x-input label="Numéro IFU" name="ifu" :value="$settings->ifu" />
-                
+                <x-input label="Numéro RCCM" name="numero_rccm" :value="$settings->numero_rccm" />
             </div>
 
             {{-- CONTACTS DIRECTS --}}
@@ -139,7 +139,8 @@
                     <h3 class="font-black uppercase text-sm tracking-widest">Horaires & Disponibilité</h3>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    
+                    <x-input label="Jours d'ouverture" name="jours_ouverture" :value="$settings->jours_ouverture" placeholder="Ex: Lundi au Vendredi" />
+                    <x-input label="Horaires d'ouverture" name="horaires_ouverture" :value="$settings->horaires_ouverture" placeholder="Ex: 08h - 19h" />
                     <x-input label="Texte Disponibilité" name="availability_hours" :value="$settings->availability_hours" />
                 </div>
             </div>
