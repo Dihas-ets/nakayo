@@ -605,7 +605,7 @@
                                 <img src="{{ asset('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
                             </a>
                         @else
-                            <div class="block w-full h-16  ">
+                            <div class="block w-full h-16 grayscale ">
                                 <img src="{{ asset('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
                             </div>
                         @endif

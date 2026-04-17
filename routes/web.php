@@ -166,11 +166,34 @@ Route::get('/projets/{id}', function ($id) {
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | 1. ROUTE ACCUEIL (Slider Dynamique + Blog)
 |--------------------------------------------------------------------------
 */
+
+
+
+
+// =========================================================
+// GESTION DES SERVICES (LOGIQUE INTÉGRÉE DANS LA ROUTE)
+// =========================================================
+
+// 1. Page de liste : Affiche TOUS les services
+
+// PAGE DE LISTE DE TOUS LES SERVICES
+Route::get('/services/index', function () {
+    // On récupère uniquement les services dont le statut est 'publié'
+    $services = Service::where('status', 'publié')
+                       ->orderBy('created_at', 'desc')
+                       ->get();
+                       
+    // On retourne la vue (assure-toi que le fichier existe dans resources/views/pages/services.blade.php)
+    return view('services.index', compact('services'));
+})->name('services.index');
+
+
 
 // Route d'accueil pour le slider et les blogs
 Route::get('/', function () {
@@ -211,6 +234,8 @@ Route::get('/', function () {
                   ->get();   
                   
     $marques = Marque::with('service')->get(); 
+
+    $services = Service::where('status', 'publié')->get();
     
     $partenaires = Partenaire::all();
 
@@ -240,7 +265,7 @@ Route::get('/services/{id_service}', function ($id) {
     $service = Service::where('id_service', $id)
                       ->with([
                           'produits' => function($q) {
-                              $q->where('statut', 'disponible')->limit(4);
+                              $q->where('statut', 'disponible');
                           },
                           'galleries'
                       ])
