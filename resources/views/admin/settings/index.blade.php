@@ -87,7 +87,7 @@
                 </div>
                 <x-input label="Nom de l'agence / Siège" name="nom_agence" :value="$settings->nom_agence" />
                 <div class="grid grid-cols-2 gap-4">
-                    <x-input label="Statut Juridique" name="statut_juridique" :value="$settings->statut_juridique" placeholder="Ex: SARL" />
+                    
                     
                 </div>
                 <x-input label="Numéro IFU" name="ifu" :value="$settings->ifu" />

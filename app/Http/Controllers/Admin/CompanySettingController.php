@@ -27,7 +27,7 @@ class CompanySettingController extends Controller
             'nom_agence'         => 'required|string|max:255',
             'ifu'                => 'nullable|string',
             
-            'statut_juridique'   => 'nullable|string',
+            
             'numero_rccm'        => 'nullable|string',
             'telephone_appel'    => 'nullable|string',
             'telephone_whatsapp' => 'nullable|string',
