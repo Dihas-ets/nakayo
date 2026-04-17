@@ -297,7 +297,7 @@
                     @endif
 
                             <!-- Image/Logo de la marque -->
-                            <div class="relative z-10 w-20 h-20 bg-[#F8FAFC] rounded-2xl flex items-center justify-center mb-4 transition-all duration-500 @if($marque->id_service) group-hover:bg-white group-hover:scale-110 @endif overflow-hidden p-3">
+                            <div class="relative z-10 w-20 h-20  rounded-2xl flex items-center justify-center mb-4 transition-all duration-500 @if($marque->id_service) group-hover:bg-white group-hover:scale-110 @endif overflow-hidden p-3">
                                 @if($marque->image)
                                     <img src="{{ url('storage/' . $marque->image) }}" alt="{{ $marque->nom }}" class="w-full h-full object-contain">
                                 @else
@@ -306,7 +306,7 @@
                             </div>
                             
                             <!-- Nom de la marque -->
-                            <h3 class="relative z-10 text-sm font-black text-[#1B2E58] transition-colors duration-500 @if($marque->id_service) group-hover:text-white @endif uppercase italic text-center tracking-tight">
+                            <h3 class="relative z-10 text-sm font-black text-[#1B2E58] transition-colors duration-500 @if($marque->id_service) group-hover:text-white @endif uppercase  text-center tracking-tight">
                                 {{ $marque->nom }}
                             </h3>
 
