@@ -67,7 +67,7 @@
                     {{-- Aperçu dynamique du visuel principal --}}
                     <div class="relative group rounded-[2rem] overflow-hidden mb-4 bg-gray-50 border border-gray-100 h-48">
                         {{-- Si coverPreview est nul, on affiche l'image par défaut des assets --}}
-                        <img :src="coverPreview ? coverPreview : '{{ url('assets/images/default-service.jpg') }}'" 
+                        <img :src="coverPreview ? coverPreview : '{{ url('assets/images/default-service.jpg') }}'"  
                              class="w-full h-full object-cover transition-all duration-500"
                              :class="!coverPreview ? 'opacity-40 grayscale' : ''">
                         
