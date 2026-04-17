@@ -10,6 +10,7 @@
         <p class="text-gray-500 font-medium">Gérez l'identité visuelle, légale et les coordonnées de l'entreprise.</p>
     </div>
 
+    {{-- Alertes Erreurs / Succès --}}
     @if ($errors->any())
         <div class="bg-red-500 text-white p-5 rounded-2xl mb-8 shadow-xl flex items-start gap-3">
             <i class="fa-solid fa-triangle-exclamation text-2xl mt-1"></i>
@@ -37,6 +38,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
+            {{-- IDENTITÉ VISUELLE --}}
             <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 space-y-6 md:col-span-2">
                 <div class="flex items-center gap-3 mb-4 text-[#1B2E58]">
                     <i class="fa-solid fa-palette text-xl text-[#FF9F29]"></i>
@@ -77,6 +79,7 @@
                 </div>
             </div>
 
+            {{-- IDENTITÉ & FISCALITÉ --}}
             <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 space-y-6">
                 <div class="flex items-center gap-3 mb-4 text-[#1B2E58]">
                     <i class="fa-solid fa-id-card text-xl text-[#FF9F29]"></i>
@@ -91,6 +94,7 @@
                 <x-input label="Numéro RCCM" name="numero_rccm" :value="$settings->numero_rccm" />
             </div>
 
+            {{-- CONTACTS DIRECTS --}}
             <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 space-y-6">
                 <div class="flex items-center gap-3 mb-4 text-[#1B2E58]">
                     <i class="fa-solid fa-phone-volume text-xl text-[#FF9F29]"></i>
@@ -101,6 +105,22 @@
                 <x-input label="Numéro WhatsApp" name="telephone_whatsapp" :value="$settings->telephone_whatsapp" />
             </div>
 
+            {{-- SECTION LOCALISATION & MAPS (NOUVEAU) --}}
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 space-y-6 md:col-span-2">
+                <div class="flex items-center gap-3 mb-4 text-[#1B2E58]">
+                    <i class="fa-solid fa-map-location-dot text-xl text-[#FF9F29]"></i>
+                    <h3 class="font-black uppercase text-sm tracking-widest">Localisation & Itinéraire</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <x-input label="Adresse physique détaillée" name="localisation" :value="$settings->localisation" placeholder="Ex: Zogbo Yénawa Lot 1887..." />
+                    <div>
+                        <x-input label="Lien Google Maps (Iframe ou URL)" name="google_maps_link" :value="$settings->google_maps_link" placeholder="Zogbo Yénawa Lot 1887  “G” Maison AMOUSSOU Benoit" />
+                        <p class="text-[9px] text-gray-400 mt-1 italic leading-tight">Collez ici le lien d'intégration (iframe) ou l'URL de partage de votre position Google Maps.</p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- DESCRIPTION FOOTER --}}
             <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 space-y-4 md:col-span-2">
                 <div class="flex items-center gap-3 mb-2 text-[#1B2E58]">
                     <i class="fa-solid fa-quote-left text-xl text-[#FF9F29]"></i>
@@ -112,6 +132,7 @@
                     placeholder="Écrivez ici le texte qui apparaîtra en bas de page...">{{ old('description_footer', $settings->description_footer) }}</textarea>
             </div>
 
+            {{-- HORAIRES --}}
             <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 space-y-6 md:col-span-2">
                 <div class="flex items-center gap-3 mb-4 text-[#1B2E58]">
                     <i class="fa-solid fa-clock text-xl text-[#FF9F29]"></i>
@@ -124,6 +145,7 @@
                 </div>
             </div>
 
+            {{-- PRÉSENCE DIGITALE --}}
             <div class="bg-[#1B2E58] p-10 rounded-[2.5rem] shadow-xl space-y-8 md:col-span-2 text-white">
                 <div class="flex items-center gap-3 mb-4">
                     <i class="fa-solid fa-share-nodes text-xl text-[#FF9F29]"></i>
@@ -150,6 +172,7 @@
             </div>
         </div>
 
+        {{-- BOUTON SOUMISSION --}}
         <div class="flex justify-center pt-12">
             <button type="submit" class="group relative bg-[#FF9F29] hover:bg-[#1B2E58] text-white px-16 py-5 rounded-[2.5rem] font-black text-xl shadow-2xl shadow-orange-200 transition-all duration-300 transform active:scale-95">
                 <span class="flex items-center gap-3">

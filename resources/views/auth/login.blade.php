@@ -4,9 +4,11 @@
 <div class="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4">
     
     <!-- Ajout du Logo ou lien retour -->
-    <a href="/" class="mb-8 block">
-        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-16">
-    </a>
+    <a href="/">
+            <img src="{{ $settings->logo ? Storage::url($settings->logo) : asset('images/logo-default.png') }}" 
+     alt="{{ $settings->nom_agence }}" 
+     class="h-42 w-auto object-contain">
+        </a>
 
     <div class="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-2xl border border-gray-100">
         <div class="text-center mb-10">
@@ -41,13 +43,13 @@
             </button>
         </form>
 
-        <div class="text-center mt-10 flex flex-col gap-2">
+        <!-- <div class="text-center mt-10 flex flex-col gap-2">
             <p class="text-gray-400 text-sm font-medium">
                 Pas encore client ? 
                 <a href="{{ route('register') }}" class="text-[#FFB75E] font-bold hover:underline ml-1">Créer un compte</a>
             </p>
             <a href="/" class="text-xs text-gray-400 hover:text-[#1B2E58] transition-colors mt-4 italic underline">← Retour au site</a>
-        </div>
+        </div> -->
     </div>
 </div>
 @endsection

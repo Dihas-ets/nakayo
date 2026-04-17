@@ -6,7 +6,7 @@
 <div class="space-y-10">
     
     <!-- 1. HEADER : Accueil personnalisé -->
-    <div class="relative overflow-hidden bg-[#1B2E58] rounded-[2.5rem] p-8 md:p-12 text-white shadow-xl">
+    <div class="relative overflow-hidden bg-[#00261C] rounded-[2.5rem] p-8 md:p-12 text-white shadow-xl">
         <div class="relative z-10">
             <h1 class="text-3xl md:text-5xl font-black tracking-tight">
                 Bonjour, <span class="text-white">{{ Auth::user()->nom_complet }}</span> 👋

@@ -108,47 +108,37 @@
 
 
 <!-- SECTION : NOS PARTENAIRES -->
-<section class="py-16 bg-gray-50/50 font-sans">
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-        <!-- En-tête -->
-        <div class="text-center mb-12 reveal-on-scroll">
-            <h2 class="text-2xl lg:text-3xl font-black text-[#1B2E58] uppercase tracking-tighter">
+<section class="py-10 font-sans overflow-hidden">
+    <div class="max-w-6xl mx-auto px-12">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl lg:text-3xl font-black text-[#1B2E58] uppercase tracking-tighter ">
                 Ils nous font confiance
             </h2>
-            <div class="h-1.5 w-20 bg-[#FF9F29] mx-auto mt-2 rounded-full shadow-sm"></div>
-            <p class="text-gray-500 mt-4 max-w-xl mx-auto text-sm">
-                Nakayo Corporation collabore avec des leaders pour vous offrir l'excellence au Bénin.
-            </p>
+            <div class="h-1 w-12 bg-[#FF9F29] mx-auto mt-1 rounded-full shadow-sm"></div>
         </div>
 
-        <!-- Grille des partenaires dynamique -->
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center">
-            
-            @forelse($partenaires as $partenaire)
-                <div class="group p-6 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center h-28 hover:border-[#FF9F29]/30 hover:shadow-xl transition-all duration-500">
-                    
-                    {{-- Si un lien existe, on rend le logo cliquable --}}
-                    @if($partenaire->lien)
-                        <a href="{{ $partenaire->lien }}" target="_blank" title="{{ $partenaire->nom }}" class="flex items-center justify-center w-full h-full">
-                    @endif
-
-                        <img src="{{ asset('storage/' . $partenaire->image) }}" 
-                             alt="{{ $partenaire->nom }}" 
-                             onerror="this.src='https://via.placeholder.com/150x50?text={{ urlencode($partenaire->nom) }}'"
-                             class="max-h-12 w-auto object-contain grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-105">
-
-                    @if($partenaire->lien)
-                        </a>
-                    @endif
-
-                </div>
-            @empty
-                {{-- Message si aucun partenaire en base de données --}}
-                <div class="col-span-full text-center py-10">
-                    <p class="text-gray-400 italic text-sm">Nos partenaires seront bientôt affichés.</p>
-                </div>
-            @endforelse
-
+        <div class="swiper partner-swiper pb-10">
+            <div class="swiper-wrapper">
+                @forelse($partenaires as $partenaire)
+                    <div class="swiper-slide h-auto flex items-center justify-center">
+                        {{-- Si lien existe, on enveloppe tout dans un <a>, sinon un simple <div> --}}
+                        @if($partenaire->lien)
+                            <a href="{{ $partenaire->lien }}" target="_blank" class="block w-full h-16  transition-all duration-500  hover:opacity-100 cursor-pointer">
+                                <img src="{{ asset('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
+                            </a>
+                        @else
+                            <div class="block w-full h-16  ">
+                                <img src="{{ asset('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
+                            </div>
+                        @endif
+                    </div>
+                @empty
+                    <div class="w-full text-center py-5">
+                        <p class="text-gray-400 italic text-xs">Aucun partenaire disponible.</p>
+                    </div>
+                @endforelse
+            </div>
+            <div class="swiper-pagination"></div>
         </div>
     </div>
 </section>
@@ -369,15 +359,22 @@
     
    
     <div class="absolute inset-0 z-0">
+        @if($settings->google_maps_link)
         <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.148509652131!2d2.417246!3d6.374945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x102355998a449d63%3A0x633512f451f49615!2sCotonou%2C%20Bénin!5e0!3m2!1sfr!2sbj!4v1710000000000!5m2!1sfr!2sbj" 
+            src="https://www.google.com/maps?q={{ urlencode($settings->google_maps_link) }}&output=embed" 
             width="100%" 
             height="100%" 
             style="border:0;" 
             allowfullscreen="" 
-            loading="lazy" 
-            class="w-full h-full opacity-90 transition-opacity duration-500 hover:opacity-100">
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
         </iframe>
+    @else
+        {{-- Message ou image de remplacement si pas de lien --}}
+        <div class="w-full h-full flex items-center justify-center text-gray-500 font-bold italic">
+            <i class="fa-solid fa-map-location-dot mr-2"></i> Localisation bientôt disponible
+        </div>
+    @endif
         <!-- Overlay dégradé léger pour ne pas gêner la lecture mais lier au design -->
         <div class="absolute inset-y-0 left-0 w-full md:w-1/2 bg-gradient-to-r from-white/80 via-white/40 to-transparent pointer-events-none"></div>
     </div>
@@ -398,8 +395,7 @@
                 <!-- Décoration d'angle -->
                 <div class="absolute top-0 right-0 w-24 h-24 bg-[#FFB75E]/5 rounded-bl-[100px]"></div>
 
-                <h2 class="text-[#1B2E58] text-3xl font-black mb-1">Cotonou</h2>
-                <p class="text-[#FFB75E] font-bold text-sm uppercase tracking-widest mb-10">Agence Principale</p>
+                
 
                 <div class="space-y-8">
                     <!-- Adresse -->

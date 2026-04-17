@@ -12,14 +12,22 @@
 
 {{-- SECTION 1 : LA CARTE (TOP) --}}
 <section class="w-full h-[400px] bg-gray-200">
-    <iframe 
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15860.590509652131!2d2.417246!3d6.374945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x102355998a449d63%3A0x633512f451f49615!2sCotonou%2C%20Bénin!5e0!3m2!1sfr!2sbj!4v1711900000000!5m2!1sfr!2sbj" 
-        width="100%" 
-        height="100%" 
-        style="border:0;" 
-        allowfullscreen="" 
-        loading="lazy">
-    </iframe>
+    @if($settings->google_maps_link)
+        <iframe 
+            src="https://www.google.com/maps?q={{ urlencode($settings->google_maps_link) }}&output=embed" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    @else
+        {{-- Message ou image de remplacement si pas de lien --}}
+        <div class="w-full h-full flex items-center justify-center text-gray-500 font-bold italic">
+            <i class="fa-solid fa-map-location-dot mr-2"></i> Localisation bientôt disponible
+        </div>
+    @endif
 </section>
 
 {{-- SECTION 2 : TEXTE + FORMULAIRE (BOTTOM) --}}
@@ -75,18 +83,38 @@
                     </div>
                 @endif
 
+                {{-- 1. MESSAGE DE SUCCÈS --}}
+@if(session('success'))
+    <div class="mb-6 flex items-center p-4 text-emerald-800 border-l-4 border-emerald-500 bg-emerald-50 rounded-r-xl shadow-sm animate-fade-in" role="alert">
+        <i class="fas fa-check-circle text-xl mr-3"></i>
+        <div class="text-sm font-bold">
+            {{ session('success') }}
+        </div>
+    </div>
+@endif
+
+{{-- 2. MESSAGE D'ERREUR GLOBALE (ex: problème serveur) --}}
+@if(session('error'))
+    <div class="mb-6 flex items-center p-4 text-red-800 border-l-4 border-red-500 bg-red-50 rounded-r-xl shadow-sm" role="alert">
+        <i class="fas fa-exclamation-triangle text-xl mr-3"></i>
+        <div class="text-sm font-bold">
+            {{ session('error') }}
+        </div>
+    </div>
+@endif
+
                 <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Nom</label>
                             <input type="text" name="nom" value="{{ old('nom') }}" placeholder="John" required class="w-full px-5 py-4 bg-gray-50 border @error('nom') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
-                            @error('nom') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            @error('nom') <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span> @enderror
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Prénom</label>
                             <input type="text" name="prenom" value="{{ old('prenom') }}" placeholder="Doe" required class="w-full px-5 py-4 bg-gray-50 border @error('prenom') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
-                            @error('prenom') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            @error('prenom') <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span> @enderror
                         </div>
                     </div>
 
@@ -94,25 +122,25 @@
                         <div>
                             <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Adresse Email</label>
                             <input type="email" name="email" value="{{ old('email') }}" placeholder="contact@email.com" required class="w-full px-5 py-4 bg-gray-50 border @error('email') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
-                            @error('email') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            @error('email') <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span> @enderror
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Phone</label>
                             <input type="text" name="phone" value="{{ old('phone') }}" placeholder="Numéro de téléphone" required class="w-full px-5 py-4 bg-gray-50 border @error('phone') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
-                            @error('phone') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            @error('phone') <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span> @enderror
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Quel est l'objet de votre demande ?</label>
                         <input type="text" name="objet" value="{{ old('objet') }}" placeholder="Entrez l'objet de votre demande" required class="w-full px-5 py-4 bg-gray-50 border @error('objet') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
-                        @error('objet') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                        @error('objet') <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span> @enderror
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Comment pouvons-nous vous aider ?</label>
-                        <textarea name="description" rows="4" placeholder="Votre Message" required class="w-full px-5 py-4 bg-gray-50 border @error('description') border-red-500 @else border-gray-200 @enderror rounded-xl outline-none">{{ old('description') }}</textarea>
-                        @error('description') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                        <textarea name="description" rows="4" placeholder="Votre Message" required class="w-full px-5 py-4 bg-gray-50 border @error('description') border-red-500 @else border-gray-200 @enderror rounded-xl outline-none transition focus:ring-2 focus:ring-[#1B2E58]">{{ old('description') }}</textarea>
+                        @error('description') <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span> @enderror
                     </div>
 
                     <button type="submit" class="w-full bg-[#1B2E58] text-white font-bold py-5 rounded-xl hover:bg-orange-500 transition-all shadow-lg flex items-center justify-center gap-3 group">

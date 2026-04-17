@@ -39,6 +39,9 @@
                     @if($settings->instagram_link)
                         <a href="{{ $settings->instagram_link }}" target="_blank" class="w-6 h-6 bg-[#FF9F29] rounded-full flex items-center justify-center text-[#002117] text-[10px]"><i class="fab fa-instagram"></i></a>
                     @endif
+                     @if($settings->tiktok_link)
+                        <a href="{{ $settings->tiktok_link }}" target="_blank" class="w-6 h-6 bg-[#FF9F29] rounded-full flex items-center justify-center text-[#002117] text-[10px]"><i class="fab fa-tiktok"></i></a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -50,7 +53,9 @@
         <div class="flex-1 flex items-center justify-between pl-4 pr-4 lg:pl-0 lg:pr-10">
             <!-- LOGO (Agrandi sur mobile : h-16) -->
             <a href="{{ route('home') }}" class="flex-shrink-0 flex items-center">
-                <img src="{{ asset('images/logo3.png') }}" alt="{{ $settings->nom_agence }}" class="h-32 lg:h-48 object-contain">
+                <img src="{{ $settings->logo ? Storage::url($settings->logo) : asset('images/logo-default.png') }}" 
+                    alt="{{ $settings->nom_agence }}" 
+                    class="h-32 lg:h-48 object-contain">
             </a>
 
             <!-- DESKTOP MENU -->
@@ -122,7 +127,7 @@
         <div @click="mobileMenuOpen = false" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
         <div class="absolute right-0 top-0 h-full w-[85%] max-w-sm bg-[#1B2E58] text-white p-8 overflow-y-auto transition-transform duration-300">
             <div class="flex justify-between items-center mb-10">
-                <img src="{{ asset('images/logo3.png') }}" class="h-12 brightness-200" alt="{{ $settings->nom_agence }}">
+                <img src="{{ $settings->logo_sans_fond ? Storage::url($settings->logo_sans_fond) : asset('images/logo-default.png') }}" class="h-60 brightness-200" alt="{{ $settings->nom_agence }}">
                 <button @click="mobileMenuOpen = false" class="text-3xl"><i class="fas fa-times"></i></button>
             </div>
             
@@ -144,7 +149,8 @@
                 </li>
 
                 <li><a href="{{ route('blog.index') }}" @click="mobileMenuOpen = false">Blog</a></li>
-                <li><a href="{{ route('realisations.projets') }}" @click="mobileMenuOpen = false">Projets</a></li>
+                <li><a href="{{ route('realisations.projets') }}" @click="mobileMenuOpen = false">Réalisations</a></li>
+                <li><a href="{{ route('pages.investisseurs') }}" @click="mobileMenuOpen = false">Projets</a></li>
                 <li><a href="{{ route('recrutement') }}" @click="mobileMenuOpen = false">Recrutement</a></li>
                 <li><a href="{{ route('contact') }}" @click="mobileMenuOpen = false">Contact</a></li>
             </ul>

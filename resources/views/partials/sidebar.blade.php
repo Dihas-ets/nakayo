@@ -6,13 +6,12 @@
     
 
 
-    <div class="flex flex-col items-center py-10 flex-shrink-0">
+    <div class="flex flex-col items-center  flex-shrink-0">
         <a href="{{ route('admin.dashboard') }}" class="relative group transition-all hover:scale-105">
             <!-- Logo agrandi (w-40 au lieu de w-16) -->
-            <img src="{{ asset('images/logo2.png') }}" 
-                alt="Nakayo Logo" 
-                class="w-40 h-auto object-contain"
-            >
+            <img src="{{ $settings->logo_sans_fond ? Storage::url($settings->logo_sans_fond) : asset('images/logo_sans_fond-default.png') }}" 
+     alt="{{ $settings->nom_agence }}" 
+     class="w-40 h-auto object-contain">
         </a>
     </div>
 
@@ -34,11 +33,7 @@
             <a href="{{ route('admin.users.redacteurs') }}" class="block py-2 px-8 text-sm {{ request()->routeIs('admin.users.redacteurs') ? 'text-white font-bold' : 'text-white/60 hover:text-white' }}">Rédacteur</a>
             <a href="{{ route('admin.users.abonnes') }}" class="block py-2 px-8 text-sm {{ request()->routeIs('admin.users.abonnes') ? 'text-white font-bold' : 'text-white/60 hover:text-white' }}">Abonné</a>
             <a href="{{  route('admin.team.index') }}" class="block py-2 px-8 text-sm {{ request()->routeIs('admin.team.index') ? 'text-white font-bold' : 'text-white/60 hover:text-white' }}"> team</a>
-          
-
-
-
-        </x-nav-item>
+                  </x-nav-item>
 
         {{-- 3. GESTION DES SERVICES --}}
         <x-nav-item type="dropdown" title="Gestion des Services" icon="fa-solid fa-briefcase" 

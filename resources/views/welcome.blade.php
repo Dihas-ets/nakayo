@@ -281,56 +281,45 @@
         </div>
 
         <!-- Grille dynamique -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             
             @forelse($marques as $index => $marque)
                 <div class="reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out" 
                      style="transition-delay: {{ $index * 100 }}ms">
                     
-                    <div class="group relative bg-white rounded-[1.5rem] p-5 flex flex-col items-center border border-gray-100 shadow-sm transition-all duration-500 transform hover:-translate-y-2 hover:bg-[#1B2E58] h-full cursor-pointer">
-                        
-                        <!-- Image/Logo de la marque (Remplace l'icône) -->
-                        <div class="relative z-10 w-16 h-16 bg-[#F8FAFC] rounded-xl flex items-center justify-center mb-3 transition-all duration-500 group-hover:bg-white group-hover:rotate-[360deg] overflow-hidden p-2">
-                            @if($marque->image)
-                                <img src="{{ asset('storage/' . $marque->image) }}" alt="{{ $marque->nom }}" class="w-full h-full object-contain">
-                            @else
-                                <!-- Icône par défaut si pas d'image -->
-                                <i class="fas fa-brand text-2xl text-[#1B2E58]"></i>
-                            @endif
-                        </div>
-                        
-                        <!-- Nom de la marque -->
-                        <h3 class="relative z-10 text-lg font-black text-[#1B2E58] mb-2 transition-colors duration-500 group-hover:text-white uppercase italic text-center">
-                            {{ $marque->nom }}
-                        </h3>
+                    {{-- SI UN SERVICE EST LIÉ : On utilise une balise <a> avec effets de survol --}}
+                    @if($marque->id_service)
+                        <a href="{{ route('services.show', $marque->id_service) }}" 
+                           class="group relative bg-white rounded-[1.5rem] p-6 flex flex-col items-center border border-gray-100 shadow-sm transition-all duration-500 transform hover:-translate-y-2 hover:bg-[#1B2E58] h-full cursor-pointer block">
+                    {{-- SINON : On utilise une simple <div> sans effets interactifs --}}
+                    @else
+                        <div class="relative bg-white rounded-[1.5rem] p-6 flex flex-col items-center border border-gray-50 shadow-sm h-full cursor-default">
+                    @endif
 
-                        <!-- Description (Si tu as ajouté un champ description, sinon on affiche le nom du service lié) -->
-                        <p class="relative z-10 text-gray-500 text-[11px] text-center mb-4 transition-colors duration-500 group-hover:text-white/70 line-clamp-2">
-                            @if($marque->service)
-                                Partenaire de notre pôle {{ $marque->service->titre }}
-                            @else
-                                Marque de confiance du groupe.
-                            @endif
-                        </p>
-                        
-                        <!-- Bouton Découvrir -->
-                        <div class="relative z-10 mt-auto w-full">
-                            @if($marque->id_service)
-                                <a href="{{ route('services.show', $marque->id_service) }}" class="inline-block w-full text-center bg-[#FF9F29] text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-[#1B2E58]">
-                                    Découvrir
-                                </a>
-                            @else
-                                <span class="inline-block w-full text-center bg-gray-100 text-gray-400 px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest cursor-default">
-                                    Bientôt disponible
-                                </span>
-                            @endif
+                            <!-- Image/Logo de la marque -->
+                            <div class="relative z-10 w-20 h-20 bg-[#F8FAFC] rounded-2xl flex items-center justify-center mb-4 transition-all duration-500 @if($marque->id_service) group-hover:bg-white group-hover:scale-110 @endif overflow-hidden p-3">
+                                @if($marque->image)
+                                    <img src="{{ asset('storage/' . $marque->image) }}" alt="{{ $marque->nom }}" class="w-full h-full object-contain">
+                                @else
+                                    <i class="fas fa-certificate text-2xl text-gray-300"></i>
+                                @endif
+                            </div>
+                            
+                            <!-- Nom de la marque -->
+                            <h3 class="relative z-10 text-sm font-black text-[#1B2E58] transition-colors duration-500 @if($marque->id_service) group-hover:text-white @endif uppercase italic text-center tracking-tight">
+                                {{ $marque->nom }}
+                            </h3>
+
+                    @if($marque->id_service)
+                        </a>
+                    @else
                         </div>
-                    </div>
+                    @endif
+
                 </div>
             @empty
-                <!-- Cas où il n'y a pas de marques en base de données -->
                 <div class="col-span-full text-center py-10">
-                    <p class="text-gray-400 italic">Aucune marque n'est enregistrée pour le moment.</p>
+                    <p class="text-gray-400 italic">Aucune marque disponible.</p>
                 </div>
             @endforelse
 
@@ -597,50 +586,41 @@
 
 <!-- SECTION : NOS PARTENAIRES -->
 
-<section class="py-16 bg-gray-50/50 font-sans">
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-        <!-- En-tête -->
-        <div class="text-center mb-12 reveal-on-scroll">
-            <h2 class="text-2xl lg:text-3xl font-black text-[#1B2E58] uppercase tracking-tighter">
+<section class="py-10 font-sans overflow-hidden">
+    <div class="max-w-6xl mx-auto px-12">
+        <div class="text-center mb-8">
+            <h2 class="text-xl lg:text-2xl font-black text-[#1B2E58] uppercase tracking-tighter italic">
                 Ils nous font confiance
             </h2>
-            <div class="h-1.5 w-20 bg-[#FF9F29] mx-auto mt-2 rounded-full shadow-sm"></div>
-            <p class="text-gray-500 mt-4 max-w-xl mx-auto text-sm">
-                Nakayo Corporation collabore avec des leaders pour vous offrir l'excellence au Bénin.
-            </p>
+            <div class="h-1 w-12 bg-[#FF9F29] mx-auto mt-1 rounded-full shadow-sm"></div>
         </div>
 
-        <!-- Grille des partenaires dynamique -->
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center">
-            
-            @forelse($partenaires as $partenaire)
-                <div class="group p-6 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center h-28 hover:border-[#FF9F29]/30 hover:shadow-xl transition-all duration-500">
-                    
-                    {{-- Si un lien existe, on rend le logo cliquable --}}
-                    @if($partenaire->lien)
-                        <a href="{{ $partenaire->lien }}" target="_blank" title="{{ $partenaire->nom }}" class="flex items-center justify-center w-full h-full">
-                    @endif
-
-                        <img src="{{ asset('storage/' . $partenaire->image) }}" 
-                             alt="{{ $partenaire->nom }}" 
-                             onerror="this.src='https://via.placeholder.com/150x50?text={{ urlencode($partenaire->nom) }}'"
-                             class="max-h-12 w-auto object-contain grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-105">
-
-                    @if($partenaire->lien)
-                        </a>
-                    @endif
-
-                </div>
-            @empty
-                {{-- Message si aucun partenaire en base de données --}}
-                <div class="col-span-full text-center py-10">
-                    <p class="text-gray-400 italic text-sm">Nos partenaires seront bientôt affichés.</p>
-                </div>
-            @endforelse
-
+        <div class="swiper partner-swiper pb-10">
+            <div class="swiper-wrapper">
+                @forelse($partenaires as $partenaire)
+                    <div class="swiper-slide h-auto flex items-center justify-center">
+                        {{-- Si lien existe, on enveloppe tout dans un <a>, sinon un simple <div> --}}
+                        @if($partenaire->lien)
+                            <a href="{{ $partenaire->lien }}" target="_blank" class="block w-full h-16  transition-all duration-500  hover:opacity-100 cursor-pointer">
+                                <img src="{{ asset('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
+                            </a>
+                        @else
+                            <div class="block w-full h-16  ">
+                                <img src="{{ asset('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
+                            </div>
+                        @endif
+                    </div>
+                @empty
+                    <div class="w-full text-center py-5">
+                        <p class="text-gray-400 italic text-xs">Aucun partenaire disponible.</p>
+                    </div>
+                @endforelse
+            </div>
+            <div class="swiper-pagination"></div>
         </div>
     </div>
 </section>
+
 
 
 
@@ -669,7 +649,7 @@
     }
 </style>
 
-<section class="py-10 bg-white font-sans overflow-hidden">
+<section class="py-6 bg-white font-sans overflow-hidden">
     <div class="max-w-7xl mx-auto px-6 lg:px-12 mb-8 text-center">
         <div class="max-w-2xl mx-auto">
             <div class="mb-4">

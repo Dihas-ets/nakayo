@@ -26,7 +26,8 @@ use App\Http\Controllers\Admin\PartenaireController;
 use App\Http\Controllers\Admin\MarqueController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Models\Message;
-
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\InvestisseurController;
 /*
 |--------------------------------------------------------------------------
 | 1. ROUTES PUBLIQUES
@@ -71,15 +72,15 @@ Route::get('/about', function () {
 
 
 
-// Route pour afficher la page de contact (le formulaire)
-Route::get('/contact', function () {
-    return view('pages.contact'); // Assurez-vous que votre fichier s'appelle resources/views/contact.blade.php
-})->name('contact');
+// Page de contact (Affichage)
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
-// La route POST pour soumettre le formulaire (que nous avons faite juste avant)
-Route::post('/contact-submit', function (Illuminate\Http\Request $request) {
-    // ... le code de validation et création de message ...
-})->name('contact.store');
+// Envoi du formulaire (Traitement)
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+// Route pour la page principale d'investissement
+Route::get('/investisseurs', [InvestisseurController::class, 'investisseurs'])
+    ->name('pages.investisseurs');
 
 
 

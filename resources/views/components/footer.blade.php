@@ -12,23 +12,30 @@
         <!-- Grille responsive -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
             
-            <!-- Colonne 1 : À Propos -->
+            <!-- Colonne 1 : À Propos (DYNAMIQUE) -->
             <div class="flex flex-col">
                 <h3 class="text-xl font-bold mb-6 lg:mb-8 italic uppercase tracking-tighter">À Propos De Nous</h3>
                 <p class="text-gray-400 text-[14px] lg:text-[15px] leading-relaxed mb-8 text-justify">
-                    NAKAYO COORPORATION Sarl est une entreprise privée diversifiée, née de la vision de fédérer des secteurs clés du développement. Avec une approche innovante et un engagement sans faille, nous construisons des ponts entre les besoins du marché et des solutions concrètes.
+                    {{-- Utilisation du champ description_footer de la table company_settings --}}
+                    {{ $settings->description_footer ?? 'NAKAYO CORPORATION Sarl est une entreprise privée diversifiée, née de la vision de fédérer des secteurs clés du développement.' }}
                 </p>
-                <!-- Icônes Sociales -->
+                <!-- Icônes Sociales Dynamiques -->
                 <div class="flex gap-4">
-                    <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#FF9F29] hover:border-[#FF9F29] transition-all duration-300">
+                    @if($settings->facebook)
+                    <a href="{{ $settings->facebook_link }}" target="_blank" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#FF9F29] hover:border-[#FF9F29] transition-all duration-300">
                         <i class="fab fa-facebook-f text-sm"></i>
                     </a>
-                    <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#FF9F29] hover:border-[#FF9F29] transition-all duration-300">
+                    @endif
+                    @if($settings->linkedin)
+                    <a href="{{ $settings->linkedin_link }}" target="_blank" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#FF9F29] hover:border-[#FF9F29] transition-all duration-300">
                         <i class="fab fa-linkedin-in text-sm"></i>
                     </a>
-                    <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#FF9F29] hover:border-[#FF9F29] transition-all duration-300">
-                        <i class="fab fa-youtube text-sm"></i>
+                    @endif
+                    @if($settings->tiktok_link)
+                    <a href="{{ $settings->tiktok_link }}" target="_blank" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#FF9F29] hover:border-[#FF9F29] transition-all duration-300">
+                        <i class="fab fa-tiktok text-sm"></i>
                     </a>
+                    @endif
                 </div>
             </div>
 
@@ -43,20 +50,24 @@
                 </ul>
             </div>
 
-            <!-- Colonne 3 : Nos Produits -->
+            <!-- Colonne 3 : Nos Services (DYNAMIQUE) -->
             <div>
-                <h3 class="text-xl font-bold mb-6 lg:mb-8 italic uppercase tracking-tighter">Nos Produits</h3>
+                <h3 class="text-xl font-bold mb-6 lg:mb-8 italic uppercase tracking-tighter">Nos Services</h3>
                 <ul class="space-y-4 text-gray-400 text-[14px] lg:text-[15px]">
-                    <li><a href="#" class="hover:text-[#FF9F29] transition-colors">Crédit Commerce</a></li>
-                    <li><a href="#" class="hover:text-[#FF9F29] transition-colors">Crédit Agricole</a></li>
-                    <li><a href="#" class="hover:text-[#FF9F29] transition-colors">Financement TPE/PME</a></li>
-                    <li><a href="#" class="hover:text-[#FF9F29] transition-colors">Microcrédit</a></li>
-                    <li><a href="#" class="hover:text-[#FF9F29] transition-colors">Épargne et Placement</a></li>
-                    <li><a href="#" class="hover:text-[#FF9F29] transition-colors">Assurances</a></li>
+                    {{-- Boucle dynamique sur les services --}}
+                    @forelse($footerServices as $service)
+                        <li>
+                            <a href="{{ route('services.show', $service->id_service) }}" class="hover:text-[#FF9F29] transition-colors uppercase text-[13px] font-medium">
+                                {{ $service->titre }}
+                            </a>
+                        </li>
+                    @empty
+                        <li class="italic text-gray-500">Aucun service publié</li>
+                    @endforelse
                 </ul>
             </div>
 
-            <!-- Colonne 4 : Contacts Rapides -->
+            <!-- Colonne 4 : Contacts Rapides (DYNAMIQUE) -->
             <div>
                 <h3 class="text-xl font-bold mb-6 lg:mb-8 italic uppercase tracking-tighter">Contacts Rapides</h3>
                 <p class="text-gray-400 text-[14px] mb-6">
@@ -65,18 +76,20 @@
                 <div class="space-y-5">
                     <div class="flex items-center gap-4 group">
                         <i class="fas fa-envelope text-[#FF9F29] text-lg"></i>
-                        <a href="mailto:nakayocorporation@gmail.com" class="text-[#FF9F29] font-bold text-[14px] lg:text-[16px] hover:underline break-all">
-                            nakayocorporation@gmail.com
+                        <a href="mailto:{{ $settings->email }}" class="text-[#FF9F29] font-bold text-[14px] lg:text-[16px] hover:underline break-all">
+                            {{ $settings->email ?? 'contact@nakayo.bj' }}
                         </a>
                     </div>
                     <div class="flex items-center gap-4">
                         <i class="fas fa-phone-alt text-[#FF9F29] text-lg"></i>
-                        <span class="text-[#FF9F29] font-bold text-[14px] lg:text-[16px] tracking-wider">+229 66 55 61 61</span>
+                        <span class="text-[#FF9F29] font-bold text-[14px] lg:text-[16px] tracking-wider">
+                            {{ $settings->telephone_appel ?? '(+229) 00 00 00 00' }}
+                        </span>
                     </div>
                     <div class="flex items-start gap-4">
                         <i class="fas fa-map-marker-alt text-[#FF9F29] text-lg mt-1"></i>
                         <span class="text-gray-400 text-[14px] leading-relaxed">
-                            Zogbo Yénawa Lot 1887  “G” Maison AMOUSSOU Benoit,<br class="hidden lg:block"> Cotonou, Bénin
+                            {{ $settings->localisation ?? 'Adresse non définie' }}
                         </span>
                     </div>
                 </div>
@@ -109,9 +122,9 @@
             <a href="#" class="hover:text-[#FF9F29] transition-colors">Plan du site</a>
         </div>
         
-        <!-- Copyright -->
+        <!-- Copyright Dynamique -->
         <p class="text-gray-400 text-[12px] font-medium uppercase tracking-tight">
-            © {{ date('Y') }} NAKAYO COORPORATION Sarl, conçu et designé par <span class="text-green-600 font-bold italic">diha's.</span>
+            © {{ date('Y') }} {{ $settings->nom_entreprise ?? 'NAKAYO CORPORATION' }} Sarl, conçu et designé par <span class="text-green-600 font-bold italic">diha's.</span>
         </p>
     </div>
 </div>
