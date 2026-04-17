@@ -165,8 +165,8 @@
                         <input type="text" name="linkedin_link" value="{{ $settings->linkedin_link }}" class="w-full bg-white/10 border-none rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-[#FF9F29]">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black uppercase mb-2 opacity-60 text-orange-400">TikTok</label>
-                        <input type="text" name="tiktok_link" value="{{ $settings->tiktok_link }}" class="w-full bg-white/10 border-none rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-orange-400" placeholder="https://tiktok.com/@...">
+                        <label class="block text-[10px] font-black uppercase mb-2 opacity-60">TikTok</label>
+                        <input type="text" name="tiktok_link" value="{{ $settings->tiktok_link }}" class="w-full bg-white/10 border-none rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-[#FF9F29]">
                     </div>
                 </div>
             </div>

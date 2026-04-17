@@ -37,7 +37,7 @@ class CompanySettingController extends Controller
             'facebook_link'      => 'nullable|string',
             'instagram_link'     => 'nullable|string',
             'linkedin_link'      => 'nullable|string',
-            'tiktok_link'        => 'nullable|url',
+            'tiktok_link'        => 'nullable|string',
             'availability_hours' => 'nullable|string',
             'jours_ouverture'    => 'nullable|string',
             'horaires_ouverture' => 'nullable|string',
