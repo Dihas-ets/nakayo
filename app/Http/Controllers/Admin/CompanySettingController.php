@@ -26,7 +26,7 @@ class CompanySettingController extends Controller
         $validated = $request->validate([
             'nom_agence'         => 'required|string|max:255',
             'ifu'                => 'nullable|string',
-            'annee_creation'     => 'nullable|numeric',
+            
             'statut_juridique'   => 'nullable|string',
             'numero_rccm'        => 'nullable|string',
             'telephone_appel'    => 'nullable|string',

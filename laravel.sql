@@ -126,7 +126,7 @@ CREATE TABLE `company_settings` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `ifu` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nom_agence` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `annee_creation` year(4) DEFAULT NULL,
+  
   `statut_juridique` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `numero_rccm` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `telephone_appel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -148,7 +148,7 @@ CREATE TABLE `company_settings` (
 -- Déchargement des données de la table `company_settings`
 --
 
-INSERT INTO `company_settings` (`id`, `ifu`, `nom_agence`, `annee_creation`, `statut_juridique`, `numero_rccm`, `telephone_appel`, `telephone_whatsapp`, `email`, `localisation`, `google_maps_link`, `facebook_link`, `instagram_link`, `linkedin_link`, `availability_hours`, `jours_ouverture`, `horaires_ouverture`, `created_at`, `updated_at`) VALUES
+INSERT INTO `company_settings` (`id`, `ifu`, `nom_agence`,  `statut_juridique`, `numero_rccm`, `telephone_appel`, `telephone_whatsapp`, `email`, `localisation`, `google_maps_link`, `facebook_link`, `instagram_link`, `linkedin_link`, `availability_hours`, `jours_ouverture`, `horaires_ouverture`, `created_at`, `updated_at`) VALUES
 (1, '3202685006271', 'NAKAYO CORPORATION', 2026, 'SARL', 'RB/ABC/26 B 10770', '+229 01 66 55 61 61', '+229 01 94 86 61 61', 'contact@nakayocorporation.com', 'Zogbo Yénawa Lot 1887  “G” Maison AMOUSSOU Benoit', NULL, '#', '#', '#', NULL, 'LundiI au Vendredi', '08h - 19h', '2026-04-07 06:29:39', '2026-04-13 15:07:57');
 
 -- --------------------------------------------------------

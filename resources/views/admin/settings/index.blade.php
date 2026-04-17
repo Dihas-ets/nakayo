@@ -88,7 +88,7 @@
                 <x-input label="Nom de l'agence / Siège" name="nom_agence" :value="$settings->nom_agence" />
                 <div class="grid grid-cols-2 gap-4">
                     <x-input label="Statut Juridique" name="statut_juridique" :value="$settings->statut_juridique" placeholder="Ex: SARL" />
-                    <x-input label="Année de création" name="annee_creation" type="number" :value="$settings->annee_creation" />
+                    
                 </div>
                 <x-input label="Numéro IFU" name="ifu" :value="$settings->ifu" />
                 <x-input label="Numéro RCCM" name="numero_rccm" :value="$settings->numero_rccm" />
