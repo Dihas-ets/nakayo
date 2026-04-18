@@ -9,7 +9,10 @@
     {{-- On ajoute un paramètre de version aléatoire pour forcer le rechargement --}}
     <link rel="icon" type="image/png" href="{{ asset('storage/' . $company->favicon) }}?v={{ time() }}">
     @else -->
-    <link rel="icon" type="image/png" href="{{ asset('favico.png') }}?v=1">
+    <!-- <link rel="icon" type="image/png" href="{{ asset('favico.png') }}?v=1"> -->
+
+        <link rel="shortcut icon" href="{{ $settings->favicon_url }}">
+
     <!-- <link rel="shortcut icon" href="{{ asset('favico.png') }}?v=1"> -->
     <!-- @endif -->
 

@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NAKAYO CORPORATION - Admin</title>
+
+    <link rel="icon" href="{{ $settings->favicon_url }}">
+
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     {{-- Plugins Alpine requis --}}
     <script defer src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>

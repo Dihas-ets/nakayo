@@ -24,9 +24,8 @@ class PartenaireController extends Controller
         return view('admin.partenaires.index', compact('partenaires'));
     }
 
-    /**
-     * Enregistre un nouveau partenaire
-     */
+     
+
     public function store(Request $request)
     {
         $request->validate([
@@ -38,19 +37,21 @@ class PartenaireController extends Controller
         $data = $request->only(['nom', 'lien']);
 
         if ($request->hasFile('image')) {
-            // Stocke l'image dans le dossier storage/app/public/partenaires
-            // Upload sur Cloudinary dans le dossier 'partenaires'
-            $result = $request->file('image')->storeOnCloudinary('partenaires');
-
-            // On récupère l'URL sécurisée fournie par Cloudinary
-            $data['image'] = $result->getSecurePath();
+            // .store('dossier') utilise automatiquement le disque par défaut définit dans FILESYSTEM_DISK
+            // Il retourne le CHEMIN du fichier (ex: partenaires/nom.jpg)
+            $path = $request->file('image')->store('partenaires');
+            
+            $data['image'] = $path;
         }
 
         Partenaire::create($data);
 
         return redirect()->route('admin.partenaires.index')
-                         ->with('success', 'Le partenaire a été ajouté avec succès !');
+                        ->with('success', 'Le partenaire a été ajouté avec succès !');
     }
+
+
+
 
     /**
      * Met à jour un partenaire existant
@@ -69,11 +70,11 @@ class PartenaireController extends Controller
 
         if ($request->hasFile('image')) {
             // Supprimer l'ancienne image si elle existe
-            if ($partenaire->image) {
-                Storage::disk('public')->delete($partenaire->image);
-            }
-            // Stocker la nouvelle image
-            $path = $request->file('image')->store('partenaires', 'public');
+          if ($partenaire->image && !str_starts_with($partenaire->image, 'http')) {
+        Storage::delete($partenaire->image);
+    }
+
+    $path = $request->file('image')->store('partenaires');
             $data['image'] = $path;
         }
 
@@ -86,18 +87,34 @@ class PartenaireController extends Controller
     /**
      * Supprime un partenaire
      */
-    public function destroy($id)
+    // public function destroy($id)
+    // {
+    //     $partenaire = Partenaire::findOrFail($id);
+
+    //     // Supprimer l'image physiquement du serveur
+    //     if ($partenaire->image) {
+    //         Storage::disk('public')->delete($partenaire->image);
+    //     }
+
+    //     $partenaire->delete();
+
+    //     return redirect()->route('admin.partenaires.index')
+    //                      ->with('success', 'Partenaire supprimé définitivement.');
+    // }
+
+
+        public function destroy($id)
     {
         $partenaire = Partenaire::findOrFail($id);
 
-        // Supprimer l'image physiquement du serveur
         if ($partenaire->image) {
-            Storage::disk('public')->delete($partenaire->image);
+            // Supprime le fichier sur le disque actuel (Cloudinary ou Local)
+            Storage::delete($partenaire->image);
         }
 
         $partenaire->delete();
 
         return redirect()->route('admin.partenaires.index')
-                         ->with('success', 'Partenaire supprimé définitivement.');
+                        ->with('success', 'Supprimé avec succès.');
     }
 }

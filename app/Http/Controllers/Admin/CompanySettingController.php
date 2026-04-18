@@ -59,12 +59,12 @@ class CompanySettingController extends Controller
             foreach ($imageFields as $field) {
                 if ($request->hasFile($field)) {
                     // 1. Supprimer l'ancien fichier s'il existe
-                    if ($settings->$field && Storage::disk('public')->exists($settings->$field)) {
-                        Storage::disk('public')->delete($settings->$field);
+                    if ($settings->$field && !str_starts_with($settings->$field, 'http')) {
+                        Storage::delete($settings->$field);
                     }
 
                     // 2. Stocker le nouveau fichier (Laravel gère tout seul)
-                    $path = $request->file($field)->store('settings', 'public');
+                    $path = $request->file($field)->store('settings');
                     
                     // 3. Ajouter le chemin au tableau validé
                     $validated[$field] = $path;

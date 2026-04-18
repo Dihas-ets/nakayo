@@ -53,9 +53,13 @@
         <div class="flex-1 flex items-center justify-between pl-4 pr-4 lg:pl-0 lg:pr-10">
             <!-- LOGO (Agrandi sur mobile : h-16) -->
             <a href="{{ route('home') }}" class="flex-shrink-0 flex items-center">
-                <img src="{{ $settings->logo ? Storage::url($settings->logo) : asset('images/logo-default.png') }}" 
+                <!-- <img src="{{ $settings->logo ? Storage::url($settings->logo) : asset('images/logo-default.png') }}" 
                     alt="{{ $settings->nom_agence }}" 
-                    class="h-32 lg:h-48 object-contain">
+                    class="h-32 lg:h-48 object-contain"> -->
+
+                    <img src="{{ $settings->logo_url }}" alt="{{ $settings->nom_agence }}" class="h-32 lg:h-48 object-contain">
+
+                    
             </a>
 
             <!-- DESKTOP MENU -->
@@ -91,7 +95,12 @@
                 </li>
 
                 <li><a href="{{ route('blog.index') }}" class="{{ request()->routeIs('blog.*') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Blog</a></li>
-                <li><a href="{{ route('realisations.projets') }}" class="{{ request()->routeIs('realisations.*') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Projets</a></li>
+                <li><a href="{{ route('realisations.projets') }}" class="{{ request()->routeIs('realisations.*') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Réalisations</a></li>
+                <li><a href="{{ route('pages.investisseurs') }}" class="{{ request()->routeIs('pages.investisseurs') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Projets</a></li>
+
+                  
+
+
                 <li><a href="{{ route('recrutement') }}" class="{{ request()->routeIs('recrutement') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Recrutement</a></li>
                 <li><a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Contact</a></li>
             </ul>

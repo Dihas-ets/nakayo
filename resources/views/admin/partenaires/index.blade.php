@@ -74,9 +74,13 @@
                     <tr class="hover:bg-gray-50/50 transition-all group text-[#1B2E58]">
                         <td class="px-8 py-5">
                             <div class="w-16 h-16 rounded-xl overflow-hidden border border-gray-100 bg-white p-2 shadow-sm">
-                                <img src="{{ $partenaire->image ?? 'https://placehold.co/200x200?text=Logo' }}" 
+                                <!-- <img src="{{ $partenaire->image ?? 'https://placehold.co/200x200?text=Logo' }}" 
                                     class="w-full h-full object-contain" 
-                                    alt="{{ $partenaire->nom }}">
+                                    alt="{{ $partenaire->nom }}"> -->
+
+                                    <!-- <img src="{{ $partenaire->image_url }}" alt="{{ $partenaire->nom }}"> -->
+                                     {{-- On force l'utilisation du disque 'public' même si le défaut est 'cloudinary' --}}
+                                     <img src="{{ $partenaire->image_url }}" alt="{{ $partenaire->nom }}">
                         </td>
                         <td class="px-8 py-5">
                             <p class="font-black text-lg leading-tight uppercase">{{ $partenaire->nom }}</p>

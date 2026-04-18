@@ -9,9 +9,13 @@
     <div class="flex flex-col items-center  flex-shrink-0">
         <a href="{{ route('admin.dashboard') }}" class="relative group transition-all hover:scale-105">
             <!-- Logo agrandi (w-40 au lieu de w-16) -->
-            <img src="{{ $settings->logo_sans_fond ? Storage::url($settings->logo_sans_fond) : url('images/logo_sans_fond-default.png') }}" 
-     alt="{{ $settings->nom_agence }}" 
-     class="w-40 h-auto object-contain">
+            @if($settings->logo_sans_fond_url)
+                <!-- <img src="{{ $settings->logo_sans_fond ? Storage::url($settings->logo_sans_fond) : url('images/logo_sans_fond-default.png') }}" 
+                alt="{{ $settings->nom_agence }}" 
+                class="w-40 h-auto object-contain"> -->
+
+                <img src="{{ $settings->logo_sans_fond_url }}" alt="{{ $settings->nom_agence }}"  class="w-40 h-auto object-contain">
+            @endif
         </a>
     </div>
 

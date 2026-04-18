@@ -5,10 +5,12 @@
     
     <!-- Ajout du Logo ou lien retour -->
     <a href="/">
-            <img src="{{ $settings->logo ? Storage::url($settings->logo) : url('images/logo-default.png') }}" 
-     alt="{{ $settings->nom_agence }}" 
-     class="h-42 w-auto object-contain">
-        </a>
+            <!-- <img src="{{ $settings->logo ? Storage::url($settings->logo) : url('images/logo-default.png') }}" 
+        alt="{{ $settings->nom_agence }}" 
+        class="h-42 w-auto object-contain"> -->
+
+        <img src="{{ $settings->logo_url }}" alt="{{ $settings->nom_agence }}" class="h-42 w-auto object-contain">
+    </a>
 
     <div class="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-2xl border border-gray-100">
         <div class="text-center mb-10">
