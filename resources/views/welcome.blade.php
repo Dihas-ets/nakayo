@@ -586,118 +586,67 @@
 
 <!-- SECTION : NOS PARTENAIRES -->
 
-<section class="py-10 font-sans overflow-hidden">
-    <div class="max-w-6xl mx-auto px-12">
-        <div class="text-center mb-8">
-            <h2 class="text-xl lg:text-2xl font-black text-[#1B2E58] uppercase tracking-tighter italic">
+<section class="py-10 font-sans overflow-hidden bg-gray-50/50">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        {{-- Titre --}}
+        <div class="text-center mb-12">
+            <h2 class="text-2xl lg:text-4xl font-black text-[#1B2E58] uppercase tracking-tighter">
                 Ils nous font confiance
             </h2>
-            <div class="h-1 w-12 bg-[#FF9F29] mx-auto mt-1 rounded-full shadow-sm"></div>
+            <div class="h-1.5 w-16 bg-[#FF9F29] mx-auto mt-2 rounded-full shadow-sm"></div>
         </div>
 
-        <div class="swiper partner-swiper pb-10">
-            <div class="swiper-wrapper">
-                @forelse($partenaires as $partenaire)
-                    <div class="swiper-slide h-auto flex items-center justify-center">
-                        {{-- Si lien existe, on enveloppe tout dans un <a>, sinon un simple <div> --}}
-                        @if($partenaire->lien)
-                            <a href="{{ $partenaire->lien }}" target="_blank" class="block w-full h-16  transition-all duration-500  hover:opacity-100 cursor-pointer">
-                                <img src="{{ url('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
-                            </a>
-                        @else
-                            <div class="block w-full h-16 grayscale ">
-                                <img src="{{ url('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
-                            </div>
-                        @endif
-                    </div>
-                @empty
-                    <div class="w-full text-center py-5">
-                        <p class="text-gray-400 italic text-xs">Aucun partenaire disponible.</p>
-                    </div>
-                @endforelse
-            </div>
-            <div class="swiper-pagination"></div>
+        {{-- Zone de défilement --}}
+        <div class="relative flex overflow-x-hidden">
+            @if(count($partenaires) > 0)
+                {{-- Conteneur de l'animation --}}
+                {{-- "animate-marquee" est la classe personnalisée, "pause-hover" permet d'arrêter le défilement au survol --}}
+                <div class="flex animate-marquee whitespace-nowrap gap-6 py-4 hover:pause-hover">
+                    
+                    {{-- Premier passage des logos --}}
+                    @foreach($partenaires as $partenaire)
+                        @include('components.partenaire-card', ['partenaire' => $partenaire])
+                    @endforeach
+
+                    {{-- Deuxième passage (obligatoire pour l'effet infini sans coupure) --}}
+                    @foreach($partenaires as $partenaire)
+                        @include('components.partenaire-card', ['partenaire' => $partenaire])
+                    @endforeach
+                    
+                    {{-- Troisième passage (optionnel, conseillé si tu as peu de partenaires pour remplir les grands écrans) --}}
+                    @foreach($partenaires as $partenaire)
+                        @include('components.partenaire-card', ['partenaire' => $partenaire])
+                    @endforeach
+                </div>
+            @else
+                <div class="w-full text-center py-10">
+                    <p class="text-gray-400 italic">Aucun partenaire disponible pour le moment.</p>
+                </div>
+            @endif
         </div>
     </div>
 </section>
 
-
-
-
+{{-- Styles CSS pour l'animation (à mettre dans ton fichier CSS ou dans une balise <style>) --}}
 <style>
-    /* Animation de défilement infini ultra-fluide */
     @keyframes marquee {
         0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
+        100% { transform: translateX(-33.33%); } /* On recule de la taille d'un groupe de logos */
     }
 
     .animate-marquee {
         display: flex;
         width: max-content;
-        animation: marquee 40s linear infinite; /* 40s pour un mouvement très élégant et calme */
+        animation: marquee 40s linear infinite; /* 40s = vitesse lente. Augmente à 60s pour encore plus lent */
     }
 
-    /* Pause au survol */
-    .animate-marquee:hover {
+    .pause-hover:hover {
         animation-play-state: paused;
-    }
-
-    /* Effet de fondu sur les bords de l'écran */
-    .mask-edges {
-        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     }
 </style>
 
-<section class="py-6 bg-white font-sans overflow-hidden">
-    <div class="max-w-7xl mx-auto px-6 lg:px-12 mb-8 text-center">
-        <div class="max-w-2xl mx-auto">
-            <div class="mb-4">
-                <h2 class="text-3xl lg:text-4xl font-black text-[#1B2E58] uppercase tracking-tighter">
-                    L'Équipe
-                </h2>
-                <div class="h-1 w-16 bg-[#FF9F29] mx-auto mt-2 rounded-full"></div>
-            </div>
-            <p class="text-gray-500 text-base font-medium leading-relaxed">
-                L'excellence au service de vos ambitions.
-            </p>
-        </div>
-    </div>
 
-    <div class="relative mask-edges">
-        @if(isset($team) && $team->count() > 0)
-            {{-- On n'affiche le div animée QUE s'il y a des membres --}}
-            <div class="animate-marquee gap-8 py-2 flex">
-                {{-- On concatène pour l'effet de boucle infinie --}}
-                @foreach($team->concat($team) as $member)
-                <div class="w-[240px] group flex-shrink-0">
-                    <div class="relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-gray-50 mb-4 shadow-sm border border-gray-100">
-                        <img src="{{ url('storage/' . $member->photo) }}" 
-                             class="w-full h-full object-cover" 
-                             alt="{{ $member->nom_complet }}">
-                    </div>
 
-                    <div class="px-2 text-center">
-                        <h3 class="text-xl font-black text-[#1B2E58] italic">{{ $member->nom_complet }}</h3>
-                        <p class="text-[#FF9F29] font-bold uppercase text-[9px] mt-2 tracking-widest">{{ $member->poste }}</p>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        @else
-            {{-- MESSAGE SI VIDE : Centré, sans animation, sans défilement --}}
-            <div class="py-16 flex flex-col items-center justify-center text-center">
-                <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6">
-                    <i class="fas fa-users-slash text-3xl text-gray-300"></i>
-                </div>
-                <h3 class="text-[#1B2E58] text-xl font-bold mb-2">Aucun membre disponible</h3>
-                <p class="text-gray-400 max-w-md mx-auto italic px-6">
-                    Notre équipe est en cours de mise à jour. Revenez bientôt pour découvrir les visages qui font le succès de Nakayo Group.
-                </p>
-            </div>
-        @endif
-    </div>
-</section>
 
 
 @php 

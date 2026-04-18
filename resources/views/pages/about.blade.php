@@ -111,34 +111,41 @@
 <section class="py-10 font-sans overflow-hidden">
     <div class="max-w-6xl mx-auto px-12">
         <div class="text-center mb-8">
-            <h2 class="text-2xl lg:text-3xl font-black text-[#1B2E58] uppercase tracking-tighter ">
+            <h2 class="text-2xl lg:text-4xl font-black text-[#1B2E58] uppercase tracking-tighter ">
                 Ils nous font confiance
             </h2>
             <div class="h-1 w-12 bg-[#FF9F29] mx-auto mt-1 rounded-full shadow-sm"></div>
         </div>
 
-        <div class="swiper partner-swiper pb-10">
-            <div class="swiper-wrapper">
-                @forelse($partenaires as $partenaire)
-                    <div class="swiper-slide h-auto flex items-center justify-center">
-                        {{-- Si lien existe, on enveloppe tout dans un <a>, sinon un simple <div> --}}
-                        @if($partenaire->lien)
-                            <a href="{{ $partenaire->lien }}" target="_blank" class="block w-full h-16  transition-all duration-500  hover:opacity-100 cursor-pointer">
-                                <img src="{{ url('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
-                            </a>
-                        @else
-                            <div class="block w-full h-16  ">
-                                <img src="{{ url('storage/' . $partenaire->image) }}" alt="{{ $partenaire->nom }}" class="h-full w-full object-contain">
-                            </div>
-                        @endif
-                    </div>
-                @empty
-                    <div class="w-full text-center py-5">
-                        <p class="text-gray-400 italic text-xs">Aucun partenaire disponible.</p>
-                    </div>
-                @endforelse
-            </div>
-            <div class="swiper-pagination"></div>
+        <div class="pb-10">
+            <div class="py-12 justify-center">
+    <div class="max-w-7xl mx-auto px-4">
+        
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 items-center justify-items-center">
+            @forelse($partenaires as $partenaire)
+                <div class="group flex justify-center" style="width: -webkit-fill-available;">
+                    @php 
+                        $tag = $partenaire->lien ? 'a' : 'div';
+                        $attrs = $partenaire->lien ? 'href='.$partenaire->lien.' target=_blank' : '';
+                    @endphp
+
+                    <{{ $tag }} {{ $attrs }} class="relative flex items-center justify-center p-4 w-full h-24 bg-white rounded-xl shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                        <img 
+                            src="{{ $partenaire->image ?? 'https://placehold.co/200x200?text=Logo' }}" 
+                            alt="{{ $partenaire->nom }}" 
+                            class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100"
+                        >
+                    </{{ $tag }}>
+                </div>
+            @empty
+                <div class="col-span-full text-center py-10">
+                    <p class="text-gray-400 italic">Aucun partenaire disponible pour le moment.</p>
+                </div>
+            @endforelse
+        </div>
+    </div>
+</div>
         </div>
     </div>
 </section>

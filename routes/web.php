@@ -237,7 +237,8 @@ Route::get('/', function () {
 
     $services = Service::where('status', 'publié')->get();
     
-    $partenaires = Partenaire::all();
+    
+     $partenaires = Partenaire::orderBy('created_at', 'desc')->get();
 
     // Passer toutes les variables à la vue
     return view('welcome', compact(

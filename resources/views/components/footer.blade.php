@@ -31,11 +31,11 @@
                         <i class="fab fa-linkedin-in text-sm"></i>
                     </a>
                     @endif
-                    @if($settings->tiktok_link)
+                    <!-- @if($settings->tiktok_link)
                     <a href="{{ $settings->tiktok_link }}" target="_blank" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#FF9F29] hover:border-[#FF9F29] transition-all duration-300">
                         <i class="fab fa-tiktok text-sm"></i>
                     </a>
-                    @endif
+                    @endif -->
                 </div>
             </div>
 

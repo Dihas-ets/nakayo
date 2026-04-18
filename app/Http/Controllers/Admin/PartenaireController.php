@@ -39,8 +39,11 @@ class PartenaireController extends Controller
 
         if ($request->hasFile('image')) {
             // Stocke l'image dans le dossier storage/app/public/partenaires
-            $path = $request->file('image')->store('partenaires', 'public');
-            $data['image'] = $path;
+            // Upload sur Cloudinary dans le dossier 'partenaires'
+            $result = $request->file('image')->storeOnCloudinary('partenaires');
+
+            // On récupère l'URL sécurisée fournie par Cloudinary
+            $data['image'] = $result->getSecurePath();
         }
 
         Partenaire::create($data);

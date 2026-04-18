@@ -69,7 +69,7 @@
                         </td>
                         <td class="px-8 py-5 text-center">
                             <span class="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl text-xs font-black uppercase">
-                                {{ $marque->service->nom ?? 'Non défini' }}
+                                {{ $marque->service->titre ?? 'Non défini' }}
                             </span>
                         </td>
                         <td class="px-8 py-5 text-right">
@@ -153,13 +153,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
                         <label class="block text-[10px] font-black mb-3 uppercase opacity-60 tracking-widest text-[#1B2E58]">Nom de la marque</label>
-                        <input type="text" name="nom" x-model="selected.nom" class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-gray-50/50 focus:bg-white focus:border-[#FF9F29] outline-none font-bold transition-all">
+                        <input type="text" name="nom" x-model="selected.titre" class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-gray-50/50 focus:bg-white focus:border-[#FF9F29] outline-none font-bold transition-all">
                     </div>
                     <div>
                         <label class="block text-[10px] font-black mb-3 uppercase opacity-60 tracking-widest text-[#1B2E58]">Service associé</label>
                         <select name="id_service" x-model="selected.id_service" class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-gray-50/50 focus:bg-white focus:border-[#FF9F29] outline-none font-bold transition-all">
                             @foreach($services as $service)
-                                <option value="{{ $service->id_service }}">{{ $service->nom }}</option>
+                                <option value="{{ $service->id_service }}">{{ $service->titre }}</option>
                             @endforeach
                         </select>
                     </div>

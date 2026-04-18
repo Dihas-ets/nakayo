@@ -7,6 +7,7 @@ use App\Models\Produit;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ProductController extends Controller
 {
@@ -99,19 +100,53 @@ class ProductController extends Controller
     /**
      * Suppression du produit
      */
-    public function destroy($id)
-    {
-        $produit = Produit::findOrFail($id);
+    // public function destroy($id)
+    // {
+    //     $produit = Produit::findOrFail($id);
         
-        if ($produit->image) {
-            Storage::disk('public')->delete($produit->image);
+    //     if ($produit->image) {
+    //         Storage::disk('public')->delete($produit->image);
+    //     }
+
+    //     $produit->delete();
+
+    //     return redirect()->route('admin.produits.index')->with('success', 'Produit retiré de l\'inventaire.');
+    // }
+
+
+ 
+
+public function destroy($id)
+{
+    $partenaire = Partenaire::findOrFail($id);
+
+    if ($partenaire->image) {
+        // Extraction de l'ID à partir de l'URL :
+        // https://res.cloudinary.com/cloudname/image/upload/v123/partenaires/abcde.png
+        // deviendra : partenaires/abcde
+        
+        $path = parse_url($partenaire->image, PHP_URL_PATH);
+        $segments = explode('/', $path);
+        $uploadIndex = array_search('upload', $segments);
+
+        if ($uploadIndex !== false) {
+            // Récupère tout après 'v12345/'
+            $publicIdWithExtension = implode('/', array_slice($segments, $uploadIndex + 2));
+            // Retire l'extension (.png, .jpg)
+            $publicId = pathinfo($publicIdWithExtension, PATHINFO_FILENAME);
+            
+            // On rajoute le dossier 'partenaires/' devant
+            $fullPublicId = 'partenaires/' . $publicId;
+
+            Cloudinary::destroy($fullPublicId);
         }
-
-        $produit->delete();
-
-        return redirect()->route('admin.produits.index')->with('success', 'Produit retiré de l\'inventaire.');
     }
 
+    $partenaire->delete();
+
+    return redirect()->route('admin.partenaires.index')
+                     ->with('success', 'Partenaire supprimé avec succès.');
+}
 
 
 public function show($id)
