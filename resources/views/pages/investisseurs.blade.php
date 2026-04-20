@@ -12,6 +12,23 @@
     </header>
 @endif
 
+<style>
+  .video-inner {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* ratio 16:9 */
+  overflow: hidden;
+}
+
+.video-inner iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
 <!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
@@ -51,10 +68,10 @@
         <div class="hero-content">
           <div class="hero-badge">Opportunités d'investissement exclusives</div>
           <h1 class="hero-title ">
-            Construisez votre <span class="accent">Fortune</span><br>avec Nakayo
+            Construisez votre <span class="accent">Fortune</span><br>avec Nakayo Corporation
           </h1>
           <p class="hero-sub">
-            Rejoignez une communauté d'investisseurs visionnaires qui font confiance à Nakayo pour transformer leur capital en richesse durable. Six secteurs. Des rendements exceptionnels. Un avenir radieux.
+            Rejoignez une communauté d'investisseurs visionnaires qui font confiance à Nakayo Corporation pour transformer leur capital en richesse durable. Six secteurs. Des rendements exceptionnels. Un avenir radieux.
           </p>
           <div class="hero-cta">
                   @php 
@@ -84,49 +101,77 @@
       <div class="col-lg-6">
         <div class="hero-visual ps-lg-5 mt-5 mt-lg-0">
           <div style="position:relative; max-width:600px; margin-left:auto;">
-            <div class="floating-badge fb-top">
-              <div class="fb-icon orange"><i class="fas fa-chart-line" style="color:var(--nk-orange)"></i></div>
-              <div class="fb-text">
-                <strong>Rendement Annuel</strong>
-                <small>Jusqu'à +40% par projet</small>
-              </div>
-            </div>
-            <div class="video-card">
-              <div class="video-inner">
-                <div class="video-fallback">
-                  <!-- Animated chart visual -->
-                  <svg width="100%" height="100%" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;">
-                    <defs>
-                      <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#FF6B1A" stop-opacity=".4"/>
-                        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
-                      </linearGradient>
-                    </defs>
-                    <path d="M0,250 C80,230 120,200 160,180 C200,160 220,120 280,90 C340,60 380,80 420,50 C460,20 510,30 600,10" stroke="#FF6B1A" stroke-width="3" fill="none" class="animated-path" opacity=".9"/>
-                    <path d="M0,250 C80,230 120,200 160,180 C200,160 220,120 280,90 C340,60 380,80 420,50 C460,20 510,30 600,10 L600,300 L0,300 Z" fill="url(#lineGrad)"/>
-                    <path d="M0,280 C100,275 150,250 220,240 C290,230 320,220 380,200 C440,180 500,170 600,150" stroke="rgba(91,154,255,.5)" stroke-width="2" fill="none" stroke-dasharray="8,4"/>
-                  </svg>
-                  <div style="z-index:1; text-align:center;">
-                    <div class="play-btn" onclick="openVideoModal()">
-                      <i class="fas fa-play"></i>
-                    </div>
-                    <div class="video-label mt-3">Voir notre présentation</div>
-                  </div>
-                </div>
-                <div class="video-overlay">
-                  <span class="video-tag">Nakayo Invest 2026</span>
-                  <p style="font-size:.85rem; margin-top:6px; color:rgba(255,255,255,.6);">Votre partenaire pour un avenir prospère</p>
-                </div>
-              </div>
-            </div>
-            <div class="floating-badge fb-bottom">
-              <div class="fb-icon blue"><i class="fas fa-shield-halved" style="color:#5B9AFF"></i></div>
-              <div class="fb-text">
-                <strong>Investissements Sécurisés</strong>
-                <small>Portefeuille diversifié & transparent</small>
-              </div>
-            </div>
+  
+  <div class="floating-badge fb-top">
+    <div class="fb-icon orange">
+      <i class="fas fa-chart-line" style="color:var(--nk-orange)"></i>
+    </div>
+    <div class="fb-text">
+      <strong>Rendement Annuel</strong>
+      <small>Jusqu'à +40% par projet</small>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <!-- ✅ ID ajouté ici -->
+    <div class="video-inner" id="videoContainer">
+      
+      <div class="video-fallback">
+        
+        <!-- SVG -->
+        <svg width="100%" height="100%" viewBox="0 0 600 300"
+          xmlns="http://www.w3.org/2000/svg"
+          style="position:absolute;inset:0;">
+          
+          <defs>
+            <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FF6B1A" stop-opacity=".4"></stop>
+              <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"></stop>
+            </linearGradient>
+          </defs>
+
+          <path d="M0,250 C80,230 120,200 160,180 C200,160 220,120 280,90 C340,60 380,80 420,50 C460,20 510,30 600,10"
+            stroke="#FF6B1A" stroke-width="3" fill="none" opacity=".9"></path>
+
+          <path d="M0,250 C80,230 120,200 160,180 C200,160 220,120 280,90 C340,60 380,80 420,50 C460,20 510,30 600,10 L600,300 L0,300 Z"
+            fill="url(#lineGrad)"></path>
+
+          <path d="M0,280 C100,275 150,250 220,240 C290,230 320,220 380,200 C440,180 500,170 600,150"
+            stroke="rgba(91,154,255,.5)" stroke-width="2"
+            fill="none" stroke-dasharray="8,4"></path>
+        </svg>
+
+        <!-- Bouton play -->
+        <div style="z-index:1; text-align:center;">
+          <div class="play-btn" onclick="playVideo()">
+            <i class="fas fa-play"></i>
           </div>
+          <div class="video-label mt-3">Voir notre présentation</div>
+        </div>
+
+      </div>
+
+      <div class="video-overlay">
+        <span class="video-tag">Nakayo Corporation Invest 2026</span>
+        <p style="font-size:.85rem; margin-top:6px; color:rgba(255,255,255,.6);">
+          Votre partenaire pour un avenir prospère
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="floating-badge fb-bottom">
+    <div class="fb-icon blue">
+      <i class="fas fa-shield-halved" style="color:#5B9AFF"></i>
+    </div>
+    <div class="fb-text">
+      <strong>Investissements Sécurisés</strong>
+      <small>Portefeuille diversifié &amp; transparent</small>
+    </div>
+  </div>
+
+</div>
         </div>
       </div>
     </div>
@@ -161,7 +206,7 @@
                 // On nettoie le numéro de téléphone (enlève les espaces et les +)
                 $whatsappClean = preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp ?? '22900000000');
                 // On prépare le message automatique
-                $message = "Bonjour Nakayo, je souhaite investir dans le projet : Immobilier (ROI +28%).";
+                $message = "Bonjour Nakayo Corporation, je souhaite investir dans le projet : Immobilier (ROI +28%).";
             @endphp
 
             <a href="https://wa.me/{{ $whatsappClean }}?text={{ urlencode($message) }}" 
@@ -192,7 +237,7 @@
                 // On nettoie le numéro de téléphone (enlève les espaces et les +)
                 $whatsappClean = preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp ?? '22900000000');
                 // On prépare le message automatique
-                $message = "Bonjour Nakayo, je souhaite investir dans le projet : Immobilier (ROI +28%).";
+                $message = "Bonjour Nakayo Corporation, je souhaite investir dans le projet : Immobilier (ROI +28%).";
             @endphp
 
             <a href="https://wa.me/{{ $whatsappClean }}?text={{ urlencode($message) }}" 
@@ -223,7 +268,7 @@
                 // On nettoie le numéro de téléphone (enlève les espaces et les +)
                 $whatsappClean = preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp ?? '22900000000');
                 // On prépare le message automatique
-                $message = "Bonjour Nakayo, je souhaite investir dans le projet : Immobilier (ROI +28%).";
+                $message = "Bonjour Nakayo Corporation, je souhaite investir dans le projet : Immobilier (ROI +28%).";
             @endphp
 
             <a href="https://wa.me/{{ $whatsappClean }}?text={{ urlencode($message) }}" 
@@ -254,7 +299,7 @@
                 // On nettoie le numéro de téléphone (enlève les espaces et les +)
                 $whatsappClean = preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp ?? '22900000000');
                 // On prépare le message automatique
-                $message = "Bonjour Nakayo, je souhaite investir dans le projet : Immobilier (ROI +28%).";
+                $message = "Bonjour Nakayo Corporation, je souhaite investir dans le projet : Immobilier (ROI +28%).";
             @endphp
 
             <a href="https://wa.me/{{ $whatsappClean }}?text={{ urlencode($message) }}" 
@@ -340,7 +385,7 @@
     <div class="section-header reveal">
       <div class="section-badge">Comment Investir</div>
       <h2 class="section-title">Comment devenir<br><span style="color:var(--nk-orange)">Investisseur ?</span></h2>
-      <p class="section-sub">Quatre étapes simples pour rejoindre la famille Nakayo et commencer à faire travailler votre capital.</p>
+      <p class="section-sub">Quatre étapes simples pour rejoindre la famille Nakayo Corporation et commencer à faire travailler votre capital.</p>
     </div>
     <div class="row g-4 position-relative reveal">
       <div class="col-lg-3 col-sm-6">
@@ -380,7 +425,7 @@
     <div class="container">
         <div class="section-header reveal">
             <span class="section-badge">Nos avantages</span>
-            <h2 class="section-title">Pourquoi investir avec Nakayo</h2>
+            <h2 class="section-title">Pourquoi investir avec Nakayo Corporation</h2>
             <p class="section-subtitle">
                 Une approche unique et transparente pour securiser et faire fructifier vos investissements.
             </p>
@@ -463,7 +508,7 @@
   <div class="cta-bg"></div>
   <div class="container">
     <div class="cta-content reveal">
-      <div class="section-badge">Rejoignez Nakayo</div>
+      <div class="section-badge">Rejoignez Nakayo Corporation</div>
       <h2 class="cta-title">Votre capital mérite<br>mieux que la stagnation</h2>
       <p class="cta-sub">Inscrivez-vous dès aujourd'hui et recevez notre guide exclusif des opportunités d'investissement 2026. Gratuit, sans engagement.</p>
       <div class="d-flex justify-content-center mt-4">
@@ -480,9 +525,7 @@
            <i class="fas fa-arrow-right ms-2"></i>
         </a>
       </div>
-      <p style="margin-top:20px;font-size:.78rem;">
-        <i class="fas fa-lock me-2"></i>Vos données sont protégées. Aucun spam, désinscription en un clic.
-      </p>
+    
       <div class="d-flex justify-content-center gap-4 mt-5 flex-wrap">
         <div style="display:flex;align-items:center;gap:10px;">
           <i class="fas fa-shield-halved" style="color:var(--nk-orange);font-size:1.3rem;"></i>
@@ -494,7 +537,7 @@
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
           <i class="fas fa-users" style="color:var(--nk-orange);font-size:1.3rem;"></i>
-          <span style="font-size:.85rem;">+280 Investisseurs Satisfaits</span>
+          <span style="font-size:.85rem;">Investisseurs Satisfaits</span>
         </div>
       </div>
     </div>
@@ -539,6 +582,38 @@
         <button type="button" class="btn-primary-nk">Confirmer l'Investissement <i class="fas fa-arrow-right ms-2"></i></button>
       </div> -->
     </div>
+  </div>
+</div>
+
+<div id="videoModal" style="
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.8);
+  z-index:9999;
+  justify-content:center;
+  align-items:center;
+">
+  <div style="position:relative; width:90%; max-width:800px;">
+    
+    <span onclick="closeVideoModal()" style="
+      position:absolute;
+      top:-40px;
+      right:0;
+      font-size:30px;
+      color:white;
+      cursor:pointer;
+    ">✖</span>
+
+    <iframe id="youtubeFrame"
+      width="100%" height="450"
+      src=""
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+
   </div>
 </div>
 
@@ -664,10 +739,23 @@ function calcReturn() {
     calc.style.display = 'block';
   } else { calc.style.display = 'none'; }
 }
-function openVideoModal() {
-  window.open('https://www.youtube.com/watch?v=gNoxTd5WhRM&list=RDMM&index=15', '_blank');
-}
+
 
 </script>
+<script>
+function playVideo() {
+  const videoId = "RkK6zesgPS4"; // 👉 remplace par ton ID YouTube
+  const container = document.getElementById("videoContainer");
 
+  container.innerHTML = `
+    <iframe 
+      src="https://www.youtube.com/embed/${videoId}?autoplay=1"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      style="width:100%; height:100%; border-radius:12px;">
+    </iframe>
+  `;
+}
+</script>
 @endsection

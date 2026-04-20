@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactMail;
 
 class ContactController extends Controller
 {
@@ -33,6 +35,8 @@ class ContactController extends Controller
 
             // 2. Création du message en base de données
             Message::create($validated);
+
+            Mail::to('hadilouidrissou@gmail.com')->send(new ContactMail($validated));
 
             // 3. Retour avec message de succès
             return back()->with('success', 'Message envoyé avec succès ! Nous vous répondrons bientôt.');

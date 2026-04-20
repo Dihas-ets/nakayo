@@ -105,47 +105,81 @@
     </div>
 @endif
 
+                @if(session('success'))
+    <div class="p-4 bg-green-100 text-green-700 rounded-xl font-semibold">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="p-4 bg-red-100 text-red-700 rounded-xl font-semibold">
+        {{ session('error') }}
+    </div>
+@endif
+
                 <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
                     @csrf
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Nom</label>
-                            <input type="text" name="nom" value="{{ old('nom') }}" placeholder="John" required class="w-full px-5 py-4 bg-gray-50 border @error('nom') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
-                            @error('nom') <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span> @enderror
+                            <input type="text" name="nom" value="{{ old('nom') }}" placeholder="John"
+                                class="w-full px-5 py-4 bg-gray-50 border @error('nom') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
+                            @error('nom')
+                                <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span>
+                            @enderror
                         </div>
+
                         <div>
                             <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Prénom</label>
-                            <input type="text" name="prenom" value="{{ old('prenom') }}" placeholder="Doe" required class="w-full px-5 py-4 bg-gray-50 border @error('prenom') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
-                            @error('prenom') <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span> @enderror
+                            <input type="text" name="prenom" value="{{ old('prenom') }}" placeholder="Doe"
+                                class="w-full px-5 py-4 bg-gray-50 border @error('prenom') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
+                            @error('prenom')
+                                <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Adresse Email</label>
-                            <input type="email" name="email" value="{{ old('email') }}" placeholder="contact@email.com" required class="w-full px-5 py-4 bg-gray-50 border @error('email') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
-                            @error('email') <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span> @enderror
+                            <input type="email" name="email" value="{{ old('email') }}" placeholder="contact@email.com"
+                                class="w-full px-5 py-4 bg-gray-50 border @error('email') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
+                            @error('email')
+                                <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span>
+                            @enderror
                         </div>
+
                         <div>
                             <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Phone</label>
-                            <input type="text" name="phone" value="{{ old('phone') }}" placeholder="Numéro de téléphone" required class="w-full px-5 py-4 bg-gray-50 border @error('phone') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
-                            @error('phone') <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span> @enderror
+                            <input type="text" name="phone" value="{{ old('phone') }}" placeholder="Numéro de téléphone"
+                                class="w-full px-5 py-4 bg-gray-50 border @error('phone') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
+                            @error('phone')
+                                <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Quel est l'objet de votre demande ?</label>
-                        <input type="text" name="objet" value="{{ old('objet') }}" placeholder="Entrez l'objet de votre demande" required class="w-full px-5 py-4 bg-gray-50 border @error('objet') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
-                        @error('objet') <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span> @enderror
+                        <input type="text" name="objet" value="{{ old('objet') }}" placeholder="Entrez l'objet de votre demande"
+                            class="w-full px-5 py-4 bg-gray-50 border @error('objet') border-red-500 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-[#1B2E58] outline-none transition">
+                        @error('objet')
+                            <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-[#1B2E58] uppercase mb-2">Comment pouvons-nous vous aider ?</label>
-                        <textarea name="description" rows="4" placeholder="Votre Message" required class="w-full px-5 py-4 bg-gray-50 border @error('description') border-red-500 @else border-gray-200 @enderror rounded-xl outline-none transition focus:ring-2 focus:ring-[#1B2E58]">{{ old('description') }}</textarea>
-                        @error('description') <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span> @enderror
+                        <textarea name="description" rows="4" placeholder="Votre Message"
+                            class="w-full px-5 py-4 bg-gray-50 border @error('description') border-red-500 @else border-gray-200 @enderror rounded-xl outline-none transition focus:ring-2 focus:ring-[#1B2E58]">{{ old('description') }}</textarea>
+                        @error('description')
+                            <span class="text-red-500 text-xs mt-1 font-semibold italic">{{ $message }}</span>
+                        @enderror
                     </div>
 
-                    <button type="submit" class="w-full bg-[#1B2E58] text-white font-bold py-5 rounded-xl hover:bg-orange-500 transition-all shadow-lg flex items-center justify-center gap-3 group">
+                    <button type="submit"
+                        class="w-full bg-[#1B2E58] text-white font-bold py-5 rounded-xl hover:bg-orange-500 transition-all shadow-lg flex items-center justify-center gap-3 group">
                         Soumettre La Demande
                         <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
                     </button>
