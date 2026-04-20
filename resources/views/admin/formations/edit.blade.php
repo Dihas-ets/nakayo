@@ -4,8 +4,8 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto">
-    {{-- Le formulaire pointe vers la route update avec l'ID de la formation --}}
-    <form action="{{ route('admin.formations.update', $offre->id_formation) }}" method="POST">
+    {{-- MODIFICATION : Ajout de enctype="multipart/form-data" pour l'image --}}
+    <form action="{{ route('admin.formations.update', $offre->id_formation) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -53,6 +53,29 @@
 
             <!-- COLONNE DROITE : SIDEBAR TECHNIQUE -->
             <div class="space-y-6">
+
+                {{-- NOUVEAU : GESTION DE L'IMAGE --}}
+                <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100">
+                    <h3 class="text-xs font-black uppercase text-[#1B2E58] mb-6 border-b border-gray-50 pb-4 tracking-widest">Visuel de couverture</h3>
+                    
+                    {{-- Affichage de l'image actuelle --}}
+                    <div class="mb-6 relative group">
+                        @if($offre->image)
+                            <img id="preview" src="{{ url('storage/' . $offre->image) }}" class="w-full h-48 object-cover rounded-[2rem] border border-gray-100 shadow-sm transition-all group-hover:brightness-75">
+                        @else
+                            <div id="no-image" class="w-full h-48 bg-gray-50 rounded-[2rem] flex items-center justify-center border-2 border-dashed border-gray-200">
+                                <i class="fa-solid fa-image text-4xl text-gray-200"></i>
+                            </div>
+                            <img id="preview" class="hidden w-full h-48 object-cover rounded-[2rem] border border-gray-100">
+                        @endif
+                        
+                        <label class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-all">
+                            <span class="bg-white text-[#1B2E58] px-4 py-2 rounded-full font-black text-[10px] uppercase shadow-xl">Changer la photo</span>
+                            <input type="file" name="image" class="hidden" onchange="previewImage(this)">
+                        </label>
+                    </div>
+                    <p class="text-[9px] text-gray-400 italic leading-tight text-center">Format recommandé : 1200x800px. JPG, PNG ou WebP.</p>
+                </div>
                 
                 {{-- FICHE TECHNIQUE --}}
                 <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100 space-y-6">
@@ -81,7 +104,6 @@
 
                     <div>
                         <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Date de l'événement</label>
-                        {{-- Formatage Carbon pour l'input date HTML --}}
                         <input type="date" name="date_formation" value="{{ $offre->date_formation ? \Carbon\Carbon::parse($offre->date_formation)->format('Y-m-d') : '' }}" class="w-full bg-gray-50 border-none rounded-xl px-4 py-3 font-bold text-[#1B2E58] focus:ring-2 focus:ring-[#FF9F29]">
                     </div>
 
@@ -89,23 +111,14 @@
                         <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Contact Inscriptions</label>
                         <input type="text" name="contact" value="{{ $offre->contact }}" class="w-full bg-gray-50 border-none rounded-xl px-4 py-3 font-bold text-[#1B2E58] focus:ring-2 focus:ring-[#FF9F29]">
                     </div>
-                </div>
 
-                {{-- STATUS CARD --}}
-                <div class="bg-[#1B2E58] rounded-[2.5rem] p-8 text-white shadow-xl relative overflow-hidden group">
                     <div>
-    <label class="block text-[10px] font-black text-gray-300 uppercase mb-2">Disponibilité</label>
-    <select name="status" class="w-full bg-gray-50 border-none rounded-xl px-4 py-3 font-bold text-[#1B2E58] focus:ring-2 focus:ring-[#FF9F29]">
-        <option value="disponible" {{ (isset($offre) && $offre->status == 'disponible') ? 'selected' : '' }}>
-            ✅ Disponible
-        </option>
-        <option value="non disponible" {{ (isset($offre) && $offre->status == 'non disponible') ? 'selected' : '' }}>
-            ❌ Non disponible
-        </option>
-    </select>
-</div>
-                    {{-- Déco fond --}}
-                    <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-[#FF9F29] opacity-10 rounded-full blur-3xl transition-all duration-1000 group-hover:scale-150"></div>
+                        <label class="block text-[10px] font-black text-gray-300 uppercase mb-2">Disponibilité</label>
+                        <select name="status" class="w-full bg-gray-50 border-none rounded-xl px-4 py-3 font-bold text-[#1B2E58] focus:ring-2 focus:ring-[#FF9F29]">
+                            <option value="disponible" {{ $offre->status == 'disponible' ? 'selected' : '' }}>✅ Disponible</option>
+                            <option value="non disponible" {{ $offre->status == 'non disponible' ? 'selected' : '' }}>❌ Non disponible</option>
+                        </select>
+                    </div>
                 </div>
 
                 {{-- SYSTEM INFO --}}
@@ -122,4 +135,21 @@
         </div>
     </form>
 </div>
+
+{{-- Petit script pour l'aperçu instantané de l'image sélectionnée --}}
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var preview = document.getElementById('preview');
+                var noImage = document.getElementById('no-image');
+                if(noImage) noImage.classList.add('hidden');
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 @endsection

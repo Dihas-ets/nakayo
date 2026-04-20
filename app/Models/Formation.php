@@ -9,7 +9,7 @@ class Formation extends Model
     protected $table = 'formations';
     protected $primaryKey = 'id_formation';
     protected $fillable = [
-        'id_service', 'titre', 'description', 'lieu', 
+        'id_service', 'titre', 'description', 'image','lieu', 
         'date_formation', 'cout', 'status', 'contact'
     ];
 

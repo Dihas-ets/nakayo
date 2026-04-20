@@ -56,47 +56,58 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @forelse($formations as $formation)
-                <div class="group bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col">
-                    
-                    <div class="relative h-56 overflow-hidden">
-                       
-                        <div class="absolute top-6 left-6 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full">
-                            <span class="text-[#1B2E58] text-[10px] font-black uppercase tracking-widest">
-                                Expertise
-                            </span>
-                        </div>
+    @forelse($formations as $formation)
+        <div class="group bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col">
+            
+            {{-- ZONE IMAGE --}}
+            <div class="relative h-56 overflow-hidden">
+                @if($formation->image)
+                    <img src="{{ asset('storage/' . $formation->image) }}" 
+                         alt="{{ $formation->titre }}" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                @else
+                    {{-- Image par défaut si aucune n'est uploadée --}}
+                    <div class="w-full h-full bg-gray-100 flex items-center justify-center">
+                        <i class="fa-solid fa-image text-4xl text-gray-200"></i>
+                    </div>
+                @endif
+               
+                <div class="absolute top-6 left-6 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full">
+                    <span class="text-[#1B2E58] text-[10px] font-black uppercase tracking-widest">
+                        Expertise
+                    </span>
+                </div>
+            </div>
+
+            <div class="p-8 flex flex-col flex-grow">
+                <h3 class="text-xl font-black text-[#1B2E58] mb-4 uppercase tracking-tighter leading-tight group-hover:text-[#FF9F29] transition-colors">
+                    {{ $formation->titre }}
+                </h3>
+
+                {{-- J'ai remplacé description_courte par description si tu n'as pas de champ court --}}
+                <p class="text-gray-500 text-sm leading-relaxed line-clamp-3 mb-8 italic">
+                    "{{ Str::limit(strip_tags($formation->description), 120) }}"
+                </p>
+
+                <div class="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
+                    <div class="flex flex-col">
+                        <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Investissement</span>
+                        <span class="text-lg font-black text-[#1B2E58]">{{ number_format($formation->cout ?? 0, 0, ',', ' ') }} FCFA</span>
                     </div>
 
-                    <div class="p-8 flex flex-col flex-grow">
-                        <h3 class="text-xl font-black text-[#1B2E58] mb-4 uppercase tracking-tighter leading-tight group-hover:text-[#FF9F29] transition-colors">
-                            {{ $formation->titre }}
-                        </h3>
-
-                        <p class="text-gray-500 text-sm leading-relaxed line-clamp-3 mb-8 italic">
-                            "{{ $formation->description_courte ?? 'Description à venir...' }}"
-                        </p>
-
-                        <div class="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
-                            <div class="flex flex-col">
-                                <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Investissement</span>
-                                <span class="text-lg font-black text-[#1B2E58]">{{ number_format($formation->prix ?? 0, 0, ',', ' ') }} FCFA</span>
-                            </div>
-
-                            {{-- CORRECTION ICI : Le nom de la route doit correspondre à celui dans web.php --}}
-                            <a href="{{ route('pages.formations_show', $formation->id_formation) }}" 
-                            class="w-12 h-12 bg-gray-50 text-[#1B2E58] rounded-full flex items-center justify-center hover:bg-[#1B2E58] hover:text-white transition-all shadow-sm">
-                                <i class="fa-solid fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
+                    <a href="{{ route('pages.formations_show', $formation->id_formation) }}" 
+                       class="w-12 h-12 bg-gray-50 text-[#1B2E58] rounded-full flex items-center justify-center hover:bg-[#1B2E58] hover:text-white transition-all shadow-sm">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
                 </div>
-            @empty
-                <div class="col-span-full text-center py-20">
-                    <p class="text-gray-400 font-bold uppercase tracking-widest">Aucune formation disponible pour le moment.</p>
-                </div>
-            @endforelse
+            </div>
         </div>
+    @empty
+        <div class="col-span-full text-center py-20">
+            <p class="text-gray-400 font-bold uppercase tracking-widest">Aucune formation disponible pour le moment.</p>
+        </div>
+    @endforelse
+</div>
     </div>
 </section>
 

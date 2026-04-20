@@ -29,6 +29,8 @@
         <table class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-[#00261C] text-white font-black uppercase text-[10px] tracking-widest">
+                    {{-- Ajout de la colonne Image --}}
+                    <th class="px-8 py-6">Visuel</th>
                     <th class="px-8 py-6">Formation / Service</th>
                     <th class="px-8 py-6 text-center">Lieu & Date</th>
                     <th class="px-8 py-6 text-center">Coût (FCFA)</th>
@@ -39,6 +41,19 @@
             <tbody class="divide-y divide-gray-50 font-medium text-[#1B2E58]">
                 @forelse($offres as $offre)
                 <tr class="hover:bg-gray-50/50 transition-all group">
+                    {{-- Cellule Image --}}
+                    <td class="px-8 py-5">
+                        <div class="w-16 h-12 rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
+                            @if($offre->image)
+                                <img src="{{ url('storage/' . $offre->image) }}" alt="{{ $offre->titre }}" class="w-full h-full object-cover">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center text-gray-300 bg-gray-100">
+                                    <i class="fa-solid fa-image text-lg"></i>
+                                </div>
+                            @endif
+                        </div>
+                    </td>
+
                     <td class="px-8 py-5">
                         <p class="font-black text-lg leading-tight">{{ $offre->titre }}</p>
                         <span class="text-[10px] font-bold text-[#FF9F29] uppercase">
@@ -47,14 +62,15 @@
                     </td>
                     <td class="px-8 py-5 text-center">
                         <p class="text-sm font-bold text-gray-700">{{ $offre->lieu }}</p>
-                        <p class="text-[10px] text-gray-400 font-bold uppercase">{{ $offre->date_formation ? \Carbon\Carbon::parse($offre->date_formation)->format('d M Y') : 'A définir' }}</p>
+                        <p class="text-[10px] text-gray-400 font-bold uppercase">
+                            {{ $offre->date_formation ? \Carbon\Carbon::parse($offre->date_formation)->translatedFormat('d M Y') : 'A définir' }}
+                        </p>
                     </td>
                     <td class="px-8 py-5 text-center">
                         <span class="px-4 py-1.5 bg-blue-50 text-[#1B2E58] rounded-xl font-black text-sm">
                             {{ number_format($offre->cout, 0, ',', ' ') }}
                         </span>
                     </td>
-                    {{-- Dans le <td> du Statut --}}
                     <td class="px-8 py-5 text-center">
                         <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest 
                             {{ $offre->status == 'disponible' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600' }}">
@@ -62,12 +78,20 @@
                         </span>
                     </td>
                     <td class="px-8 py-5 text-right">
-                        <div class="flex justify-end gap-2" x-data="{ showDelete: false }">
-                            <a href="{{ route('admin.formations.show', $offre->id_formation) }}" class="w-9 h-9 rounded-xl bg-blue-50 text-[#1B2E58] flex items-center justify-center hover:bg-[#1B2E58] hover:text-white transition-all shadow-sm"><i class="fa-solid fa-eye text-sm"></i></a>
-                            <a href="{{ route('admin.formations.edit', $offre->id_formation) }}" class="w-9 h-9 rounded-xl bg-orange-50 text-[#FF9F29] flex items-center justify-center hover:bg-[#FF9F29] hover:text-white transition-all shadow-sm"><i class="fa-solid fa-pen-to-square text-sm"></i></a>
+                        <div class="flex justify-end gap-2">
+                            {{-- Voir --}}
+                            <a href="{{ route('admin.formations.show', $offre->id_formation) }}" 
+                               class="w-9 h-9 rounded-xl bg-blue-50 text-[#1B2E58] flex items-center justify-center hover:bg-[#1B2E58] hover:text-white transition-all shadow-sm">
+                                <i class="fa-solid fa-eye text-sm"></i>
+                            </a>
+                            {{-- Modifier --}}
+                            <a href="{{ route('admin.formations.edit', $offre->id_formation) }}" 
+                               class="w-9 h-9 rounded-xl bg-orange-50 text-[#FF9F29] flex items-center justify-center hover:bg-[#FF9F29] hover:text-white transition-all shadow-sm">
+                                <i class="fa-solid fa-pen-to-square text-sm"></i>
+                            </a>
                             
-                            {{-- Bouton Supprimer --}}
-                            <form action="{{ route('admin.formations.destroy', $offre->id_formation) }}" method="POST" onsubmit="return confirm('Supprimer ce programme ?')">
+                            {{-- Supprimer --}}
+                            <form action="{{ route('admin.formations.destroy', $offre->id_formation) }}" method="POST" onsubmit="return confirm('Attention : Cette action supprimera définitivement le programme et son image. Continuer ?')">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="w-9 h-9 rounded-xl bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-600 hover:text-white transition-all shadow-sm">
                                     <i class="fa-solid fa-trash-can text-sm"></i>
@@ -77,7 +101,14 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="5" class="p-20 text-center text-gray-400 italic">Aucune formation trouvée.</td></tr>
+                <tr>
+                    <td colspan="6" class="p-20 text-center text-gray-400 italic">
+                        <div class="flex flex-col items-center">
+                            <i class="fa-solid fa-box-open text-4xl mb-4 opacity-20"></i>
+                            <p class="font-bold uppercase tracking-widest text-xs">Aucune formation trouvée dans la base de données.</p>
+                        </div>
+                    </td>
+                </tr>
                 @endforelse
             </tbody>
         </table>

@@ -7,12 +7,10 @@ use App\Models\Formation;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage; // Import indispensable pour gérer les fichiers
 
 class FormationController extends Controller
 {
-    /**
-     * Liste des formations
-     */
     public function index()
     {
         $offres = Formation::with('service')->latest()->get();
@@ -20,9 +18,6 @@ class FormationController extends Controller
         return view('admin.formations.index', compact('offres', 'services'));
     }
 
-    /**
-     * Page de création
-     */
     public function create()
     {
         $services = Service::all();
@@ -30,14 +25,14 @@ class FormationController extends Controller
     }
 
     /**
-     * ENREGISTREMENT (La méthode qui te manquait)
+     * ENREGISTREMENT AVEC IMAGE
      */
     public function store(Request $request)
     {
-        // 1. Validation
         $request->validate([
             'titre' => 'required|max:255',
             'id_service' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048', // Validation stricte
             'cout' => 'required|numeric',
             'status' => 'required|in:disponible,non disponible',
             'date_formation' => 'required'
@@ -45,22 +40,24 @@ class FormationController extends Controller
 
         $data = $request->all();
 
-        // 2. Nettoyage de la date pour SQL
+        // Gestion de l'image
+        if ($request->hasFile('image')) {
+            // Stocke dans storage/app/public/formations
+            $data['image'] = $request->file('image')->store('formations', 'public');
+        }
+
+        // Nettoyage de la date
         try {
             $data['date_formation'] = Carbon::parse($request->date_formation)->format('Y-m-d');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['date_formation' => 'Format de date invalide.']);
         }
 
-        // 3. Insertion
         Formation::create($data);
 
         return redirect()->route('admin.formations.index')->with('success', 'La formation a été publiée avec succès !');
     }
 
-    /**
-     * Page de modification
-     */
     public function edit($id)
     {
         $offre = Formation::findOrFail($id);
@@ -69,53 +66,63 @@ class FormationController extends Controller
     }
 
     /**
-     * MISE À JOUR
+     * MISE À JOUR AVEC IMAGE
      */
-     public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $formation = Formation::findOrFail($id);
 
-        // 1. On déplace la validation au début
         $request->validate([
             'titre' => 'required|max:255',
             'id_service' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048', // Optionnelle à la modif
             'cout' => 'required|numeric',
             'status' => 'required|in:disponible,non disponible',
         ]);
 
         $data = $request->all();
 
-        // 2. Conversion de la date si elle est remplie
+        // Gestion du changement d'image
+        if ($request->hasFile('image')) {
+            // 1. Supprimer l'ancienne image si elle existe
+            if ($formation->image) {
+                Storage::disk('public')->delete($formation->image);
+            }
+            // 2. Stocker la nouvelle
+            $data['image'] = $request->file('image')->store('formations', 'public');
+        }
+
         if($request->filled('date_formation')) {
             try {
                 $data['date_formation'] = Carbon::parse($request->date_formation)->format('Y-m-d');
-            } catch (\Exception $e) {
-                // On peut ignorer ou loguer si le format est mauvais
-            }
+            } catch (\Exception $e) {}
         }
 
-        // 3. Mise à jour en base
         $formation->update($data);
 
         return redirect()->route('admin.formations.index')->with('success', 'Formation mise à jour avec succès !');
     }
 
     /**
-     * SUPPRESSION
+     * SUPPRESSION (Nettoie aussi le fichier image)
      */
     public function destroy($id)
     {
         $formation = Formation::findOrFail($id);
+
+        // Supprimer le fichier image du disque avant de supprimer la ligne en base
+        if ($formation->image) {
+            Storage::disk('public')->delete($formation->image);
+        }
+
         $formation->delete();
-        return redirect()->back()->with('success', 'Formation supprimée.');
+
+        return redirect()->back()->with('success', 'Formation et image supprimées.');
     }
 
-
     public function show($id)
-{
-    // On récupère la formation avec son service lié
-    $offre = Formation::with('service')->findOrFail($id);
-    
-    return view('admin.formations.show', compact('offre'));
-}
+    {
+        $offre = Formation::with('service')->findOrFail($id);
+        return view('admin.formations.show', compact('offre'));
+    }
 }
