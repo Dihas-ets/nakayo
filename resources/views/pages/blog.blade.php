@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Articles')
+
 @section('content')
 
     {{-- 1. HEADER (Déplacé à l'intérieur de la section pour la validité du fichier) --}}

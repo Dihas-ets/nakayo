@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Détails de l\'offre')
+
 @section('content')
 <section class="py-24 bg-gray-50">
     <div class="max-w-4xl mx-auto px-6">

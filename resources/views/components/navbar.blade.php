@@ -49,15 +49,15 @@
 
     <!-- 2. MAIN NAVBAR -->
     <!-- Ajustement hauteur mobile : h-20 au lieu de h-8 pour laisser de la place au logo -->
-    <nav class="bg-white h-10 lg:h-14 flex items-stretch w-full relative">
-        <div class="flex-1 flex items-center justify-between pl-4 pr-4 lg:pl-0 lg:pr-10">
+    <nav class="bg-white h-10 lg:h-20 flex items-stretch w-full relative nav__mobile">
+        <div class="flex-1 flex items-center justify-between  pr-4 lg:pl-0 lg:pr-10" style="padding-left: 15px;">
             <!-- LOGO (Agrandi sur mobile : h-16) -->
             <a href="{{ route('home') }}" class="flex-shrink-0 flex items-center">
                 <!-- <img src="{{ $settings->logo ? Storage::url($settings->logo) : asset('images/logo-default.png') }}" 
                     alt="{{ $settings->nom_agence }}" 
                     class="h-32 lg:h-48 object-contain"> -->
 
-                    <img src="{{ $settings->logo_url }}" alt="{{ $settings->nom_agence }}" class="h-32 lg:h-48 object-contain">
+                    <img src="{{ $settings->logo_url }}" alt="{{ $settings->nom_agence }}" style="height: 40px; width: auto;" class="">
 
                     
             </a>
@@ -137,7 +137,7 @@
         <div @click="mobileMenuOpen = false" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
         <div class="absolute right-0 top-0 h-full w-[85%] max-w-sm bg-[#1B2E58] text-white p-8 overflow-y-auto transition-transform duration-300">
             <div class="flex justify-between items-center mb-10">
-                <img src="{{ $settings->logo_sans_fond ? Storage::url($settings->logo_sans_fond) : asset('images/logo-default.png') }}" class="h-60 brightness-200" alt="{{ $settings->nom_agence }}">
+                <img src="{{ $settings->logo_sans_fond ? Storage::url($settings->logo_sans_fond) : asset('images/logo-default.png') }}" class="" alt="{{ $settings->nom_agence }}" style="max-width: 80%;">
                 <button @click="mobileMenuOpen = false" class="text-3xl"><i class="fas fa-times"></i></button>
             </div>
             

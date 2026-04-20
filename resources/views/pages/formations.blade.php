@@ -1,4 +1,6 @@
-@extends('layouts.app') {{-- <-- TRÈS IMPORTANT : Vérifie le nom de ton layout (app ou main) --}}
+@extends('layouts.app')
+
+@section('title', 'Formations')
 
 @section('content')
 

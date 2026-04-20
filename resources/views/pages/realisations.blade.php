@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Réalisations')
+
 @section('content')
 
 {{-- 1. NAVBAR (Optionnelle si déjà dans layout) --}}

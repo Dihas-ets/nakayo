@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Recrutement')
+
 @section('content')
 
 {{-- 1. NAVBAR --}}

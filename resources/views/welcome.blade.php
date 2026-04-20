@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
+@section('title', 'Accueil')
 
+@section('content')
+
+    {{-- 1. HEADER (Déplacé à l'intérieur de la section pour la validité du fichier) --}}
   {{-- HEADER : Top-bar + Navbar --}}
     {{-- On vérifie que la route actuelle n'est pas dans la liste noire --}}
     @if(!Route::is('login', 'register', 'admin.dashboard', 'abonner.dashboard'))
@@ -9,10 +13,6 @@
             @include('components.navbar')
         </header>
     @endif
-    
-@section('content')
-
- 
 
     <!-- Hero Section -->
 <section x-data="{ 
@@ -105,14 +105,14 @@
             </div>
 
             <!-- BOUTON : Masqué si 0 services, affiché si >= 6 -->
-            @if($services->count() >= 6)
+            <!-- @if($services->count() >= 6)
             <div class="mt-8 md:mt-0 md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2 text-center">
                 <a href="{{ route('services.index') }}" class="inline-flex items-center gap-3 bg-[#1B2E58] text-white px-6 py-3 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-[#FF9F29] transition-all shadow-lg group">
                     Voir tous les services
                     <i class="fas fa-plus-circle group-hover:rotate-90 transition-transform"></i>
                 </a>
             </div>
-            @endif
+            @endif -->
         </div>
 
         <!-- GRILLE DYNAMIQUE -->
@@ -177,6 +177,15 @@
             @endforelse
 
         </div>
+
+          @if($services->count() >= 6)
+        <div class="mt-8 flex justify-center reveal-on-scroll opacity-0 transform translate-y-10 transition-all duration-1000 items-center" >
+             <a href="{{ route('services.index') }}" class="inline-flex items-center gap-3 bg-[#1B2E58] text-white px-8 py-4 rounded-full font-black uppercase text-[11px] tracking-[2px] hover:bg-[#FF9F29] transition-all shadow-xl group">
+                Voir tous les services
+                <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+            </a>
+        </div>
+        @endif
     </div>
 </section>
 
@@ -195,9 +204,9 @@
             
             <div class="relative reveal-on-scroll opacity-0 transform -translate-x-10 transition-all duration-1000">
                 <div class="relative">
-                    <img src="{{ url('images/8.jpeg') }}" 
+                    <img src="{{ url('images/apropos_img.jpg.jpeg') }}" 
                          alt="Équipe NAKAYO" 
-                         class="rounded-sm shadow-sm w-full object-cover h-[400px]">
+                         class="rounded-sm shadow-sm w-full object-cover">
                 </div>
 
                 <div class="absolute -bottom-8 -left-4 lg:-left-8 bg-[#1B2E58] p-4 lg:p-5 shadow-2xl z-20 max-w-[300px]">
@@ -282,7 +291,7 @@
         </div>
 
         <!-- Grille dynamique -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 ">
             
             @forelse($marques as $index => $marque)
                 <div class="reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out" 
@@ -291,14 +300,14 @@
                     {{-- SI UN SERVICE EST LIÉ : On utilise une balise <a> avec effets de survol --}}
                     @if($marque->id_service)
                         <a href="{{ route('services.show', $marque->id_service) }}" 
-                           class="group relative bg-white rounded-[1.5rem] p-6 flex flex-col items-center border border-gray-100 shadow-sm transition-all duration-500 transform hover:-translate-y-2 hover:bg-[#1B2E58] h-full cursor-pointer block">
+                           class="group relative bg-white rounded-[1.5rem] p-6 flex flex-col items-center border border-gray-100 shadow-sm transition-all duration-500 transform hover:-translate-y-2 hover:bg-[#1B2E58] cursor-pointer block">
                     {{-- SINON : On utilise une simple <div> sans effets interactifs --}}
                     @else
                         <div class="relative bg-white rounded-[1.5rem] p-6 flex flex-col items-center border border-gray-50 shadow-sm h-full cursor-default">
                     @endif
 
                             <!-- Image/Logo de la marque -->
-                            <div class="relative z-10 w-50 h-50  rounded-2xl flex items-center justify-center mb-4 transition-all duration-500 @if($marque->id_service) group-hover:bg-white group-hover:scale-110 @endif overflow-hidden p-3">
+                            <div class="relative z-10  lg:h-50 h-20 rounded-2xl flex items-center justify-center mb-4 transition-all duration-500 @if($marque->id_service) group-hover:bg-white group-hover:rounded-circle group-hover:scale-110 @endif overflow-hidden p-3">
                                 @if($marque->image)
                                     <img src="{{ url('storage/' . $marque->image) }}" alt="{{ $marque->nom }}" class="w-full h-full object-contain">
                                 @else
@@ -374,15 +383,7 @@
                 <div class="h-1.5 w-20 bg-[#FF9F29] mx-auto mt-2 rounded-full shadow-sm"></div>
             </div>
 
-            {{-- On n'affiche le lien "Voir tout" que s'il y a au moins un article --}}
-            @if($featuredArticle || $recentArticles->count() > 0)
-                <div class="absolute right-0 top-1/2 -translate-y-1/2 hidden md:block">
-                    <a href="{{ route('blog.index') }}" class="inline-flex items-center gap-2 text-[#FF9F29] font-black uppercase text-[11px] tracking-[0.2em] group">
-                        Voir tout le blog
-                        <i class="fas fa-arrow-right text-[10px] transition-transform group-hover:translate-x-2"></i>
-                    </a>
-                </div>
-            @endif
+            
         </div>
 
         {{-- CONDITION GLOBALE : Si aucun article n'existe du tout --}}
@@ -435,9 +436,9 @@
                                 <div class="flex items-center justify-between text-gray-400 text-[10px] font-bold uppercase tracking-widest border-t border-gray-50 pt-4">
                                     <span class="flex items-center gap-2">
                                         <i class="far fa-calendar-alt text-[#FF9F29]"></i>
-                                        {{ \Carbon\Carbon::parse($featuredArticle->created_at)->translatedFormat('d F, Y') }}
+                                        {{ \Carbon\Carbon::parse($featuredArticle->created_at)->locale('fr')->translatedFormat('d F Y') }}
                                     </span>
-                                    <span class="text-[#1B2E58]/40 italic">Nakayo Group</span>
+                                    <span class="text-[#1B2E58]/40 italic">Nakayo Corporation</span>
                                 </div>
                             </div>
                         </a>
@@ -487,7 +488,20 @@
                         @endforelse
 
                     </div>
+
+                    
+                        {{-- On n'affiche le lien "Voir tout" que s'il y a au moins un article --}}
+            @if($featuredArticle || $recentArticles->count() > 0)
+                <div class="ml-auto mt-4" >
+                    <a href="{{ route('blog.index') }}" class="inline-flex items-center gap-3 bg-[#FF9F29] text-white px-8 py-4 rounded-full font-black uppercase text-[11px] tracking-[2px]  transition-all shadow-xl group">
+                        Voir tout les articles
+                        <i class="fas fa-arrow-right text-[10px] transition-transform group-hover:translate-x-2"></i>
+                    </a>
                 </div>
+            @endif
+                   
+                </div>
+
 
             </div>
         @endif
@@ -796,15 +810,15 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         
                         <!-- Bouton 1 : Recrutement -->
-                        <a href="{{ route('recrutement') }}" 
+                        <a href="{{ route('formations') }}" 
                         class="flex items-center justify-center bg-[#1B2E58] text-white py-4 rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg hover:bg-[#FF9F29] transition-all text-center">
-                            Voir les offres
+                            Nos Formations
                         </a>
                         
                         <!-- Bouton 2 : WhatsApp -->
-                        <a href="{{ route('realisations.projets') }}" 
+                        <a href="{{ route('pages.investisseurs') }}" 
                         class="flex items-center justify-center bg-white text-[#1B2E58] border-2 border-[#1B2E58] py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-gray-100 transition-all text-center">
-                            Partenaire
+                            Devenir Investisseur
                         </a>
 
                     </div>
@@ -865,6 +879,8 @@
 
     </div>
 </section>
+
+@endsection
 
 
 

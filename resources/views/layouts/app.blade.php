@@ -10,13 +10,13 @@
     <link rel="icon" type="image/png" href="{{ asset('storage/' . $company->favicon) }}?v={{ time() }}">
     @else -->
     <!-- <link rel="icon" type="image/png" href="{{ asset('favico.png') }}?v=1"> -->
-
+<title>{{ $settings->nom_agence ?? 'Nakayo' }} - @yield('title')</title>
         <link rel="shortcut icon" href="{{ $settings->favicon_url }}">
 
     <!-- <link rel="shortcut icon" href="{{ asset('favico.png') }}?v=1"> -->
     <!-- @endif -->
 
-    <title>{{ $company->nom_agence ?? 'Nakayo' }} - @yield('title')</title>
+    
 
     
     
@@ -31,6 +31,13 @@
             opacity: 1;
             transition: opacity 0.5s ease-out;
         }
+        @media screen and (max-width: 991px){
+            .nav__mobile {
+                height: 66px; /* Ajustez cette valeur selon la hauteur de votre logo sur mobile */
+            }
+        }
+            
+      
     </style>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

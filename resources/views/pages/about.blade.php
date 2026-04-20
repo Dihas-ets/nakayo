@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'A propos')
+
+@section('content')
 
   {{-- HEADER : Top-bar + Navbar --}}
     {{-- On vérifie que la route actuelle n'est pas dans la liste noire --}}
@@ -10,7 +13,7 @@
         </header>
     @endif
     
-@section('content')
+
 
 <section class="relative w-full h-[450px] md:h-[550px] flex items-center justify-center overflow-hidden font-sans">
     
@@ -360,3 +363,4 @@
         </div>
     </div>
 </section>
+@endsection

@@ -16,7 +16,8 @@
 
             <div class="flex items-center gap-4 mt-4 text-gray-500 text-sm">
                 <span class="bg-[#FF9F29] text-[#1B2E58] px-4 py-1 rounded-full font-bold text-[11px] uppercase tracking-widest">
-                    {{ $article->category_name ?? 'Catégorie' }}
+                  
+                {{ $article->categorie->nom ?? 'Non catégorisé' }}
                 </span>
 
                 <span>
