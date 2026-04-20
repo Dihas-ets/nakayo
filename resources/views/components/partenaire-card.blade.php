@@ -7,7 +7,7 @@
 
     <{{ $tag }} {{ $attrs }} class="relative flex items-center justify-center p-6 w-full h-32 md:h-40 bg-white rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden">
         <img 
-            src="{{ $partenaire->image ?? 'https://placehold.co/400x400?text=Logo' }}" 
+            src="{{ $partenaire->image_url ?? 'https://placehold.co/400x400?text=Logo' }}" 
             alt="{{ $partenaire->nom }}" 
             class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500 opacity-80 group-hover:opacity-100"
         >

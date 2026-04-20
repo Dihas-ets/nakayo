@@ -108,132 +108,41 @@
 
 
 <!-- SECTION : NOS PARTENAIRES -->
-<section class="py-10 font-sans overflow-hidden">
-    <div class="max-w-6xl mx-auto px-12">
-        <div class="text-center mb-8">
-            <h2 class="text-2xl lg:text-4xl font-black text-[#1B2E58] uppercase tracking-tighter ">
+<section class="py-10 font-sans overflow-hidden bg-gray-50/50">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        {{-- Titre --}}
+        <div class="text-center mb-12">
+            <h2 class="text-2xl lg:text-4xl font-black text-[#1B2E58] uppercase tracking-tighter">
                 Ils nous font confiance
             </h2>
-            <div class="h-1 w-12 bg-[#FF9F29] mx-auto mt-1 rounded-full shadow-sm"></div>
+            <div class="h-1.5 w-16 bg-[#FF9F29] mx-auto mt-2 rounded-full shadow-sm"></div>
         </div>
 
-        <div class="pb-10">
-            <div class="py-12 justify-center">
-    <div class="max-w-7xl mx-auto px-4">
-        
-        
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 items-center justify-items-center">
-            @forelse($partenaires as $partenaire)
-                <div class="group flex justify-center" style="width: -webkit-fill-available;">
-                    @php 
-                        $tag = $partenaire->lien ? 'a' : 'div';
-                        $attrs = $partenaire->lien ? 'href='.$partenaire->lien.' target=_blank' : '';
-                    @endphp
+        {{-- Zone de défilement --}}
+        <div class="relative flex overflow-x-hidden">
+            @if(count($partenaires) > 0)
+                {{-- Conteneur de l'animation --}}
+                {{-- "animate-marquee" est la classe personnalisée, "pause-hover" permet d'arrêter le défilement au survol --}}
+                <div class="flex animate-marquee whitespace-nowrap gap-6 py-4 hover:pause-hover">
+                    
+                    {{-- Premier passage des logos --}}
+                    @foreach($partenaires as $partenaire)
+                        @include('components.partenaire-card', ['partenaire' => $partenaire])
+                    @endforeach
 
-                    <{{ $tag }} {{ $attrs }} class="relative flex items-center justify-center p-4 w-full h-24 bg-white rounded-xl shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-md hover:-translate-y-1">
-                        <img 
-                            src="{{ $partenaire->image ?? 'https://placehold.co/200x200?text=Logo' }}" 
-                            alt="{{ $partenaire->nom }}" 
-                            class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100"
-                        >
-                    </{{ $tag }}>
+                    {{-- Deuxième passage (obligatoire pour l'effet infini sans coupure) --}}
+                    @foreach($partenaires as $partenaire)
+                        @include('components.partenaire-card', ['partenaire' => $partenaire])
+                    @endforeach
+                    
+                    {{-- Troisième passage (optionnel, conseillé si tu as peu de partenaires pour remplir les grands écrans) --}}
+                    @foreach($partenaires as $partenaire)
+                        @include('components.partenaire-card', ['partenaire' => $partenaire])
+                    @endforeach
                 </div>
-            @empty
-                <div class="col-span-full text-center py-10">
-                    <p class="text-gray-400 italic">Aucun partenaire disponible pour le moment.</p>
-                </div>
-            @endforelse
-        </div>
-    </div>
-</div>
-        </div>
-    </div>
-</section>
-
-
-<!-- les membres -->
-
-<style>
-    /* Animation de défilement infini ultra-fluide */
-    @keyframes marquee {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-    }
-
-    .animate-marquee {
-        display: flex;
-        width: max-content;
-        animation: marquee 40s linear infinite;
-    }
-
-    .animate-marquee:hover {
-        animation-play-state: paused;
-    }
-
-    .mask-edges {
-        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    }
-</style>
-
-<section class="py-10 bg-white font-sans overflow-hidden">
-    <div class="max-w-7xl mx-auto px-6 lg:px-12 mb-8 text-center">
-        <div class="max-w-2xl mx-auto">
-            <div class="mb-4">
-                <h2 class="text-3xl lg:text-4xl font-black text-[#1B2E58] uppercase tracking-tighter">
-                    L'Équipe
-                </h2>
-                <div class="h-1 w-16 bg-[#FF9F29] mx-auto mt-2 rounded-full"></div>
-            </div>
-            <p class="text-gray-500 text-base font-medium leading-relaxed">
-                L'excellence au service de vos ambitions.
-            </p>
-        </div>
-    </div>
-
-    <div class="relative mask-edges">
-        <div class="animate-marquee gap-8 py-2 flex">
-            @if(isset($team) && $team->count() > 0)
-                {{-- On concatène la collection avec elle-même pour l'effet de boucle infinie sans saut --}}
-                @foreach($team->concat($team) as $member)
-                <div class="w-[240px] group flex-shrink-0">
-                    <div class="relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-gray-100 mb-4 shadow-sm border border-gray-50">
-                        
-                        {{-- Affichage de la photo à partir du dossier storage --}}
-                        @if($member->photo)
-                            <img src="{{ url('storage/' . $member->photo) }}" 
-                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-                                 alt="{{ $member->nom_complet }}">
-                        @else
-                            <div class="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400">
-                                <i class="fas fa-user fa-3x"></i>
-                            </div>
-                        @endif
-
-                        {{-- Lien LinkedIn dynamique s'il existe --}}
-                        @if($member->linkedin)
-                        <a href="{{ $member->linkedin }}" target="_blank" 
-                           class="absolute inset-0 bg-gradient-to-t from-[#1B2E58]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
-                            <span class="text-white font-bold text-xs flex items-center gap-2">
-                                <i class="fab fa-linkedin"></i> LinkedIn →
-                            </span>
-                        </a>
-                        @endif
-                    </div>
-
-                    <div class="px-2 text-center">
-                        <h3 class="text-xl font-black text-[#1B2E58] italic leading-tight">
-                            {{ $member->nom_complet }}
-                        </h3>
-                        <p class="text-[#FF9F29] font-bold uppercase text-[10px] tracking-widest mt-2">
-                            {{ $member->poste }}
-                        </p>
-                    </div>
-                </div>
-                @endforeach
             @else
                 <div class="w-full text-center py-10">
-                    <p class="text-gray-400 italic">Aucun membre d'équipe n'est disponible pour le moment.</p>
+                    <p class="text-gray-400 italic">Aucun partenaire disponible pour le moment.</p>
                 </div>
             @endif
         </div>

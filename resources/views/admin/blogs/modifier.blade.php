@@ -21,9 +21,7 @@
                 </div>
             </div>
             <div class="flex gap-4">
-                <a href="{{ route('admin.blog.show', $article->id_article) }}" target="_blank" class="bg-blue-50 text-[#1B2E58] px-6 py-3.5 rounded-2xl font-black hover:bg-blue-100 transition-all text-xs">
-                    VOIR L'APERÇU
-                </a>
+                
                 <button type="submit" class="bg-[#1B2E58] text-white px-10 py-3.5 rounded-2xl font-black shadow-xl hover:bg-[#00261C] transition-all text-xs">
                     METTRE À JOUR
                 </button>
@@ -51,11 +49,7 @@
                                   class="w-full border-none focus:ring-0 text-gray-500 text-lg leading-relaxed">{{ $article->description }}</textarea>
                     </div>
                     
-                    {{-- CHAMP COMMENTAIRE (RÉSUMÉ) --}}
-                    <div class="mt-12 pt-10 border-t border-gray-50">
-                        <label class="block text-xs font-black text-gray-400 uppercase mb-4 tracking-widest italic">Commentaire interne / Résumé SEO</label>
-                        <textarea name="commentaire" rows="3" class="w-full bg-gray-50 rounded-[2rem] p-6 border-none text-sm focus:ring-2 focus:ring-[#FF9F29] text-gray-600 font-medium">{{ $article->commentaire }}</textarea>
-                    </div>
+                   
                 </div>
             </div>
 

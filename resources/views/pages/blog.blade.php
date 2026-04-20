@@ -72,35 +72,58 @@
 
     {{-- 1. ARTICLE MIS EN AVANT (FEATURED) --}}
     @if(isset($featuredArticle))
-        <article class="relative flex flex-col lg:flex-row bg-[#1B2E58] rounded-[40px] overflow-hidden shadow-2xl group mb-16">
-            <div class="lg:w-1/2 h-[300px] lg:h-[500px] overflow-hidden">
+        <article class="relative flex flex-col lg:flex-row bg-[#1B2E58] rounded-[40px] overflow-hidden shadow-2xl group mb-16 items-stretch">
+            
+            {{-- PARTIE GAUCHE : IMAGE --}}
+            {{-- On utilise lg:w-1/2 pour la largeur et on laisse le flex stretch gérer la hauteur --}}
+            <div class="relative lg:w-1/2 w-full min-h-[350px] overflow-hidden">
                 <img src="{{ url('storage/' . $featuredArticle->media) }}" 
-                     alt="{{ $featuredArticle->titre }}"
-                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80">
+                    alt="{{ $featuredArticle->titre }}"
+                    {{-- 'absolute inset-0' force l'image à remplir tout l'espace disponible du parent --}}
+                    class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
             </div>
 
+            {{-- PARTIE DROITE : TEXTE --}}
             <div class="lg:w-1/2 p-8 lg:p-16 flex flex-col justify-center">
                 <div class="flex items-center gap-4 mb-6">
-                    <span class="bg-[#FFB75E] text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">À LA UNE</span>
-                    <span class="text-white/60 text-[10px] font-black uppercase tracking-widest">{{ $featuredArticle->category_name }}</span>
+                    <span class="bg-[#FFB75E] text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
+                        À LA UNE
+                    </span>
+                    <span class="text-white/60 text-[10px] font-black uppercase tracking-widest">
+                        {{ $featuredArticle->category_name }}
+                    </span>
                 </div>
 
                 <h3 class="text-white text-3xl lg:text-5xl font-black leading-tight mb-6">
                     {{ $featuredArticle->titre }}
                 </h3>
 
-                <div class="text-white/70 text-lg mb-8 line-clamp-3">
-                    {!! Str::limit(strip_tags($featuredArticle->description), 150) !!}
+                <div class="text-white/70 text-lg mb-8 line-clamp-3 leading-relaxed">
+                    {!! Str::limit(strip_tags($featuredArticle->description), 180) !!}
                 </div>
 
-                <div class="flex items-center gap-6 mb-10 text-white/50">
-                    <div class="flex items-center gap-2"><span>👁️</span> <span class="text-xs font-bold">{{ $featuredArticle->vue }}</span></div>
-                    <div class="flex items-center gap-2"><span>❤️</span> <span class="text-xs font-bold">{{ $featuredArticle->likes }}</span></div>
+                <div class="flex items-center gap-6 mb-10 text-white/50 border-t border-white/10 pt-6">
+    
+                    {{-- Affichage des vues --}}
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg">👁️</span> 
+                        <span class="text-xs font-bold">{{ $featuredArticle->vue ?? 0 }} vues</span>
+                    </div>
+
+                    {{-- Formulaire pour le Like --}}
+                    <form action="{{ route('blog.likes', $featuredArticle->id_article) }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="flex items-center gap-2 hover:text-[#FFB75E] transition-colors group">
+                            <span class="text-lg group-hover:scale-125 transition-transform">❤️</span> 
+                            <span class="text-xs font-bold">{{ $featuredArticle->likes ?? 0 }} likes</span>
+                        </button>
+                    </form>
+
                 </div>
 
-                {{-- Lien vers le détail via slug ou id --}}
+                {{-- Lien vers le détail --}}
                 <a href="{{ route('blog.show', $featuredArticle->slug ?? $featuredArticle->id) }}" 
-                   class="inline-flex items-center justify-center bg-white text-[#1B2E58] w-fit px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-[#FFB75E] hover:text-white transition-all shadow-xl">
+                class="inline-flex items-center justify-center bg-white text-[#1B2E58] w-fit px-10 py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-[#FFB75E] hover:text-white transition-all shadow-xl hover:-translate-y-1">
                     Lire l'article complet
                 </a>
             </div>

@@ -156,7 +156,7 @@
                             </h3>
                             
                             <a href="{{ route('services.show', $service->id_service) }}" 
-                               class="inline-flex items-center gap-2 bg-[#FF9F29] border border-white/30 px-4 py-2 rounded-full font-bold uppercase text-[9px] tracking-widest transition-all hover:bg-white hover:text-[#1B2E58]"
+                               class="inline-flex items-center gap-2 bg-[#FF9F29] border border-white/30 px-4 py-2 rounded-full font-bold uppercase text-[9px] tracking-widest transition-all  hover:text-[#1B2E58]"
                                style="color: white;">
                                 En savoir plus
                             </a>
@@ -274,6 +274,7 @@
         
         <!-- Titre de la section -->
         <div class="text-center mb-10 reveal-on-scroll opacity-0 transition-all duration-1000 transform translate-y-10">
+            
             <h2 class="text-2xl lg:text-3xl font-black text-[#1B2E58] uppercase tracking-tighter">
                 Nos Marques
             </h2>
@@ -297,7 +298,7 @@
                     @endif
 
                             <!-- Image/Logo de la marque -->
-                            <div class="relative z-10 w-20 h-20  rounded-2xl flex items-center justify-center mb-4 transition-all duration-500 @if($marque->id_service) group-hover:bg-white group-hover:scale-110 @endif overflow-hidden p-3">
+                            <div class="relative z-10 w-50 h-50  rounded-2xl flex items-center justify-center mb-4 transition-all duration-500 @if($marque->id_service) group-hover:bg-white group-hover:scale-110 @endif overflow-hidden p-3">
                                 @if($marque->image)
                                     <img src="{{ url('storage/' . $marque->image) }}" alt="{{ $marque->nom }}" class="w-full h-full object-contain">
                                 @else
@@ -716,9 +717,9 @@
                        {{ $settings->localisation ?? 'Adresse non définie' }}
                     </p>
                     
-                    <a href="#" class="mt-auto text-[#1B2E58] font-black uppercase text-[9px] tracking-widest flex items-center gap-2 hover:text-[#FF9F29] transition-colors">
+                    <!-- <a href="https://www.google.com/maps?q={{ urlencode($settings->google_maps_link) }}&output=embed" class="mt-auto text-[#1B2E58] font-black uppercase text-[9px] tracking-widest flex items-center gap-2 hover:text-[#FF9F29] transition-colors">
                         Google Maps <i class="fas fa-arrow-right text-[8px]"></i>
-                    </a>
+                    </a> -->
                 </div>
             </div>
 
@@ -802,7 +803,6 @@
                         
                         <!-- Bouton 2 : WhatsApp -->
                         <a href="{{ route('realisations.projets') }}" 
-                        target="_blank" 
                         class="flex items-center justify-center bg-white text-[#1B2E58] border-2 border-[#1B2E58] py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-gray-100 transition-all text-center">
                             Partenaire
                         </a>

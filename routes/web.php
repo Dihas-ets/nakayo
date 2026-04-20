@@ -86,14 +86,13 @@ Route::get('/investisseurs', [InvestisseurController::class, 'investisseurs'])
 
 Route::get('/recrutement', function () {
     $offres = DB::table('recrutements')
+                ->whereDate('date_limite', '>=', now()) // Utilise whereDate pour ignorer l'heure
                 ->where('status', 'publié')
                 ->orderBy('created_at', 'desc')
                 ->get();
 
-    // Vérifiez bien que le fichier est dans resources/views/pages/recrutement.blade.php
     return view('pages.recrutement', compact('offres'));
 })->name('recrutement');
-
 
 
 // Route pour voir le détail d'une offre
@@ -115,8 +114,8 @@ Route::get('/blog', function () {
     ->select(
         'articles.*',
         'categories.nom as category_name',
-        'articles.Média as media',   // On force le nom 'media' sans accent
-        'articles.J\'aime as likes'   // On force le nom 'likes' sans accent
+        'articles.media as media',   // On force le nom 'media' sans accent
+        'articles.likes as likes'   // On force le nom 'likes' sans accent
     )
     ->where('articles.status', 'publié')
     ->orderBy('articles.created_at', 'desc')
@@ -127,6 +126,55 @@ Route::get('/blog', function () {
 
     return view('blog', compact('featuredArticle', 'otherArticles'));
 })->name('blog.index');
+
+
+Route::get('/blog/{slug}', function ($slug) {
+    // 1. On cherche l'article par son slug
+    $article = DB::table('articles')->where('slug', $slug)->first();
+
+    // 2. Si on ne trouve pas par slug, on tente de récupérer l'ID à la fin du slug
+    if (!$article) {
+        $idFromSlug = last(explode('-', $slug));
+        if (is_numeric($idFromSlug)) {
+            $article = DB::table('articles')->where('id_article', $idFromSlug)->first();
+        }
+    }
+
+    // 3. Si l'article est trouvé, on force l'incrémentation
+    if ($article) {
+        DB::table('articles')
+            ->where('id_article', $article->id_article)
+            ->update([
+                // COALESCE(vue, 0) force la valeur à 0 si elle était NULL
+                // Cela règle le problème n°1 des compteurs qui ne bougent pas
+                'vue' => DB::raw('COALESCE(vue, 0) + 1')
+            ]);
+    } else {
+        abort(404);
+    }
+
+    // 4. On récupère l'article TOUT FRAIS (avec le nouveau nombre de vues) pour l'affichage
+    $article = DB::table('articles')
+        ->join('categories', 'articles.id_categorie', '=', 'categories.id_categorie')
+        ->select(
+            'articles.*', 
+            'categories.nom as category_name', 
+            'articles.Média as media', 
+            'articles.likes as likes'
+        )
+        ->where('articles.id_article', $article->id_article)
+        ->first();
+
+    return view('blog_detail', compact('article'));
+})->name('blog.show');
+
+Route::post('/blog/{id}/likes', function ($id) {
+    // On incrémente la colonne J'aime
+    DB::table('articles')->where('id_article', $id)->increment('likes');
+
+    
+    return back(); // On revient sur la page
+})->name('blog.likes');
 
 
 // page proje

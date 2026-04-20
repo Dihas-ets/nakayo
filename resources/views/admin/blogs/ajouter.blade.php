@@ -37,11 +37,7 @@
                         <textarea name="description" id="editor">{!! old('description', $article->description ?? '') !!}</textarea>
                     </div>
                     
-                    <!-- Champ Commentaire -->
-                    <div class="mt-12 pt-10 border-t border-gray-50">
-                        <label class="block text-xs font-black text-gray-400 uppercase mb-4 tracking-widest">Note interne / Commentaire</label>
-                        <textarea name="commentaire" rows="3" class="w-full bg-gray-50 rounded-[2rem] p-6 border-none text-sm focus:ring-2 focus:ring-[#FF9F29]" placeholder="Ajoutez un résumé ou une note pour ce contenu...">{{ $article->commentaire ?? '' }}</textarea>
-                    </div>
+                   
                 </div>
             </div>
 

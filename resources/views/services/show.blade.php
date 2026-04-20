@@ -51,7 +51,7 @@
     </div>
 
     <!-- Fil d'ariane (Breadcrumbs) : Positionné en bas au centre -->
-    <div class="absolute bottom-12 w-full text-center z-10">
+    <!-- <div class="absolute bottom-12 w-full text-center z-10">
         <nav class="flex justify-center items-center gap-3 text-sm font-semibold tracking-wide uppercase">
             <a href="/" class="text-gray-400 hover:text-white transition">Accueil</a>
             
@@ -67,7 +67,7 @@
             
             <span class="text-white">{{ $service->titre }}</span>
         </nav>
-    </div>
+    </div> -->
 </section>
 
 <div class="container mx-auto px-6 py-16">
@@ -137,16 +137,7 @@
         </div>
 
         <!-- PDF DOWNLOAD (Statique ou à ajouter en DB) -->
-        <div class="bg-gray-50 p-6 border-l-4 border-[#1B2E58] group hover:bg-gray-100 transition">
-            <p class="font-black text-[#1B2E58] mb-4 uppercase text-[10px] tracking-widest">Documentation Officielle</p>
-            <a href="{{ url('assets/documents/brochure-nakayo.pdf') }}" download class="flex items-center justify-between bg-[#1B2E58] text-white p-5 hover:bg-[#FF9F29] transition-all duration-300">
-                <div class="flex items-center gap-4">
-                    <i class="fa-solid fa-file-pdf text-2xl"></i>
-                    <span class="font-black text-xs uppercase tracking-tighter">Brochure {{ $settings->nom_agence ?? 'Nakayo' }}</span>
-                </div>
-                <i class="fa-solid fa-download animate-bounce"></i>
-            </a>
-        </div>
+       
         </aside>
 
         <!-- 3. SECTION DROITE (CONTENU DYNAMIQUE) -->

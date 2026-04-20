@@ -109,14 +109,14 @@
             <div class="p-10">
                 <div class="bg-gray-50 p-8 rounded-[2rem] text-[#1B2E58] leading-relaxed whitespace-pre-line font-medium text-lg italic" x-text="selected.description"></div>
                 
-                <div class="mt-10 flex gap-4">
+                <!-- <div class="mt-10 flex gap-4">
                     <a :href="'mailto:' + selected.email" class="bg-[#1B2E58] text-white px-8 py-4 rounded-2xl font-black shadow-lg hover:bg-[#00261C] transition-all">
                         RÉPONDRE PAR EMAIL
                     </a>
                     <a :href="'tel:' + selected.phone" class="bg-white border border-gray-100 text-[#1B2E58] px-8 py-4 rounded-2xl font-black hover:bg-gray-50 transition-all">
                         APPELER
                     </a>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

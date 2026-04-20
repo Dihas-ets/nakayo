@@ -35,8 +35,8 @@
         <x-nav-item type="dropdown" title="Gestion des utilisateurs" icon="fa-solid fa-users" :active="request()->is('admin/users*')">
             <a href="{{ route('admin.users.admins') }}" class="block py-2 px-8 text-sm {{ request()->routeIs('admin.users.admins') ? 'text-white font-bold' : 'text-white/60 hover:text-white' }}">Administrateur</a>
             <a href="{{ route('admin.users.redacteurs') }}" class="block py-2 px-8 text-sm {{ request()->routeIs('admin.users.redacteurs') ? 'text-white font-bold' : 'text-white/60 hover:text-white' }}">Rédacteur</a>
-            <a href="{{ route('admin.users.abonnes') }}" class="block py-2 px-8 text-sm {{ request()->routeIs('admin.users.abonnes') ? 'text-white font-bold' : 'text-white/60 hover:text-white' }}">Abonné</a>
-            <a href="{{  route('admin.team.index') }}" class="block py-2 px-8 text-sm {{ request()->routeIs('admin.team.index') ? 'text-white font-bold' : 'text-white/60 hover:text-white' }}"> team</a>
+            
+            <!-- <a href="{{  route('admin.team.index') }}" class="block py-2 px-8 text-sm {{ request()->routeIs('admin.team.index') ? 'text-white font-bold' : 'text-white/60 hover:text-white' }}"> team</a> -->
                   </x-nav-item>
 
         {{-- 3. GESTION DES SERVICES --}}

@@ -102,13 +102,18 @@
                     </select>
                 </div> -->
 
+                
                 {{-- IMAGE PRINCIPALE --}}
                 <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100 text-center">
                     <h3 class="text-xs font-black uppercase text-[#1B2E58] mb-6 text-left">Couverture Actuelle</h3>
-                    <img src="{{ url('storage/'.$service->media) }}" class="rounded-3xl h-48 w-full object-cover mb-6">
+                    
+                    <!-- On utilise :src pour lier à Alpine.js -->
+                    <img :src="mainPreview" class="rounded-3xl h-48 w-full object-cover mb-6">
+                    
                     <label class="block w-full py-3 bg-gray-100 rounded-xl text-[10px] font-black cursor-pointer hover:bg-[#FF9F29] hover:text-white transition-all">
                         CHANGER L'IMAGE
-                        <input type="file" name="media" class="hidden">
+                        <!-- On ajoute @change pour déclencher la preview -->
+                        <input type="file" name="media" class="hidden" @change="handleMainPreview($event)">
                     </label>
                 </div>
 
@@ -128,7 +133,23 @@
 <script>
     function galleryHandler() {
         return {
-            imagePreviews: [], videoRows: [],
+            // On initialise la preview avec l'image actuelle venant de la base de données
+            mainPreview: "{{ url('storage/'.$service->media) }}",
+            imagePreviews: [], 
+            videoRows: [],
+
+            // Fonction pour gérer l'image principale
+            handleMainPreview(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.mainPreview = e.target.result; // On met à jour la source de l'image
+                    };
+                    reader.readAsDataURL(file);
+                }
+            },
+
             handleImageUpload(event) {
                 Array.from(event.target.files).forEach(file => {
                     const reader = new FileReader();
