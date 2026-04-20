@@ -107,6 +107,31 @@ Route::get('/recrutement/{id}', function ($id) {
 })->name('recrutement.show');
 
 
+
+
+// Route pour afficher toutes les formations
+Route::get('/nos-formations', function () {
+    $formations = DB::table('formations')
+        ->where('status', 'disponible')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('pages.formations', compact('formations'));
+})->name('formations');
+
+// Route pour le détail : on utilise l'ID maintenant
+Route::get('/formation/{id}', function ($id) {
+    // Note : Vérifie bien si ta colonne s'appelle 'id' ou 'id_formation'
+    $formation = DB::table('formations')
+        ->where('id_formation', $id) 
+        ->first();
+
+    if (!$formation) abort(404);
+
+    return view('pages.formations_show', compact('formation'));
+})->name('pages.formations_show');
+
+
 // page blog
 Route::get('/blog', function () {
     $allArticles = DB::table('articles')

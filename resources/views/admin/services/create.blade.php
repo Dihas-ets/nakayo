@@ -27,8 +27,8 @@
                 <div class="bg-white rounded-[3rem] p-10 shadow-sm border border-gray-100">
                     <label class="block text-xs font-black text-gray-400 uppercase mb-4 tracking-widest">Nom de la prestation</label>
                     <input type="text" name="titre" placeholder="Titre..." class="w-full text-3xl font-black text-[#1B2E58] border-none focus:ring-0 p-0 mb-8 placeholder:text-gray-100">
-                    <textarea name="courte_description" rows="2" class="w-full bg-gray-50 border-none rounded-2xl p-6 text-gray-600 font-medium mb-6" placeholder="Résumé..."></textarea>
-                    <textarea name="description" rows="10" class="w-full border-2 border-gray-50 rounded-[2rem] p-6 text-gray-500 font-medium focus:border-[#FF9F29] outline-none transition-all" placeholder="Description complète..."></textarea>
+                    <textarea name="courte_description" rows="2" class="w-full bg-gray-50 border-none rounded-2xl p-6 text-gray-600 font-medium mb-6" placeholder="Résumé..." required></textarea>
+                    <textarea name="description" rows="10" class="w-full border-2 border-gray-50 rounded-[2rem] p-6 text-gray-500 font-medium focus:border-[#FF9F29] outline-none transition-all" placeholder="Description complète..." required></textarea>
                 </div>
 
                 {{-- Bloc Galerie (inchangé) --}}

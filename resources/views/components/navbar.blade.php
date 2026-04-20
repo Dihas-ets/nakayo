@@ -102,6 +102,7 @@
 
 
                 <li><a href="{{ route('recrutement') }}" class="{{ request()->routeIs('recrutement') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Recrutement</a></li>
+                <li><a href="{{ route('formations') }}" class="{{ request()->routeIs('formations') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Formations</a></li>
                 <li><a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'hover:text-blue-600' }} transition-all">Contact</a></li>
             </ul>
 

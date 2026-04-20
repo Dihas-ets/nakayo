@@ -36,7 +36,7 @@
             --nk-gradient: linear-gradient(135deg, var(--nk-primary) 0%, var(--nk-dark) 100%);
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* * { margin: 0; padding: 0; box-sizing: border-box; } */
 
     html { scroll-behavior: smooth; }
 
@@ -742,8 +742,13 @@
             Rejoignez une communauté d'investisseurs visionnaires qui font confiance à Nakayo pour transformer leur capital en richesse durable. Six secteurs. Des rendements exceptionnels. Un avenir radieux.
           </p>
           <div class="hero-cta">
-            <a href="#projets" class="btn-primary-nk">Explorer les Projets <i class="fas fa-arrow-right ms-2"></i></a>
-            <a href="#performance" class="btn-outline-nk"> En savoir plus sur nous</a>
+             @php 
+            $whatsappClean = preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp ?? '22900000000'); 
+        @endphp
+            <a href="https://wa.me/{{ $whatsappClean }}" class="btn-primary-nk">Explorer les Projets <i class="fas fa-arrow-right ms-2"></i></a>
+            <a href="https://wa.me/{{ $whatsappClean }}" class="btn-outline-nk" style="color: white !important;">
+                En savoir plus sur nous
+            </a>
           </div>
           <div class="hero-stats">
             <div class="stat-item">
@@ -813,39 +818,7 @@
   </div>
 </section>
 
-<!-- WHY NAKAYO -->
-<section class="why-section" id="about">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="section-badge">Pourquoi Nakayo</div>
-      <h2 class="section-title">L'excellence au service<br>de <span style="color:var(--nk-orange)">vos ambitions</span></h2>
-      <p class="section-sub">Nakayo n'est pas qu'une société d'investissement — c'est un écosystème conçu pour faire prospérer votre capital dans les secteurs les plus porteurs d'Afrique.</p>
-    </div>
-    <div class="row g-4">
-      <div class="col-md-4 reveal">
-        <div class="why-card">
-          <div class="why-icon org"><i class="fas fa-gem"></i></div>
-          <h5>Projets Sélectionnés avec Soin</h5>
-          <p>Chaque projet passe par un processus de diligence rigoureux. Seules les opportunités avec un potentiel de rendement élevé et un risque maîtrisé intègrent le portefeuille Nakayo.</p>
-        </div>
-      </div>
-      <div class="col-md-4 reveal" style="transition-delay:.15s">
-        <div class="why-card">
-          <div class="why-icon blue"><i class="fas fa-chart-bar"></i></div>
-          <h5>Transparence Totale</h5>
-          <p>Tableaux de bord en temps réel, rapports trimestriels détaillés, accès complet à vos données. Votre argent, votre vision — nous vous donnons tous les outils pour suivre votre patrimoine.</p>
-        </div>
-      </div>
-      <div class="col-md-4 reveal" style="transition-delay:.3s">
-        <div class="why-card">
-          <div class="why-icon gold"><i class="fas fa-handshake"></i></div>
-          <h5>Partenariat Sur le Long Terme</h5>
-          <p>Notre succès est indissociable du vôtre. Nous investissons aux côtés de nos partenaires, alignant nos intérêts pour maximiser la création de valeur à chaque étape.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <!-- PROJECTS -->
 <section class="projects-section" id="projets">
@@ -1110,162 +1083,41 @@
     </div>
 </section>
 
-<!-- Charts Section -->
-<section class="section nk-charts-section mt-5 pt-5 pb-5" id="stats">
-    <div class="container">
-        <div class="section-header reveal">
-            <span class="section-badge">Nos performances</span>
-            <h2 class="section-title">Resultats et statistiques</h2>
-            <p class="section-subtitle">
-                Des chiffres transparents qui temoignent de notre expertise et de la qualite de nos investissements.
-            </p>
-        </div>
-        <div class="row g-4">
-            <div class="col-lg-8 nk-reveal">
-                <div class="nk-chart-card">
-                    <h4 class="nk-chart-card-title">
-                        <i class="bi bi-bar-chart-fill"></i>
-                        Rendements par secteur (%)
-                    </h4>
-                    <div class="nk-bar-chart" id="barChart">
-                        <div class="nk-bar-item">
-                            <div class="nk-bar" data-value="18%" data-height="72"></div>
-                            <span class="nk-bar-label">Immo.</span>
-                        </div>
-                        <div class="nk-bar-item">
-                            <div class="nk-bar" data-value="22%" data-height="88"></div>
-                            <span class="nk-bar-label">Trans.</span>
-                        </div>
-                        <div class="nk-bar-item">
-                            <div class="nk-bar" data-value="25%" data-height="100"></div>
-                            <span class="nk-bar-label">Piscine</span>
-                        </div>
-                        <div class="nk-bar-item">
-                            <div class="nk-bar" data-value="30%" data-height="120"></div>
-                            <span class="nk-bar-label">Art</span>
-                        </div>
-                        <div class="nk-bar-item">
-                            <div class="nk-bar" data-value="20%" data-height="80"></div>
-                            <span class="nk-bar-label">Ferme</span>
-                        </div>
-                        <div class="nk-bar-item">
-                            <div class="nk-bar" data-value="15%" data-height="60"></div>
-                            <span class="nk-bar-label">Bureau</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 nk-reveal">
-                <div class="nk-chart-card">
-                    <h4 class="nk-chart-card-title">
-                        <i class="bi bi-pie-chart-fill"></i>
-                        Repartition portefeuille
-                    </h4>
-                    <div class="nk-donut-container">
-                        <div class="nk-donut-chart">
-                            <svg width="200" height="200" viewBox="0 0 200 200">
-                                <circle class="nk-donut-segment" cx="100" cy="100" r="70" stroke="rgba(237, 137, 54, 0.1)" />
-                                <circle class="nk-donut-segment" cx="100" cy="100" r="70" stroke="#ed8936" stroke-dasharray="132 308" stroke-dashoffset="0" />
-                                <circle class="nk-donut-segment" cx="100" cy="100" r="70" stroke="#2c5282" stroke-dasharray="88 352" stroke-dashoffset="-132" />
-                                <circle class="nk-donut-segment" cx="100" cy="100" r="70" stroke="#63b3ed" stroke-dasharray="66 374" stroke-dashoffset="-220" />
-                                <circle class="nk-donut-segment" cx="100" cy="100" r="70" stroke="#fbd38d" stroke-dasharray="44 396" stroke-dashoffset="-286" />
-                            </svg>
-                            <div class="nk-donut-center">
-                                <div class="nk-donut-value">143M</div>
-                                <div class="nk-donut-label">Total gere</div>
-                            </div>
-                        </div>
-                        <div class="nk-donut-legend">
-                            <div class="nk-legend-item">
-                                <div class="nk-legend-dot" style="background: #ed8936;"></div>
-                                <span class="nk-legend-text">Immobilier <span class="nk-legend-value">30%</span></span>
-                            </div>
-                            <div class="nk-legend-item">
-                                <div class="nk-legend-dot" style="background: #2c5282;"></div>
-                                <span class="nk-legend-text">Transport <span class="nk-legend-value">20%</span></span>
-                            </div>
-                            <div class="nk-legend-item">
-                                <div class="nk-legend-dot" style="background: #63b3ed;"></div>
-                                <span class="nk-legend-text">Autres <span class="nk-legend-value">35%</span></span>
-                            </div>
-                            <div class="nk-legend-item">
-                                <div class="nk-legend-dot" style="background: #fbd38d;"></div>
-                                <span class="nk-legend-text">Agro <span class="nk-legend-value">15%</span></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- TESTIMONIALS -->
-<section class="testimonials-section">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="section-badge">Ils nous font confiance</div>
-      <h2 class="section-title">La parole à nos<br><span style="color:var(--nk-orange)">investisseurs</span></h2>
-    </div>
-    <div class="row g-4">
-      <div class="col-md-4 reveal">
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-text">"Nakayo m'a permis de diversifier mon patrimoine sur des secteurs que je ne connaissais pas. En 18 mois, mon capital a augmenté de 54%. La transparence et le suivi sont exemplaires."</p>
-          <div class="testi-author">
-            <div class="testi-avatar">AK</div>
-            <div>
-              <div class="testi-name">Amos Koffi</div>
-              <div class="testi-role">Entrepreneur, Cotonou</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 reveal" style="transition-delay:.15s">
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-text">"J'étais sceptique au départ, mais les résultats ont vite dissipé mes doutes. Le projet immobilier m'a rapporté 28% en un an. Je recommande Nakayo à tous mes associés."</p>
-          <div class="testi-author">
-            <div class="testi-avatar" style="background:linear-gradient(135deg,#5B9AFF,var(--nk-blue-mid))">FM</div>
-            <div>
-              <div class="testi-name">Fatou Mensah</div>
-              <div class="testi-role">Directrice Financière, Lagos</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 reveal" style="transition-delay:.3s">
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-text">"Le secteur Art & Mode m'a surpris par ses performances. 40% de rendement, un marché en pleine effervescence, et une équipe Nakayo qui accompagne chaque décision. Exceptionnel."</p>
-          <div class="testi-author">
-            <div class="testi-avatar" style="background:linear-gradient(135deg,var(--nk-gold),var(--nk-orange))">JD</div>
-            <div>
-              <div class="testi-name">Jean Diallo</div>
-              <div class="testi-role">Investisseur, Abidjan</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <!-- CTA -->
 <section class="cta-section" id="contact">
   <div class="cta-bg"></div>
   <div class="container">
-    <div class="cta-content reveal">
-      <div class="section-badge">Rejoignez Nakayo</div>
+    <div class="cta-content reveal text-center"> <!-- Ajout de text-center ici -->
+      <div class="section-badge mx-auto">Rejoignez Nakayo</div> <!-- mx-auto pour centrer le badge -->
+      
       <h2 class="cta-title">Votre capital mérite<br>mieux que la stagnation</h2>
-      <p class="cta-sub">Inscrivez-vous dès aujourd'hui et recevez notre guide exclusif des opportunités d'investissement 2025. Gratuit, sans engagement.</p>
-      <div class="cta-form">
-        <input type="email" class="cta-input" placeholder="Votre adresse e-mail..." />
-        <button class="cta-submit">Démarrer <i class="fas fa-arrow-right ms-2"></i></button>
+      
+      <p class="cta-sub mx-auto">Inscrivez-vous dès aujourd'hui et recevez notre guide exclusif des opportunités d'investissement 2025. Gratuit, sans engagement.</p>
+
+      <!-- Bouton WhatsApp Centré -->
+      <div class="d-flex justify-content-center mt-4">
+        @php 
+            $whatsappClean = preg_replace('/[^0-9]/', '', $settings->telephone_whatsapp ?? '22900000000'); 
+        @endphp
+        
+        <a href="https://wa.me/{{ $whatsappClean }}?text=Bonjour, je souhaite recevoir le guide exclusif des opportunités d'investissement 2025." 
+           target="_blank" 
+           class="cta-submit d-inline-flex align-items-center justify-content-center gap-3" 
+           style="text-decoration: none; min-width: 280px; height: 60px; border-radius: 15px;">
+           <i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i>
+           <span>Démarrer sur WhatsApp</span>
+           <i class="fas fa-arrow-right ms-2"></i>
+        </a>
       </div>
-      <p style="margin-top:20px;font-size:.78rem;">
-        <i class="fas fa-lock me-2"></i>Vos données sont protégées. Aucun spam, désinscription en un clic.
+
+      <p style="margin-top:20px;font-size:.78rem; color: rgba(255,255,255,0.6);">
+        <i class="fas fa-lock me-2"></i>Vos données sont protégées. Discussion directe et sécurisée.
       </p>
+
+      <!-- Badges de confiance -->
       <div class="d-flex justify-content-center gap-4 mt-5 flex-wrap">
         <div style="display:flex;align-items:center;gap:10px;">
           <i class="fas fa-shield-halved" style="color:var(--nk-orange);font-size:1.3rem;"></i>

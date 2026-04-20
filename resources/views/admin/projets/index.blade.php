@@ -30,7 +30,7 @@
             <thead>
                 <tr class="bg-gray-50/50 border-b border-gray-100">
                     <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-[#1B2E58] opacity-50 w-24">Image</th>
-                    <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-[#1B2E58] opacity-50">Projet / Client</th>
+                    <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-[#1B2E58] opacity-50">Projet </th>
                     <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-[#1B2E58] opacity-50 text-center">Service lié</th>
                     <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-[#1B2E58] opacity-50 text-center">Localisation</th>
                     <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-[#1B2E58] opacity-50 text-right">Actions</th>
@@ -44,7 +44,7 @@
                     </td>
                     <td class="px-8 py-5">
                         <p class="font-black text-[#1B2E58] text-base leading-tight">{{ $projet->nom }}</p>
-                        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Client: {{ $projet->client ?? 'N/A' }}</p>
+                        <!-- <p class="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Client: {{ $projet->client ?? 'N/A' }}</p> -->
                     </td>
                     <td class="px-8 py-5 text-center">
                         <span class="px-3 py-1 bg-blue-50 text-[#1B2E58] rounded-lg text-[10px] font-black uppercase">

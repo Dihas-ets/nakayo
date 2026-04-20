@@ -85,14 +85,16 @@
                         <input type="text" name="lieu" value="{{ $projet->lieu }}" class="w-full bg-gray-50 border-none rounded-xl px-4 py-3 font-bold text-[#1B2E58] focus:ring-2 focus:ring-[#FF9F29]">
                     </div>
 
-                    <div>
+                    <!-- <div>
                         <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Client</label>
                         <input type="text" name="client" value="{{ $projet->client }}" class="w-full bg-gray-50 border-none rounded-xl px-4 py-3 font-bold text-[#1B2E58] focus:ring-2 focus:ring-[#FF9F29]">
-                    </div>
+                    </div> -->
 
                     <div>
                         <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Date de livraison</label>
-                        <input type="date" name="date_realisation" value="{{ $projet->date_realisation }}" class="w-full bg-gray-50 border-none rounded-xl px-4 py-3 font-bold text-[#1B2E58] focus:ring-2 focus:ring-[#FF9F29]">
+                        <input type="date" name="date_realisation" 
+                        value="{{ $projet->date_realisation ? \Carbon\Carbon::parse($projet->date_realisation)->format('Y-m-d') : '' }}" 
+                        class="...">
                     </div>
                 </div>
 

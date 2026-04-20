@@ -35,7 +35,7 @@
                     </div>
 
                     <x-input label="Lieu de réalisation" name="lieu" placeholder="Ville ou Quartier" required />
-                    <x-input label="Nom du Client" name="client" placeholder="Entreprise ou Particulier" />
+                    <!-- <x-input label="Nom du Client" name="client" placeholder="Entreprise ou Particulier" /> -->
                     <x-input label="Date de fin" name="date_realisation" type="date" />
                 </div>
 

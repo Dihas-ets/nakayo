@@ -137,53 +137,59 @@
     </div>
 
     <!-- ==========================================
-         VUE 3 : FORMULAIRE DE MODIFICATION
-    =========================================== -->
-    <div x-show="view === 'edit'" x-cloak x-transition>
-        <div class="flex items-center gap-4 mb-8">
-            <button @click="view = 'list'" class="w-12 h-12 rounded-2xl bg-white border border-gray-100 text-[#1B2E58] flex items-center justify-center hover:bg-gray-50 transition-all shadow-sm">
-                <i class="fa-solid fa-arrow-left"></i>
-            </button>
-            <h2 class="text-3xl font-black text-[#1B2E58] italic uppercase">Modifier Marque</h2>
-        </div>
-
-        <div class="bg-white rounded-[3rem] shadow-xl p-10 md:p-16 border border-orange-100">
-            <form :action="'/admin/marques/' + selected.id_marque" method="POST" enctype="multipart/form-data" class="space-y-8">
-                @csrf @method('PUT')
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <label class="block text-[10px] font-black mb-3 uppercase opacity-60 tracking-widest text-[#1B2E58]">Nom de la marque</label>
-                        <input type="text" name="nom" x-model="selected.titre" class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-gray-50/50 focus:bg-white focus:border-[#FF9F29] outline-none font-bold transition-all">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-black mb-3 uppercase opacity-60 tracking-widest text-[#1B2E58]">Service associé</label>
-                        <select name="id_service" x-model="selected.id_service" class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-gray-50/50 focus:bg-white focus:border-[#FF9F29] outline-none font-bold transition-all">
-                            @foreach($services as $service)
-                                <option value="{{ $service->id_service }}">{{ $service->titre }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="flex flex-col md:flex-row gap-8 items-center bg-gray-50 p-8 rounded-[2rem]">
-                    <div class="w-32 h-32 rounded-2xl bg-white border border-gray-100 p-4 shadow-sm flex-shrink-0">
-                        <img :src="'/storage/' + selected.image" class="w-full h-full object-contain">
-                    </div>
-                    <div class="flex-1">
-                        <label class="block text-[10px] font-black mb-3 uppercase opacity-60 tracking-widest text-[#1B2E58]">Changer le logo (Optionnel)</label>
-                        <input type="file" name="image" class="w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:bg-[#1B2E58] file:text-white">
-                    </div>
-                </div>
-
-                <div class="flex justify-end gap-4 pt-8 border-t border-gray-50">
-                    <button type="button" @click="view = 'list'" class="px-10 py-5 font-bold text-gray-400">Annuler</button>
-                    <button type="submit" class="bg-[#FF9F29] text-white px-12 py-5 rounded-2xl font-black shadow-2xl hover:bg-[#e88d1d] transition-all uppercase tracking-widest">
-                        Mettre à jour
-                    </button>
-                </div>
-            </form>
-        </div>
+     VUE 3 : FORMULAIRE DE MODIFICATION (CORRIGÉ)
+=========================================== -->
+<div x-show="view === 'edit'" x-cloak x-transition>
+    <div class="flex items-center gap-4 mb-8">
+        <button @click="view = 'list'" class="w-12 h-12 rounded-2xl bg-white border border-gray-100 text-[#1B2E58] flex items-center justify-center hover:bg-gray-50 transition-all shadow-sm">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <h2 class="text-3xl font-black text-[#1B2E58] italic uppercase">Modifier Marque</h2>
     </div>
+
+    <div class="bg-white rounded-[3rem] shadow-xl p-10 md:p-16 border border-orange-100">
+        {{-- Vérifiez que l'URL générée est correcte --}}
+        <form :action="'/admin/marques/' + selected.id_marque" method="POST" enctype="multipart/form-data" class="space-y-8">
+            @csrf 
+            @method('PUT') {{-- Crucial pour Laravel --}}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <label class="block text-[10px] font-black mb-3 uppercase opacity-60 tracking-widest text-[#1B2E58]">Nom de la marque</label>
+                    {{-- FIX ICI : x-model="selected.nom" au lieu de selected.titre --}}
+                    <input type="text" name="nom" x-model="selected.nom" required class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-gray-50/50 focus:bg-white focus:border-[#FF9F29] outline-none font-bold transition-all">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black mb-3 uppercase opacity-60 tracking-widest text-[#1B2E58]">Service associé</label>
+                    <select name="id_service" x-model="selected.id_service" class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-gray-50/50 focus:bg-white focus:border-[#FF9F29] outline-none font-bold transition-all">
+                        @foreach($services as $service)
+                            <option value="{{ $service->id_service }}">{{ $service->titre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-8 items-center bg-gray-50 p-8 rounded-[2rem]">
+                <div class="w-32 h-32 rounded-2xl bg-white border border-gray-100 p-4 shadow-sm flex-shrink-0">
+                    {{-- Aperçu de l'image actuelle --}}
+                    <img :src="'/storage/' + selected.image" class="w-full h-full object-contain" x-show="selected.image">
+                    <div x-show="!selected.image" class="flex items-center justify-center h-full text-gray-300 text-xs">Pas d'image</div>
+                </div>
+                <div class="flex-1">
+                    <label class="block text-[10px] font-black mb-3 uppercase opacity-60 tracking-widest text-[#1B2E58]">Changer le logo (Optionnel)</label>
+                    <input type="file" name="image" class="w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:bg-[#1B2E58] file:text-white cursor-pointer">
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-4 pt-8 border-t border-gray-50">
+                <button type="button" @click="view = 'list'" class="px-10 py-5 font-bold text-gray-400">Annuler</button>
+                <button type="submit" class="bg-[#FF9F29] text-white px-12 py-5 rounded-2xl font-black shadow-2xl hover:bg-[#e88d1d] transition-all uppercase tracking-widest">
+                    Mettre à jour
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
     <!-- MODAL DE SUPPRESSION -->
     <div x-show="showDelete" class="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-[#00261C]/80 backdrop-blur-md" x-cloak x-transition>

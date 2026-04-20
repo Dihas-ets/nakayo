@@ -37,25 +37,29 @@
                 </div>
 
                 {{-- Section Postuler --}}
-                <div class="bg-gray-50 rounded-3xl p-8 border border-dashed border-gray-300">
-                    <h4 class="text-[#1B2E58] font-black text-center mb-6">Cette offre vous intéresse ?</h4>
+                <div class="bg-white rounded-[2.5rem] p-10 border border-gray-100 shadow-xl text-center">
+                    <h4 class="text-[#1B2E58] text-xl font-black uppercase tracking-tighter mb-2">Prêt à nous rejoindre ?</h4>
+                    <p class="text-gray-500 text-sm mb-8 font-medium">Cliquez sur le bouton ci-dessous pour envoyer votre candidature directement via WhatsApp.</p>
                     
-                    <div class="flex flex-col md:flex-row gap-4 justify-center">
-                        {{-- Postuler par Email --}}
-                        <a href="mailto:{{ $offre->email_whatsapp }}?subject=Candidature pour le poste : {{ $offre->nom }}" 
-                           class="bg-orange-400 text-white px-10 py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-[#1B2E58] transition-all text-center shadow-lg">
-                            Postuler par Email
-                        </a>
+                    <div class="flex justify-center">
+                        @php
+                            // Nettoyage du numéro (enlève les espaces, +, etc.)
+                            $whatsappNum = preg_replace('/[^0-9]/', '', $offre->email_whatsapp);
+                            // Message pré-rempli pour le recruteur
+                            $text = "Bonjour, je souhaite postuler à l'offre : " . $offre->nom;
+                        @endphp
 
-                        {{-- Ou via WhatsApp si c'est un numéro --}}
-                        @if(is_numeric($offre->email_whatsapp))
-                        <a href="https://wa.me/{{ $offre->email_whatsapp }}" 
-                           target="_blank"
-                           class="bg-green-500 text-white px-10 py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-green-600 transition-all text-center shadow-lg">
+                        <a href="https://wa.me/{{ $whatsappNum }}?text={{ urlencode($text) }}" 
+                        target="_blank"
+                        class="inline-flex items-center gap-4 bg-[#1B2E58] text-white px-12 py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-[#128C7E] transition-all shadow-2xl shadow-green-100">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i>
                             Postuler via WhatsApp
                         </a>
-                        @endif
                     </div>
+
+                    <p class="mt-6 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+                        Réponse rapide garantie
+                    </p>
                 </div>
             </div>
         </div>

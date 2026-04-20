@@ -59,7 +59,7 @@
     <div id="preloader" class="fixed inset-0 z-[9999] flex items-center justify-center bg-[#1B2E58]">
         <div class="flex flex-col items-center text-center">
             
-            <img src="{{ asset('images/logo2.png') }}" alt="NAKAYO CORPORATION" class="w-100 h-auto">
+            <img src="{{ asset('images/logo2.png') }}" alt="NAKAYO CORPORATION" class="w-150 h-auto">
             
             <h3 class="text-white font-medium text-xl tracking-wider animate-pulse">
                 Bienvenue chez NAKAYO CORPORATION

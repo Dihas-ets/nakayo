@@ -18,13 +18,13 @@ class RecrutementController extends Controller
     public function store(Request $request)
 {
     $data = $request->validate([
-        'nom' => 'required|max:255',
+        'nom' => 'required',
         'lieu' => 'required',
         'type' => 'required',
-        'date_limite' => 'required|date', // <--- Vérifie bien l'orthographe ici
-        'email_whatsapp' => 'required',
-        'description' => 'required',
-        'image' => 'nullable|image|max:2048'
+        'date_limite' => 'date', // <--- Vérifie bien l'orthographe ici
+        'email_whatsapp' => 'nullable',
+        'description' => 'nullable',
+        'image' => 'nullable|image'
     ]);
 
     if ($request->hasFile('image')) {
