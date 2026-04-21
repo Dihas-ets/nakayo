@@ -36,10 +36,18 @@ return [
             'throw' => false,
         ],
 
+        // 'public' => [
+        //     'driver' => 'local',
+        //     'root' => storage_path('app/public'),
+        //     'url' => env('APP_URL').'/storage',
+        //     'visibility' => 'public',
+        //     'throw' => false,
+        // ],
+
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'root' => public_path('stockage'), // ou 'storage' selon votre préférence
+            'url' => env('APP_URL').'/stockage', // correspond au dossier public/stockage
             'visibility' => 'public',
             'throw' => false,
         ],

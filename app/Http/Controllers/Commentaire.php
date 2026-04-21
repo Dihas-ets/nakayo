@@ -10,7 +10,7 @@ class Commentaire extends Model
     use HasFactory;
 
     // Nom de la table (selon ce que tu as envoyé précédemment)
-    protected $table = 'commentaires'; 
+    protected $table = 'article_commentaires'; 
 
     // Nom de la clé primaire personnalisée
     protected $primaryKey = 'id_commentaire';

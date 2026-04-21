@@ -28,6 +28,12 @@ use App\Http\Controllers\Admin\MessageController;
 use App\Models\Message;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\InvestisseurController;
+use Illuminate\Http\Request;
+use App\Models\Commentaire;
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | 1. ROUTES PUBLIQUES
@@ -133,73 +139,120 @@ Route::get('/formation/{id}', function ($id) {
 
 
 // page blog
+/*
+|--------------------------------------------------------------------------
+| BLOG ROUTES (Logique + Routes ensemble)
+|--------------------------------------------------------------------------
+*/
+
+// 1. PAGE INDEX (Liste des articles)
 Route::get('/blog', function () {
-    $allArticles = DB::table('articles')
-    ->join('categories', 'articles.id_categorie', '=', 'categories.id_categorie')
-    ->select(
-        'articles.*',
-        'categories.nom as category_name',
-        'articles.media as media',   // On force le nom 'media' sans accent
-        'articles.likes as likes'   // On force le nom 'likes' sans accent
-    )
-    ->where('articles.status', 'publié')
-    ->orderBy('articles.created_at', 'desc')
-    ->get();
+    // 1. L'article le plus récent qui est coché "Featured" (Celui en haut à gauche)
+    $featuredArticle = Article::where('status', 'publié')
+                    ->join('categories', 'articles.id_categorie', '=', 'categories.id_categorie')
+                        ->select('articles.*', 'categories.nom as category_name')
+                        ->where('featured', 1)
+                        ->latest()
+                        ->first();
 
-    $featuredArticle = $allArticles->where('featured', 1)->first() ?? $allArticles->first();
-    $otherArticles = $allArticles->where('id_article', '!=', ($featuredArticle->id_article ?? 0));
+    // 2. Les 5 articles suivants (qu'ils soient featured ou non, mais les plus récents)
+    
+    $trendingArticles = Article::where('status', 'publié')
+                        ->when($featuredArticle, function($query) use ($featuredArticle) {
+                            return $query->where('id_article', '!=', $featuredArticle->id_article);
+                        })
+                        ->join('categories', 'articles.id_categorie', '=', 'categories.id_categorie')
+                        ->select('articles.*', 'categories.nom as category_name')
+                        ->latest()
+                        ->take(5)
+                        ->get();
 
-    return view('blog', compact('featuredArticle', 'otherArticles'));
+    // 3. Tous les autres articles (les plus anciens)
+    
+    $excludeIds = $trendingArticles->pluck('id_article')->toArray();
+    if ($featuredArticle) {
+        $excludeIds[] = $featuredArticle->id_article;
+    }
+
+    $otherArticles = Article::where('status', 'publié')
+                        ->whereNotIn('id_article', $excludeIds)
+                        ->latest()
+                        ->get();
+
+    return view('blog.index', compact('featuredArticle', 'trendingArticles', 'otherArticles'));
 })->name('blog.index');
 
 
+// 2. PAGE SHOW (Détail d'un article + Compteur de vues)
 Route::get('/blog/{slug}', function ($slug) {
-    // 1. On cherche l'article par son slug
-    $article = DB::table('articles')->where('slug', $slug)->first();
+    // On récupère l'article
+    $article = Article::where('slug', $slug)->firstOrFail();
+    $article = Article::with('user')->where('slug', $slug)->firstOrFail();
 
-    // 2. Si on ne trouve pas par slug, on tente de récupérer l'ID à la fin du slug
-    if (!$article) {
-        $idFromSlug = last(explode('-', $slug));
-        if (is_numeric($idFromSlug)) {
-            $article = DB::table('articles')->where('id_article', $idFromSlug)->first();
+    // Système de comptage de vues avec Session pour éviter les abus
+    $sessionKey = 'viewed_article_' . $article->id_article;
+    if (!session()->has($sessionKey)) {
+        // On s'assure que 'vue' n'est pas NULL avant d'incrémenter
+        if (is_null($article->vue)) {
+            $article->vue = 0;
         }
+        $article->increment('vue');
+        session()->put($sessionKey, true);
     }
 
-    // 3. Si l'article est trouvé, on force l'incrémentation
-    if ($article) {
-        DB::table('articles')
-            ->where('id_article', $article->id_article)
-            ->update([
-                // COALESCE(vue, 0) force la valeur à 0 si elle était NULL
-                // Cela règle le problème n°1 des compteurs qui ne bougent pas
-                'vue' => DB::raw('COALESCE(vue, 0) + 1')
-            ]);
-    } else {
-        abort(404);
-    }
+    // Récupérer les articles récents
+    $recentArticles = Article::where('id_article', '!=', $article->id_article)
+        ->where('status', 'publié')
+        ->latest()
+        ->take(5)
+        ->get();
 
-    // 4. On récupère l'article TOUT FRAIS (avec le nouveau nombre de vues) pour l'affichage
-    $article = DB::table('articles')
-        ->join('categories', 'articles.id_categorie', '=', 'categories.id_categorie')
-        ->select(
-            'articles.*', 
-            'categories.nom as category_name', 
-            'articles.Média as media', 
-            'articles.likes as likes'
-        )
-        ->where('articles.id_article', $article->id_article)
-        ->first();
-
-    return view('blog_detail', compact('article'));
+    return view('blog.show', compact('article', 'recentArticles'));
 })->name('blog.show');
 
-Route::post('/blog/{id}/likes', function ($id) {
-    // On incrémente la colonne J'aime
-    DB::table('articles')->where('id_article', $id)->increment('likes');
 
-    
-    return back(); // On revient sur la page
-})->name('blog.likes');
+// 3. ENREGISTRER UN COMMENTAIRE
+Route::post('/blog/{id}/comment', function ($id) {
+    request()->validate([
+        'nom_auteur' => 'required|string|max:255',
+        'email_auteur' => 'required|email|max:255',
+        'contenu' => 'required|string|min:5',
+    ]);
+
+    Commentaire::create([
+        'id_article' => $id,
+        'nom_auteur' => request('nom_auteur'),
+        'email_auteur' => request('email_auteur'),
+        'contenu' => request('contenu'),
+        'statut' => 'approuvé',
+    ]);
+
+    return back()->with('success', 'Merci ! Votre commentaire a été publié.');
+})->name('blog.comment.store');
+
+
+// 4. GÉRER LES LIKES
+Route::post('/blog/{id}/like', function ($id) {
+    $sessionKey = 'liked_article_' . $id;
+
+    // 1. Vérifier si l'utilisateur a déjà liké dans cette session
+    if (session()->has($sessionKey)) {
+        return back()->with('info', 'Vous avez déjà aimé cet article !');
+    }
+
+    // 2. Trouver l'article
+    $article = Article::where('id_article', $id)->firstOrFail();
+
+    // 3. Incrémenter
+    $article->increment('likes');
+
+    // 4. Enregistrer en session pour bloquer le prochain essai
+    session()->put($sessionKey, true);
+
+    return back()->with('success', 'Merci pour votre mention J\'aime !');
+})->name('blog.like');
+
+
 
 
 // page proje
@@ -390,16 +443,9 @@ Route::get('/services/{slug}/catalogue', function ($slug) {
 })->name('services.products');
 
 // Blog routes
-Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
-Route::get('/blog/{slug}', function ($slug) {
-    $article = Article::where('slug', $slug)->firstOrFail();
-    $recentArticles = Article::where('id_article', '!=', $article->id_article)
-        ->latest()
-        ->take(5)
-        ->get();
 
-    return view('blog.show', compact('article', 'recentArticles'));
-})->name('blog.show');
+
+
 
 // Réalisations routes
 

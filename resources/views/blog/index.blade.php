@@ -1,321 +1,169 @@
 @extends('layouts.app')
-{{--HEADER : Top-bar + Navbar --}}
-    {{-- On vérifie que la route actuelle n'est pas dans la liste noire --}}
+
+@section('title', 'Articles')
+
+@section('content')
+
+    {{-- 1. TON MENU EXISTANT --}}
     @if(!Route::is('login', 'register', 'admin.dashboard', 'abonner.dashboard'))
-        <header class="sticky top-0 z-[100] w-full shadow-md">
-            
+        <header class="sticky top-0 z-[100] w-full bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
             @include('components.navbar')
         </header>
     @endif
-@section('content')
-<!-- 1. NOUVEAU HERO DESIGN (Actualités & Médias) -->
-@extends('layouts.app')
 
-@section('content')
-
-{{-- 1. HERO SECTION : DESIGN CINÉMATIQUE --}}
-<section class="relative h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden font-sans bg-[#0A1128]">
-    <!-- Image de fond avec Zoom Ken Burns -->
-    <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920" 
-             alt="Background" 
-             class="w-full h-full object-cover opacity-60">
-        <!-- Overlay dégradé complexe -->
-        <div class="absolute inset-0 bg-gradient-to-r from-[#0A1128] via-[#0A1128]/80 to-transparent"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-[#F8FAFC] to-transparent opacity-20"></div>
-    </div>
-
-    <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
-        <div class="max-w-3xl reveal-on-scroll opacity-0 transform -translate-x-10 transition-all duration-1000">
-            <!-- Badge discret -->
-            <span class="inline-block bg-[#FFB75E] text-[#1B2E58] px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-[0.3em] mb-6 shadow-xl">
-                Nakayo Insights
-            </span>
-            
-            <h1 class="text-white text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 uppercase italic">
-                Actualités <br> & <span class="text-[#FFB75E]">Médias</span>
-            </h1>
-
-            <p class="text-white/70 text-lg md:text-xl max-w-xl leading-relaxed mb-10 font-medium border-l-2 border-[#FFB75E] pl-6">
-                L'expertise de Nakayo décryptée : tendances, innovations et impact socio-économique au cœur du Bénin.
-            </p>
-
-            <div class="flex gap-4">
-                <a href="#featured" class="bg-white text-[#1B2E58] px-10 py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-[#FFB75E] hover:text-white transition-all shadow-2xl">
-                    Lire le dernier numéro
-                </a>
-            </div>
+    {{-- 2. HERO SECTION : DROITE & CINÉMATIQUE --}}
+    <section class="relative h-[450px] md:h-[550px] flex items-center">
+        <!-- Image de fond (Droit, sans rotation) -->
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070" 
+                 class="w-full h-full object-cover" alt="Hero Background">
+            <!-- Overlay sombre Nakayo -->
+            <div class="absolute inset-0 bg-[#1B2E58]/80"></div>
         </div>
-    </div>
 
-    <!-- Fil d'Ariane flottant -->
-    <nav class="absolute bottom-10 left-6 lg:left-12 flex items-center gap-3 text-white/40 text-[10px] font-bold uppercase tracking-[0.2em] z-20">
-        <a href="/" class="hover:text-[#FFB75E] transition">Accueil</a>
-        <i class="fas fa-chevron-right text-[7px]"></i>
-        <span class="text-white/80">Blog</span>
-    </nav>
-</section>
-
-{{-- 2. SECTION ARTICLES --}}
-<section id="featured" class="py-24 bg-[#F8FAFC]">
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-
-        <!-- Titre de section minimaliste -->
-        <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
-            <div class="reveal-on-scroll opacity-0 transition-all duration-700">
-                <h2 class="text-[#1B2E58] text-3xl md:text-5xl font-black uppercase italic tracking-tighter leading-none">
-                    À la <span class="text-[#FFB75E]">Une.</span>
-                </h2>
-                <div class="h-1.5 w-20 bg-[#FFB75E] rounded-full mt-4"></div>
-            </div>
-            <p class="text-gray-400 font-bold uppercase text-[10px] tracking-[0.3em] mb-2">Nakayo Corporation Sarl</p>
-        </div>
-        
-        {{-- --- ARTICLE FEATURED (MAGAZINE STYLE) --- --}}
-        <div class="mb-32 reveal-on-scroll opacity-0 transform translate-y-10 transition-all duration-1000 delay-200">
-            <article class="relative flex flex-col lg:flex-row bg-white rounded-[3rem] overflow-hidden shadow-[0_40px_100px_-20px_rgba(27,46,88,0.15)] group border border-gray-100">
-                
-                <!-- Image -->
-                <div class="lg:w-3/5 relative overflow-hidden h-[400px] lg:h-auto">
-                    <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1200" 
-                         class="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000" 
-                         alt="Featured">
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div>
-                </div>
-
-                <!-- Contenu -->
-                <div class="lg:w-2/5 p-10 lg:p-16 flex flex-col justify-center relative">
-                    <div class="absolute top-10 right-10 text-gray-100 text-6xl font-black italic select-none uppercase">Top</div>
-                    
-                    <div class="flex items-center gap-4 mb-6">
-                        <span class="text-[#FFB75E] text-[11px] font-black uppercase tracking-widest bg-[#FFB75E]/10 px-3 py-1 rounded-md">Économie</span>
-                        <span class="text-gray-300 text-xs font-bold uppercase tracking-widest italic">24 Mars 2024</span>
-                    </div>
-                    
-                    <h2 class="text-[#1B2E58] text-3xl lg:text-4xl font-black leading-tight mb-8 group-hover:text-blue-600 transition-colors">
-                        Comment booster votre commerce grâce au micro-crédit
-                    </h2>
-                    
-                    <p class="text-gray-500 text-lg mb-10 leading-relaxed font-medium opacity-80">
-                        Plongez au cœur des stratégies financières gagnantes pour dynamiser l'entrepreneuriat local.
-                    </p>
-
-                    <div class="flex items-center gap-6 mb-10 text-gray-400">
-                        <div class="flex items-center gap-2"><i class="far fa-eye text-[#FFB75E]"></i> <span class="text-xs font-bold uppercase tracking-tighter">2.8k</span></div>
-                        <div class="flex items-center gap-2"><i class="far fa-heart text-[#FFB75E]"></i> <span class="text-xs font-bold uppercase tracking-tighter">150</span></div>
-                    </div>
-
-                    <a href="#" class="inline-flex items-center gap-3 bg-[#1B2E58] text-white w-fit px-10 py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-[#FFB75E] transition-all shadow-xl active:scale-95">
-                        Lire l'article <i class="fas fa-arrow-right"></i>
+        <div class="max-w-7xl mx-auto px-6 relative z-10 w-full text-center md:text-left">
+            <div class="max-w-3xl">
+                <!-- <div class="inline-flex items-center gap-3 bg-[#FFB75E] text-white px-4 py-1.5 rounded-full mb-6">
+                    <span class="text-[10px] font-black uppercase tracking-[0.2em]">Insights & Actualités</span>
+                </div> -->
+                <h1 class="text-white text-5xl md:text-7xl font-black leading-tight tracking-tighter mb-6">
+                    Propulsez votre vision <br> avec <span class="text-[#FF9F29]">Nakayo.</span>
+                </h1>
+                <p class="text-gray-300 text-lg md:text-xl font-medium max-w-xl mb-10 leading-relaxed">
+                    Analyses stratégiques, innovations technologiques et conseils d'experts pour transformer vos idées en succès.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                    <a href="#featured" class="bg-[#FF9F29] text-white px-10 py-4 rounded-xl font-black uppercase text-xs tracking-widest hover:scale-105 transition-all shadow-xl">
+                        Explorer le Blog
                     </a>
                 </div>
-            </article>
+            </div>
         </div>
+    </section>
 
-        {{-- --- GRILLE DES ARTICLES RÉCENTS --- --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-10">
-            @for ($i = 1; $i <= 6; $i++)
-            <article class="reveal-on-scroll opacity-0 transform translate-y-10 transition-all duration-700 delay-[{{ $i * 100 }}ms] bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col group h-full">
-                <!-- Image -->
-                <div class="relative h-64 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1542222024-c39e2281f121?q=80&w=800" 
-                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+    {{-- 3. SECTION PRINCIPALE --}}
+    <main id="featured" class="max-w-7xl mx-auto px-6 py-20">
+    
+    <!-- SECTION 1 : TITRE DE LA PAGE -->
+    <div class="flex items-center gap-4 mb-10">
+        <h2 class="text-[#1B2E58] font-black text-3xl uppercase tracking-tighter ">L'Essentiel Nakayo</h2>
+        <div class="flex-1 h-[2px] bg-gray-100"></div>
+    </div>
+
+    <!-- SECTION 2 : ARTICLE VEDETTE + TENDANCES -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-28">
+        
+        <!-- GAUCHE : L'ARTICLE VEDETTE (Le plus récent coché 'featured') -->
+        <div class="lg:col-span-8">
+            @if($featuredArticle)
+                <div class="relative h-[550px] rounded-[30px] overflow-hidden group shadow-2xl">
+                    <img src="{{ url('storage/' . $featuredArticle->media) }}" 
+                         class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
+                         alt="{{ $featuredArticle->titre }}">
                     
-                    <!-- Badge de catégorie sur l'image -->
-                    <div class="absolute top-6 left-6">
-                        <span class="bg-white/90 backdrop-blur-md text-[#1B2E58] px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-xl">
-                            Conseil
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#1B2E58] via-transparent to-transparent opacity-95"></div>
+                    
+                    <div class="absolute bottom-0 p-12">
+                        <span class="bg-white/10 backdrop-blur-md text-[#FFB75E] px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest mb-4 inline-block border border-white/20">
+                            Article Vedette
                         </span>
-                    </div>
-                </div>
-
-                <!-- Contenu -->
-                <div class="p-10 flex-1 flex flex-col">
-                    <div class="text-gray-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-                        <i class="far fa-calendar-alt text-[#FFB75E]"></i> 24 Mars 2024
-                    </div>
-
-                    <h3 class="text-[#1B2E58] text-2xl font-black mb-6 leading-tight group-hover:text-blue-600 transition-colors italic">
-                        L'innovation financière au service du digital
-                    </h3>
-
-                    <p class="text-gray-500 text-sm mb-10 leading-relaxed font-medium opacity-80 line-clamp-3">
-                        Découvrez comment les nouveaux outils numériques transforment la gestion quotidienne de vos finances...
-                    </p>
-
-                    <div class="mt-auto pt-6 border-t border-gray-50 flex justify-between items-center">
-                        <div class="flex items-center gap-4 text-gray-400">
-                            <span class="text-[10px] font-bold tracking-tighter"><i class="far fa-heart mr-1"></i> 24</span>
-                        </div>
-                        <a href="#" class="text-[#1B2E58] font-black uppercase text-[10px] tracking-[0.2em] flex items-center gap-2 group/btn hover:text-[#FFB75E] transition-all">
-                            Voir Plus <i class="fas fa-arrow-right text-[8px] transform group-hover/btn:translate-x-1 transition-transform"></i>
+                        <h2 class="text-white text-3xl md:text-5xl font-black leading-tight mb-8">
+                            {{ $featuredArticle->titre }}
+                        </h2>
+                        <a href="{{ route('blog.show', $featuredArticle->slug) }}" 
+                           class="bg-[#FF9F29] text-white px-8 py-3.5 rounded-xl font-bold inline-flex items-center gap-3 hover:bg-white hover:text-[#1B2E58] transition-all">
+                            Lire la suite
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                         </a>
                     </div>
                 </div>
-            </article>
-            @endfor
+            @else
+                <div class="h-[550px] rounded-[30px] bg-gray-100 flex items-center justify-center">
+                    <p class="text-gray-400">Aucun article vedette pour le moment.</p>
+                </div>
+            @endif
         </div>
 
-        <!-- Pagination / Bouton final -->
-        <div class="mt-24 text-center">
-            <button class="bg-[#1B2E58] text-white px-12 py-5 rounded-2xl font-black uppercase text-[11px] tracking-[0.3em] shadow-2xl hover:bg-[#FFB75E] transition-all hover:scale-105 active:scale-95">
-                Charger plus d'articles
-            </button>
+        <!-- DROITE : TENDANCES (Les 5 derniers articles après le vedette) -->
+        <div class="lg:col-span-4">
+            <h3 class="text-[#1B2E58] font-black text-xl mb-8">Tendances du moment</h3>
+            <div class="space-y-8">
+                @forelse($trendingArticles as $sideArticle)
+                    <a href="{{ route('blog.show', $sideArticle->slug) }}" class="flex gap-5 group items-center">
+                        <div class="w-24 h-20 flex-shrink-0 rounded-2xl overflow-hidden shadow-md">
+                            <img src="{{ url('storage/' . $sideArticle->media) }}" 
+                                 class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="">
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-[#1B2E58] font-bold text-sm leading-tight group-hover:text-[#FFB75E] transition line-clamp-2">
+                                {{ $sideArticle->titre }}
+                            </h4>
+                            <span class="text-gray-400 text-[10px] font-black uppercase mt-2 block tracking-widest">
+                                {{ $sideArticle->category_name ?? 'Inspiration' }}
+                            </span>
+                        </div>
+                    </a>
+                @empty
+                    <p class="text-gray-400 text-sm">Pas d'autres articles récents.</p>
+                @endforelse
+            </div>
         </div>
     </div>
-</section>
 
-{{-- SCRIPT D'ANIMATION AU SCROLL (Réutilisation de ta logique globale) --}}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const observerOptions = { threshold: 0.15 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.remove('opacity-0', '-translate-x-10', 'translate-y-10');
-                    entry.target.classList.add('opacity-100', 'translate-x-0', 'translate-y-0');
-                }
-            });
-        }, observerOptions);
+    <!-- SECTION 3 : AUTRES ARTICLES (Le reste des archives) -->
+    <div class="flex items-center gap-4 mb-16">
+        <h2 class="text-[#1B2E58] text-3xl font-black tracking-tighter">Parcourir les archives</h2>
+        <div class="flex-1 h-[1px] bg-gray-100"></div>
+    </div>
 
-        document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
-    });
-</script>
-
-
-
-<!-- LE RESTE DE LA PAGE RESTE INCHANGÉ -->
-<section class="py-20 bg-[#F8FAFC]">
-    <div class="max-w-7xl mx-auto px-6">
-
-    <!-- Remplacer l'ancienne div du titre par celle-ci -->
-<div class="text-center mb-16">
-    <h2 class="text-[#1B2E58] text-3xl md:text-4xl font-black mb-4 uppercase tracking-tight">
-        Les récentes nouvelles d'Access Finance Bénin
-    </h2>
-    <!-- mx-auto permet de centrer la barre horizontalement -->
-    <div class="w-20 h-1.5 bg-[#FFB75E] rounded-full mx-auto"></div>
-</div>
-        
-        {{-- --- 2. L'ARTICLE FEATURED (MIS EN AVANT) --- --}}
-        <div class="mb-20 px-4 lg:px-0">
-    <!-- Changement ici : bg-[#1B2E58]/90 et backdrop-blur-md -->
-    <article class="relative flex flex-col lg:flex-row bg-[#1B2E58]/95 backdrop-blur-md rounded-[40px] overflow-hidden shadow-2xl group min-h-[500px] border border-white/10">
-        
-        <!-- Image / Vidéo Featured -->
-        <div class="lg:w-1/2 relative overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1200" 
-                 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 opacity-90" 
-                 alt="Featured">
-            
-            <!-- Badge "Featured" -->
-            <div class="absolute top-8 left-8">
-                <span class="bg-[#FFB75E] text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
-                    FEATURED
-                </span>
-            </div>
-
-            <!-- Bouton Play -->
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="w-20 h-20 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/30 group-hover:scale-110 transition-transform duration-500">
-                    <span class="text-white text-3xl ml-1">▶</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contenu Featured (Le fond bleu est maintenant transparent grâce au parent) -->
-        <div class="lg:w-1/2 p-10 lg:p-20 flex flex-col justify-center">
-            
-            {{-- CATEGORIE ET DATE --}}
-            <div class="flex items-center gap-4 mb-4">
-                <span class="text-[#FFB75E] text-[11px] font-black uppercase tracking-widest">Économie</span>
-                <span class="w-1 h-1 bg-white/30 rounded-full"></span>
-                <span class="text-white/50 text-[11px] font-black uppercase tracking-widest">24 Mars 2024</span>
-            </div>
-            
-            <h2 class="text-white text-3xl lg:text-5xl font-black leading-tight mb-6">
-                Comment booster votre commerce grâce au micro-crédit
-            </h2>
-            
-            <p class="text-white/70 text-lg mb-10 line-clamp-3 leading-relaxed font-light">
-                Découvrez les stratégies gagnantes pour utiliser votre financement de manière optimale et multiplier votre chiffre d'affaires en quelques mois.
-            </p>
-
-            {{-- STATISTIQUES --}}
-            <div class="flex items-center gap-8 mb-12 text-white/40 border-t border-white/10 pt-8">
-                <div class="flex items-center gap-2">
-                    <span class="text-xs">👁️</span>
-                    <span class="text-xs font-bold tracking-tighter">2.8k vues</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-xs">❤️</span>
-                    <span class="text-xs font-bold tracking-tighter">150 likes</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-xs">💬</span>
-                    <span class="text-xs font-bold tracking-tighter">12 coms</span>
-                </div>
-            </div>
-
-            <!-- BOUTON LIRE -->
-            <a href="/blog-detail" class="inline-flex items-center justify-center bg-white text-[#1B2E58] w-fit px-10 py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-[#FFB75E] hover:text-white transition-all shadow-xl active:scale-95">
-                Lire l'article complet
-            </a>
-        </div>
-    </article>
-</div>
-
-        {{-- --- 3. GRILLE DES ARTICLES RÉCENTS --- --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            @for ($i = 1; $i <= 6; $i++)
-            <article class="bg-white rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 flex flex-col group">
-                <!-- Image Section -->
-                <div class="relative aspect-[16/10] overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1542222024-c39e2281f121?q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition-duration-700">
-                    
-                    <!-- Badge Statut reste sur l'image -->
-                    <div class="absolute top-5 left-5">
-                        <div class="bg-blue-900/80 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
-                            <span class="text-[9px] font-black text-white uppercase tracking-widest">Publié</span>
-                        </div>
-                    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        @forelse($otherArticles as $article)
+            <article class="group">
+                <!-- Image de la carte -->
+                <div class="rounded-[30px] overflow-hidden mb-8 shadow-xl h-72 border border-gray-100 relative">
+                    <img src="{{ url('storage/' . $article->media) }}" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                         alt="{{ $article->titre }}">
                 </div>
 
-                <!-- Content Section -->
-                <div class="p-8 flex-1 flex flex-col">
-                    
-                    {{-- CATEGORIE ET DATE AU DESSUS DU TITRE --}}
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="text-[#FFB75E] text-[10px] font-black uppercase tracking-widest">Financement</span>
-                        <span class="text-gray-300">|</span>
-                        <span class="text-gray-400 text-[10px] font-black uppercase tracking-widest">24 Mars 2024</span>
-                    </div>
-
-                    <h3 class="text-[#1B2E58] text-xl font-black mb-4 leading-tight group-hover:text-[#FFB75E] transition-colors">
-                        Titre de l'article récent numéro {{ $i }}
+                <!-- Contenu de la carte -->
+                <div class="px-2">
+                    <h3 class="text-[#1B2E58] text-2xl font-black leading-tight mb-4 group-hover:text-[#FF9F29] transition">
+                        <a href="{{ route('blog.show', $article->slug) }}">
+                            {{ $article->titre }}
+                        </a>
                     </h3>
-
-                    <p class="text-gray-500 text-sm mb-6 line-clamp-2">
-                        Description courte de l'article pour donner envie de cliquer et découvrir le contenu.
+                    
+                    <p class="text-gray-500 font-medium text-sm leading-relaxed mb-8 line-clamp-2">
+                        {{ Str::limit(strip_tags($article->description), 120) }}
                     </p>
                     
-                    
-
-                    <!-- Footer Card -->
-                    <div class="mt-auto pt-6 border-t border-gray-50 flex justify-between items-center text-gray-400">
-                        <div class="flex gap-4">
-                            <span class="text-[10px] font-bold">👁️ 150</span>
-                            <span class="text-[10px] font-bold">❤️ 24</span>
+                    <!-- Pied de carte : Auteur et Infos -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-[#1B2E58] flex items-center justify-center text-white text-[10px] font-black border-2 border-[#FF9F29]">
+                                {{ strtoupper(substr($article->user->name ?? 'NK', 0, 2)) }}
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-[#1B2E58]">{{ $article->user->name ?? 'Équipe Nakayo' }}</p>
+                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">
+                                    {{ $article->created_at->format('d M Y') }}
+                                </p>
+                            </div>
                         </div>
-                        <a href="/blog-detail" class="text-[#1B2E58] font-black uppercase text-[10px] tracking-widest hover:text-[#FFB75E]">
-                            Lire <span>↗</span>
-                        </a>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-3 h-3 text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+                            <span class="text-[10px] font-black text-gray-300 uppercase tracking-widest">{{ $article->vue ?? 0 }} vues</span>
+                        </div>
                     </div>
                 </div>
             </article>
-            @endfor
-        </div>
+        @empty
+            <div class="col-span-full text-center py-20 bg-gray-50 rounded-[30px] border-2 border-dashed border-gray-200">
+                <p class="text-[#1B2E58] font-bold italic">Notre bibliothèque d'articles s'agrandit, revenez bientôt !</p>
+            </div>
+        @endforelse
     </div>
-</section>
+</main>
+
 @endsection

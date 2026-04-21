@@ -64,6 +64,7 @@
             <a href="{{ route('admin.blog.articles') }}" class="block py-2 px-8 text-sm {{ request()->routeIs('admin.blog.articles') ? 'text-white font-bold' : 'text-white/60 hover:text-white' }}">Articles</a>
             <a href="{{ route('admin.blog.categories') }}" class="block py-2 px-8 text-sm {{ request()->routeIs('admin.blog.categories') ? 'text-white font-bold' : 'text-white/60 hover:text-white' }}">Catégories</a>
         </x-nav-item>
+        
 
         
 
