@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         // 1. Créer le compte ADMIN
         User::create([
             'nom_complet'      => 'Administrateur Principal',
-            'email'            => 'admin@nakayocorporation.bj',
+            'email'            => 'admin@nakayocorporation.com',
             'role'             => 'admin',
             'telephone'        => '+229 00 00 00 01',
             'password'         => Hash::make('admin1234'), // On crypte le mot de passe !
