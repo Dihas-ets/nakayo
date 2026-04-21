@@ -17,3 +17,10 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+
+# Cache Laravel
+/bootstrap/cache/*.php
+/storage/*.key
+/storage/pail
+/vendor/
